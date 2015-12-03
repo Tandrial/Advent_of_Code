@@ -40,7 +40,7 @@ public class Day3 {
 	}
 
 	public static void main(String[] args) throws IOException {
-		String s = new String(Files.readAllBytes(Paths.get("Day3_input.txt")));
+		String s = new String(Files.readAllBytes(Paths.get("./input/Day3_input.txt")));
 		System.out.println("Part One = " + partOne(s));
 		System.out.println("Part Two = " + partTwo(s));
 	}

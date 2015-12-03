@@ -24,8 +24,8 @@ public class Day1 {
 	}
 
 	public static void main(String[] args) throws IOException {
-		String s = new String(Files.readAllBytes(Paths.get("Day1_input.txt")));
-		System.out.println("recursiv = " + partOne(s, 0));
-		System.out.println("recursiv = " + partTwo(s, 0, 0));
+		String s = new String(Files.readAllBytes(Paths.get("./input/Day1_input.txt")));
+		System.out.println("Part One = " + partOne(s, 0));
+		System.out.println("Part Two = " + partTwo(s, 0, 0));
 	}
 }

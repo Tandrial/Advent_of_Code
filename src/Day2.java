@@ -9,11 +9,11 @@ public class Day2 {
 	public static long partOne(List<String> list) {
 		int totalFeet = 0;
 		for (String s : list) {
-
 			int[] size = new int[3];
-			size[0] = Integer.valueOf(s.split("x")[0]);
-			size[1] = Integer.valueOf(s.split("x")[1]);
-			size[2] = Integer.valueOf(s.split("x")[2]);
+			String[] s_split = s.split("x");
+			for (int i = 0; i < s_split.length; i++) 
+				size[i] = Integer.valueOf(s_split[i]);
+						
 			Arrays.sort(size);
 
 			totalFeet += 2 * size[0] * size[1] + 2 * size[0] * size[2] + 2 * size[1] * size[2];
@@ -25,11 +25,11 @@ public class Day2 {
 	public static long partTwo(List<String> list) {
 		int totalFeet = 0;
 		for (String s : list) {
-
 			int[] size = new int[3];
-			size[0] = Integer.valueOf(s.split("x")[0]);
-			size[1] = Integer.valueOf(s.split("x")[1]);
-			size[2] = Integer.valueOf(s.split("x")[2]);
+			String[] s_split = s.split("x");
+			for (int i = 0; i < s_split.length; i++) 
+				size[i] = Integer.valueOf(s_split[i]);
+			
 			Arrays.sort(size);
 
 			totalFeet += 2 * (size[0] + size[1]);
@@ -39,7 +39,7 @@ public class Day2 {
 	}
 
 	public static void main(String[] args) throws IOException {
-		List<String> s = Files.readAllLines(Paths.get("Day2_input.txt"));
+		List<String> s = Files.readAllLines(Paths.get("./input/Day2_input.txt"));
 		System.out.println("Part One = " + partOne(s));
 		System.out.println("Part Two = " + partTwo(s));
 	}
