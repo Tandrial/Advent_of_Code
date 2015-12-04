@@ -3,6 +3,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Day1 {
+	
 	public static int partOne(String s, int acc) {
 		if (s.length() == 0)
 			return acc;
