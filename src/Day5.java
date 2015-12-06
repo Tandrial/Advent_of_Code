@@ -11,13 +11,10 @@ public class Day5 {
 		for (String s : list) {
 			if (!Pattern.matches("(.*[aeiou]){3}.*", s))
 				continue;
-
 			if (!Pattern.matches(".*(.)\\1.*", s))
 				continue;
-
 			if (Pattern.matches(".*(ab|cd|pq|xy).*", s))
 				continue;
-
 			count++;
 		}
 		return count;
@@ -28,10 +25,8 @@ public class Day5 {
 		for (String s : list) {
 			if (!Pattern.matches(".*(..).*\\1.*", s))
 				continue;
-
 			if (!Pattern.matches(".*(.)\\w\\1.*", s))
 				continue;
-
 			count++;
 		}
 		return count;
