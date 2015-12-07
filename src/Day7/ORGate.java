@@ -2,10 +2,8 @@ package Day7;
 
 public class ORGate extends BinaryGate {
 
-	public ORGate(Gate v1, Gate v2, String out) {
-		this.in1 = v1;
-		this.in2 = v2;
-		this.setOut(out);
+	public ORGate(Gate in1, Gate in2, String out) {
+		super(in1, in2, out);
 	}
 
 	@Override

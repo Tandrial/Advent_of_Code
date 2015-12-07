@@ -4,6 +4,7 @@ public class VarInput extends Gate {
 	String value;
 
 	public VarInput(String value) {
+		super("");
 		this.value = value;
 	}
 

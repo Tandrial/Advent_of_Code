@@ -2,9 +2,8 @@ package Day7;
 
 public class ASSIGNGate extends UnaryGate {
 
-	public ASSIGNGate(Gate v1, String out) {
-		this.in = v1;
-		this.setOut(out);
+	public ASSIGNGate(Gate in, String out) {
+		super(in, out);
 	}
 
 	@Override

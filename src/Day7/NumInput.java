@@ -4,6 +4,7 @@ public class NumInput extends Gate {
 	int value;
 
 	public NumInput(int value) {
+		super("");
 		this.value = value;
 	}
 

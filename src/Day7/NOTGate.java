@@ -2,9 +2,8 @@ package Day7;
 
 public class NOTGate extends UnaryGate {
 
-	public NOTGate(Gate v1, String out) {
-		this.in = v1;
-		this.setOut(out);
+	public NOTGate(Gate in, String out) {
+		super(in, out);
 	}
 
 	@Override
