@@ -13,6 +13,6 @@ public class NOTGate extends UnaryGate {
 
 	@Override
 	public String toString() {
-		return "~" + in + " -> " + getOut();
+		return "NOT " + in + " -> " + getOut();
 	}
 }
