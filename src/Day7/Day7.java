@@ -20,48 +20,49 @@ public class Day7 {
 		List<Gate> toSolve = new ArrayList<>();
 		for (String s : list) {
 			String[] line = s.split(" -> ");
-			String out = line[1];
-			String[] in_arr = line[0].split(" ");
-			Gate v1 = null, v2 = null;
-			if (in_arr.length == 3) {
-				if (isNumeric(in_arr[0]))
-					v1 = new NumInput(Integer.valueOf(in_arr[0]));
+			String[] in = line[0].split(" ");
+			Gate in1 = null, in2 = null;
+			if (in.length == 3) {
+				if (isNumeric(in[0]))
+					in1 = new NumInput(Integer.valueOf(in[0]));
 				else
-					v1 = new VarInput(in_arr[0]);
-				if (isNumeric(in_arr[2]))
-					v2 = new NumInput(Integer.valueOf(in_arr[2]));
+					in1 = new VarInput(in[0]);
+				if (isNumeric(in[2]))
+					in2 = new NumInput(Integer.valueOf(in[2]));
 				else
-					v2 = new VarInput(in_arr[2]);
+					in2 = new VarInput(in[2]);
+			} else if (in.length == 2) {
+				if (isNumeric(in[1])) {
+					in1 = new NumInput(Integer.valueOf(in[0]));
+				} else
+					in1 = new VarInput(in[1]);
 			}
 
+			String out = line[1];
 			if (s.contains("NOT")) {
-				if (isNumeric(in_arr[1])) {
-					int value = Integer.valueOf(in_arr[0]);
-					v1 = new NumInput(value);
-				} else
-					v1 = new VarInput(in_arr[1]);
-				toSolve.add(new NOTGate(v1, out));
+				toSolve.add(new NOTGate(in1, out));
 			} else if (s.contains("AND")) {
-				toSolve.add(new ANDGate(v1, v2, out));
+				toSolve.add(new ANDGate(in1, in2, out));
 			} else if (s.contains("OR")) {
-				toSolve.add(new ORGate(v1, v2, out));
+				toSolve.add(new ORGate(in1, in2, out));
 			} else if (s.contains("LSHIFT")) {
-				toSolve.add(new LSHIFTGate(v1, v2, out));
+				toSolve.add(new LSHIFTGate(in1, in2, out));
 			} else if (s.contains("RSHIFT")) {
-				toSolve.add(new RSHIFTGate(v1, v2, out));
+				toSolve.add(new RSHIFTGate(in1, in2, out));
 			} else {
-				if (isNumeric(in_arr[0])) {
-					int value = Integer.valueOf(in_arr[0]);
+				if (isNumeric(in[0])) {
+					int value = Integer.valueOf(in[0]);
 					if (out.equals("b") && a_force != -1)
 						Day7.table.put(out, a_force);
 					else
 						Day7.table.put(out, value);
 				} else {
-					v1 = new VarInput(in_arr[0]);
-					toSolve.add(new ASSIGNGate(v1, out));
+					in1 = new VarInput(in[0]);
+					toSolve.add(new ASSIGNGate(in1, out));
 				}
 			}
 		}
+		
 		while (toSolve.size() > 0)
 			for (int i = 0; i < toSolve.size(); i++) {
 				Gate logic = toSolve.get(i);

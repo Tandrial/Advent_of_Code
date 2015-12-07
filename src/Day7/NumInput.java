@@ -16,4 +16,9 @@ public class NumInput extends Gate {
 	public String toString() {
 		return value + "";
 	}
+
+	@Override
+	public boolean canSolve() {
+		return true;
+	}
 }
