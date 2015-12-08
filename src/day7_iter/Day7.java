@@ -1,4 +1,4 @@
-package Day7;
+package day7_iter;
 
 import java.io.IOException;
 import java.nio.file.Files;

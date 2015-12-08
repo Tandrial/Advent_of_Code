@@ -1,4 +1,4 @@
-package Day7;
+package day7_iter;
 
 public class Input extends Gate {
 	String value;

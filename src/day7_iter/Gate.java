@@ -1,4 +1,4 @@
-package Day7;
+package day7_iter;
 
 abstract public class Gate {
 	private String out;
