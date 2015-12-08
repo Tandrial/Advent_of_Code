@@ -10,41 +10,31 @@ public class Day6 {
 	public static int partOne(List<String> list) {
 		int[][] grid = new int[1000][1000];
 		for (String s : list) {
-			String[] line = s.split(" ");
-			Point p1 = new Point(Integer.valueOf(line[line.length - 3].split(",")[0]),
-					Integer.valueOf(line[line.length - 3].split(",")[1]));
-			Point p2 = new Point(Integer.valueOf(line[line.length - 1].split(",")[0]),
-					Integer.valueOf(line[line.length - 1].split(",")[1]));
-
-			for (int x = p1.x; x <= p2.x; x++) {
-				for (int y = p1.y; y <= p2.y; y++) {
-					if (line[0].equals("toggle")) {
+			Point[] p = parsePoints(s);
+			for (int x = p[0].x; x <= p[1].x; x++) {
+				for (int y = p[0].y; y <= p[1].y; y++) {
+					if (s.contains("toggle")) {
 						grid[x][y] = grid[x][y] == 0 ? 1 : 0;
-					} else if (line[1].equals("on")) {
+					} else if (s.contains("on")) {
 						grid[x][y] = 1;
 					} else {
 						grid[x][y] = 0;
 					}
 				}
 			}
-		}		
+		}
 		return Arrays.stream(grid).flatMapToInt(x -> Arrays.stream(x)).sum();
 	}
 
 	public static long partTwo(List<String> list) {
 		int[][] grid = new int[1000][1000];
 		for (String s : list) {
-			String[] line = s.split(" ");
-			Point p1 = new Point(Integer.valueOf(line[line.length - 3].split(",")[0]),
-					Integer.valueOf(line[line.length - 3].split(",")[1]));
-			Point p2 = new Point(Integer.valueOf(line[line.length - 1].split(",")[0]),
-					Integer.valueOf(line[line.length - 1].split(",")[1]));
-
-			for (int x = p1.x; x <= p2.x; x++) {
-				for (int y = p1.y; y <= p2.y; y++) {
-					if (line[0].equals("toggle")) {
+			Point[] p = parsePoints(s);
+			for (int x = p[0].x; x <= p[1].x; x++) {
+				for (int y = p[0].y; y <= p[1].y; y++) {
+					if (s.contains("toggle")) {
 						grid[x][y] += 2;
-					} else if (line[1].equals("on")) {
+					} else if (s.contains("on")) {
 						grid[x][y] += 1;
 					} else {
 						grid[x][y] = Math.max(0, grid[x][y] - 1);
@@ -53,6 +43,15 @@ public class Day6 {
 			}
 		}
 		return Arrays.stream(grid).flatMapToInt(x -> Arrays.stream(x)).sum();
+	}
+
+	private static Point[] parsePoints(String s) {
+		String[] line = s.split(" ");
+		Point p1 = new Point(Integer.valueOf(line[line.length - 3].split(",")[0]),
+				Integer.valueOf(line[line.length - 3].split(",")[1]));
+		Point p2 = new Point(Integer.valueOf(line[line.length - 1].split(",")[0]),
+				Integer.valueOf(line[line.length - 1].split(",")[1]));
+		return new Point[] { p1, p2 };
 	}
 
 	public static void main(String[] args) throws IOException {
