@@ -5,12 +5,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Day7_rec {
+public class Day7 {
 
 	private Map<String, String> expressionMap = new HashMap<>();
 	private Map<String, Integer> cache = new HashMap<>();
 
-	public Day7_rec(List<String> list) {
+	public Day7(List<String> list) {
 		for (String s : list) {
 			String[] line = s.split(" -> ");
 			expressionMap.put(line[1], line[0]);
@@ -53,7 +53,7 @@ public class Day7_rec {
 
 	public static void main(String[] args) throws IOException {
 		List<String> s = Files.readAllLines(Paths.get("./input/Day7_input.txt"));
-		Day7_rec day7 = new Day7_rec(s);
+		Day7 day7 = new Day7(s);
 		int res = day7.eval("a");
 		System.out.println("Part One = " + res);
 		day7.cache.clear();
