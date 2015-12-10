@@ -109,5 +109,4 @@ public class Day9 {
 		System.out.println("Part One = " + partOne(s));
 		System.out.println("Part Two = " + partTwo(s));
 	}
-
 }
