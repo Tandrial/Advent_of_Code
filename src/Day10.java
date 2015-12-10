@@ -1,18 +1,20 @@
 public class Day10 {
 
 	public static int partOne(String s) {
-		for (int i = 0; i < 40; i++)
-			s = doIter(s);
-		return s.length();
+		return solve(40, s);
 	}
 
 	public static int partTwo(String s) {
-		for (int i = 0; i < 50; i++)
+		return solve(50, s);
+	}
+
+	private static int solve(int count, String s) {
+		for (int i = 0; i < count; i++)
 			s = doIter(s);
 		return s.length();
 	}
 
-	public static String doIter(String s) {
+	private static String doIter(String s) {
 
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < s.length();) {
