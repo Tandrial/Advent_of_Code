@@ -15,16 +15,11 @@ public class Day10 {
 	}
 
 	private static String doIter(String s) {
-
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < s.length();) {
 			int count = 1;
-			for (int j = i + 1; j < s.length(); j++) {
-				if (s.charAt(i) == s.charAt(j))
-					count++;
-				else
-					break;
-			}
+			for (int j = i + 1; j < s.length() && s.charAt(i) == s.charAt(j); j++)
+				count++;
 			sb.append(count);
 			sb.append(s.charAt(i));
 			i += count;
