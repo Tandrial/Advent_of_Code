@@ -25,14 +25,13 @@ public class Day11 {
 
 	private static String genNext(String s) {
 		char[] chars = s.toCharArray();
-		chars[chars.length - 1]++;
 		for (int i = chars.length - 1; i >= 0; i--) {
-			if (chars[i] > 'z') {
+			if (chars[i] == 'z') {
 				chars[i] = 'a';
-				if (i != 0)
-					chars[i - 1]++;
-			} else
+			} else {
+				chars[i]++;
 				break;
+			}
 		}
 		return new String(chars);
 	}
