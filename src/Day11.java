@@ -38,7 +38,6 @@ public class Day11 {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(genNext("zzzzzzzz"));
 		String s = "hepxcrrq";
 		s = partOne(s);
 		System.out.println("Part One = " + s);
