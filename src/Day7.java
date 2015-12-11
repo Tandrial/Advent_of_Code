@@ -17,29 +17,29 @@ public class Day7 {
 		}
 	}
 
-	public int eval(String expression) {
-		if (cache.containsKey(expression)) {
-			return cache.get(expression);
-		} else if (isNumeric(expression)) {
-			cache.put(expression, Integer.valueOf(expression));
-		} else if (expression.contains("AND")) {
-			String[] line = expression.split(" AND ");
-			cache.put(expression, eval(line[0]) & eval(line[1]));
-		} else if (expression.contains("OR")) {
-			String[] line = expression.split(" OR ");
-			cache.put(expression, eval(line[0]) | eval(line[1]));
-		} else if (expression.contains("NOT")) {
-			cache.put(expression, ~eval(expression.substring(4)));
-		} else if (expression.contains("LSHIFT")) {
-			String[] line = expression.split(" LSHIFT ");
-			cache.put(expression, (eval(line[0]) << eval(line[1])) & 0xFFFF);
-		} else if (expression.contains("RSHIFT")) {
-			String[] line = expression.split(" RSHIFT ");
-			cache.put(expression, eval(line[0]) >> eval(line[1]));
-		} else {
-			cache.put(expression, eval(expressionMap.get(expression)));
+	public int eval(String expr) {
+		if (!cache.containsKey(expr)) {
+			if (isNumeric(expr)) {
+				cache.put(expr, Integer.valueOf(expr));
+			} else if (expr.contains("AND")) {
+				String[] line = expr.split(" AND ");
+				cache.put(expr, eval(line[0]) & eval(line[1]));
+			} else if (expr.contains("OR")) {
+				String[] line = expr.split(" OR ");
+				cache.put(expr, eval(line[0]) | eval(line[1]));
+			} else if (expr.contains("NOT")) {
+				cache.put(expr, ~eval(expr.substring(4)));
+			} else if (expr.contains("LSHIFT")) {
+				String[] line = expr.split(" LSHIFT ");
+				cache.put(expr, (eval(line[0]) << eval(line[1])) & 0xFFFF);
+			} else if (expr.contains("RSHIFT")) {
+				String[] line = expr.split(" RSHIFT ");
+				cache.put(expr, eval(line[0]) >> eval(line[1]));
+			} else {
+				cache.put(expr, eval(expressionMap.get(expr)));
+			}
 		}
-		return cache.get(expression);
+		return cache.get(expr);
 	}
 
 	public static boolean isNumeric(String str) {
