@@ -31,7 +31,8 @@ public class Day12 {
 
 	public static void main(String[] args) throws IOException {
 		String s = new String(Files.readAllBytes(Paths.get("./input/Day12_input.txt")));
-		System.out.println("Part One = " + solve(new JsonParser().parse(s), false));
-		System.out.println("Part Two = " + solve(new JsonParser().parse(s), true));
+		JsonElement root = new JsonParser().parse(s);
+		System.out.println("Part One = " + solve(root, false));
+		System.out.println("Part Two = " + solve(root, true));
 	}
 }
