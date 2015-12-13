@@ -2,7 +2,7 @@ import java.util.regex.Pattern;
 
 public class Day11 {
 
-	public static String partOne(String s) {
+	public static String solve(String s) {
 		while (true) {
 			s = genNext(s);
 			boolean check = false;
@@ -38,8 +38,8 @@ public class Day11 {
 
 	public static void main(String[] args) {
 		String s = "hepxcrrq";
-		s = partOne(s);
+		s = solve(s);
 		System.out.println("Part One = " + s);
-		System.out.println("Part Two = " + partOne(s));
+		System.out.println("Part Two = " + solve(s));
 	}
 }
