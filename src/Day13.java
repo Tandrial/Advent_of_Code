@@ -18,8 +18,8 @@ public class Day13 {
 	public static long partTwo(List<String> s) {
 		parseList(s);
 		for (String p : persons) {
-			happiness.put(p + "|" + "tan", 0);
-			happiness.put("tan|" + p, 0);
+			happiness.put(p + "tan", 0);
+			happiness.put("tan" + p, 0);
 		}
 		persons.add("tan");
 		return solve();
@@ -34,7 +34,7 @@ public class Day13 {
 			String p2 = line[10].replace(".", "");
 			int value = Integer.parseInt(line[3]);
 			value *= line[2].equals("gain") ? 1 : -1;
-			happiness.put(p1 + "|" + p2, value);
+			happiness.put(p1 + p2, value);
 			if (!persons.contains(p1))
 				persons.add(p1);
 			if (!persons.contains(p2))
@@ -43,42 +43,21 @@ public class Day13 {
 	}
 
 	private static long solve() {
-		List<String> seatingPositions = genSeatingpositions(persons.size());
 		long maxHappy = Long.MIN_VALUE;
-		for (String pos : seatingPositions) {
+		for (Integer[] pos : new NumberPermutation(persons.size())) {
 			long currHappy = 0;
-			char[] pos_arr = pos.toCharArray();
 			for (int i = 0; i < persons.size(); i++) {
 				int pos_l = i - 1 == -1 ? persons.size() - 1 : i - 1;
-				String left = persons.get(pos_arr[i] - '0') + "|" + persons.get(pos_arr[pos_l] - '0');
+				String left = persons.get(pos[i]) + persons.get(pos[pos_l]);
 				currHappy += happiness.get(left);
 
 				int pos_r = (i + 1) % persons.size();
-				String right = persons.get(pos_arr[i] - '0') + "|" + persons.get(pos_arr[pos_r] - '0');
+				String right = persons.get(pos[i]) + persons.get(pos[pos_r]);
 				currHappy += happiness.get(right);
 			}
 			maxHappy = Math.max(maxHappy, currHappy);
 		}
 		return maxHappy;
-	}
-
-	private static List<String> genSeatingpositions(int count) {
-		StringBuilder permute = new StringBuilder();
-		for (int i = 0; i < count; i++) {
-			permute.append(i);
-		}
-		return permutation("", permute.toString(), new ArrayList<String>());
-	}
-
-	private static List<String> permutation(String prefix, String str, List<String> acc) {
-		int n = str.length();
-		if (n == 0)
-			acc.add(prefix);
-		else {
-			for (int i = 0; i < n; i++)
-				acc = permutation(prefix + str.charAt(i), str.substring(0, i) + str.substring(i + 1, n), acc);
-		}
-		return acc;
 	}
 
 	public static void main(String[] args) throws IOException {
