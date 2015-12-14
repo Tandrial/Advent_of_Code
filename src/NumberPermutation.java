@@ -3,15 +3,17 @@ import java.util.NoSuchElementException;
 
 /**
  * An implicit immutable collection of all permutations of a numbersequence with
- * an iterator over the permutations. http://stackoverflow.com/a/13037291
+ * an iterator over the permutations. 
+ * <p>
+ * http://stackoverflow.com/a/13037291
  * <p>
  * implements Iterable&ltInteger[]&gt
  * 
- * @see #StringPermutation(String)
+ * @see #NumberPermutation(int)
  */
 public class NumberPermutation implements Iterable<Integer[]> {
 
-	protected final Integer[] int_array;
+	protected final Integer[] arr;
 
 	/**
 	 * Creates an implicit Iterable collection of all permutations of
@@ -25,9 +27,9 @@ public class NumberPermutation implements Iterable<Integer[]> {
 	 * @see #iterator
 	 */
 	public NumberPermutation(int end) {
-		this.int_array = new Integer[end];
+		this.arr = new Integer[end];
 		for (int i = 0; i < end; i++) {
-			int_array[i] = i;
+			arr[i] = i;
 		}
 	}
 
@@ -39,7 +41,7 @@ public class NumberPermutation implements Iterable<Integer[]> {
 
 		return new Iterator<Integer[]>() {
 
-			Integer[] array = int_array.clone();
+			Integer[] array = arr.clone();
 			int length = array.length;
 			int[] index = (length == 0) ? null : new int[length];
 

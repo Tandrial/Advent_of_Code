@@ -17,10 +17,6 @@ public class Day13 {
 
 	public static long partTwo(List<String> s) {
 		parseList(s);
-		for (String p : persons) {
-			happiness.put(p + "tan", 0);
-			happiness.put("tan" + p, 0);
-		}
 		persons.add("tan");
 		return solve();
 	}
@@ -49,11 +45,11 @@ public class Day13 {
 			for (int i = 0; i < persons.size(); i++) {
 				int pos_l = i - 1 == -1 ? persons.size() - 1 : i - 1;
 				String left = persons.get(pos[i]) + persons.get(pos[pos_l]);
-				currHappy += happiness.get(left);
+				currHappy += happiness.containsKey(left) ? happiness.get(left) : 0;
 
 				int pos_r = (i + 1) % persons.size();
 				String right = persons.get(pos[i]) + persons.get(pos[pos_r]);
-				currHappy += happiness.get(right);
+				currHappy += happiness.containsKey(right) ? happiness.get(right) : 0;
 			}
 			maxHappy = Math.max(maxHappy, currHappy);
 		}
