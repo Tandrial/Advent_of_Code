@@ -24,8 +24,8 @@ public class Day14 {
 		maxDistance = 0;
 		maxPoints = 0;
 
+		Reindeer.maxDistance = 0;
 		for (int i = 0; i < dur; i++) {
-			Reindeer.maxDistance = 0;
 			for (Reindeer r : reindeers) {
 				r.tick();
 			}
@@ -43,7 +43,11 @@ public class Day14 {
 			@Override
 			public Reindeer apply(String t) {
 				String[] line = t.split(" ");
-				return new Reindeer(Integer.parseInt(line[3]), Integer.parseInt(line[6]), Integer.parseInt(line[13]));
+				Reindeer r = new Reindeer();
+				r.fly_speed = Integer.parseInt(line[3]);
+				r.fly_durr = Integer.parseInt(line[6]);
+				r.rest_durr = Integer.parseInt(line[13]);
+				return r;
 			}
 		}).collect(Collectors.toList());
 	}
@@ -59,24 +63,9 @@ class Reindeer {
 
 	public static int maxDistance;
 
-	int fly_speed;
-	int fly_durr;
-	int rest_durr;
-
-	boolean flying;
-	int counter;
-
-	int points;
-	int distance;
-
-	public Reindeer(int fly_speed, int fly_durr, int rest_durr) {
-		this.fly_speed = fly_speed;
-		this.fly_durr = fly_durr;
-		this.rest_durr = rest_durr;
-		this.points = 0;
-		this.flying = true;
-		this.counter = 0;
-	}
+	int fly_speed, fly_durr, rest_durr;
+	int points, distance, counter;
+	boolean flying = true;
 
 	public void tick() {
 		counter++;
