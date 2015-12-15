@@ -1,11 +1,7 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -73,8 +69,8 @@ public class Day15 {
 	}
 
 	public static void main(String[] args) throws IOException {
-		List<String> s = Files.readAllLines(Paths.get("./input/Day15_input.txt"));		
+		List<String> s = Files.readAllLines(Paths.get("./input/Day15_input.txt"));
 		System.out.println("Part One = " + solve(s, false));
-		System.out.println("Part Two = " + solve(s, true));		
+		System.out.println("Part Two = " + solve(s, true));
 	}
 }
