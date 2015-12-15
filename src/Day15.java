@@ -54,7 +54,7 @@ public class Day15 {
 	}
 
 	private static long calcScore(Integer[] amounts, List<Integer[]> ingredients, boolean limit_cals) {
-		int[] scores = new int[amounts.length + 1];
+		int[] scores = new int[5];
 
 		for (int i = 0; i < ingredients.size(); i++) {
 			Integer[] in = ingredients.get(i);
@@ -65,7 +65,7 @@ public class Day15 {
 		if (limit_cals && scores[4] != 500)
 			return 0;
 
-		return Arrays.stream(scores).limit(amounts.length).reduce(1, (a, b) -> a * Math.max(0, b));
+		return Arrays.stream(scores).limit(scores.length - 1).reduce(1, (a, b) -> a * Math.max(0, b));
 	}
 
 	public static void main(String[] args) throws IOException {
