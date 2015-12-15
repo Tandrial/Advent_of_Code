@@ -1,7 +1,11 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -21,10 +25,6 @@ public class Day15 {
 		long max = 0;
 		while (toCheck.size() > 0) {
 			Integer[] curr = toCheck.remove(0);
-			if (visited.contains(Arrays.hashCode(curr)))
-				continue;
-			else
-				visited.add(Arrays.hashCode(curr));
 			long curr_score = calcScore(curr, ingredients, limit_cals);
 			max = Math.max(max, curr_score);
 			for (int i = 0; i < curr.length; i++) {
@@ -34,9 +34,10 @@ public class Day15 {
 					Integer[] neu = curr.clone();
 					neu[i] += 1;
 					neu[j] -= 1;
-					if (neu[i] > 100 || neu[j] < 0)
+					if (neu[i] > 100 || neu[j] < 0 || visited.contains(Arrays.hashCode(neu)))
 						continue;
 					toCheck.add(neu);
+					visited.add(Arrays.hashCode(neu));
 				}
 			}
 		}
@@ -61,22 +62,19 @@ public class Day15 {
 
 		for (int i = 0; i < ingredients.size(); i++) {
 			Integer[] in = ingredients.get(i);
-			for (int j = 0; j < scores.length; j++) {
+			for (int j = 0; j < in.length; j++) {
 				scores[j] += in[j] * amounts[i];
 			}
 		}
 		if (limit_cals && scores[4] != 500)
 			return 0;
-		long result = 1;
-		for (int i = 0; i < amounts.length; i++) {
-			result *= Math.max(0, scores[i]);
-		}
-		return result;
+
+		return Arrays.stream(scores).limit(amounts.length).reduce(1, (a, b) -> a * Math.max(0, b));
 	}
 
 	public static void main(String[] args) throws IOException {
-		List<String> s = Files.readAllLines(Paths.get("./input/Day15_input.txt"));
+		List<String> s = Files.readAllLines(Paths.get("./input/Day15_input.txt"));		
 		System.out.println("Part One = " + solve(s, false));
-		System.out.println("Part Two = " + solve(s, true));
+		System.out.println("Part Two = " + solve(s, true));		
 	}
 }
