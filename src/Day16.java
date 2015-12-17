@@ -45,16 +45,11 @@ public class Day16 {
 	public static void main(String[] args) throws IOException {
 		List<String> s = Files.readAllLines(Paths.get("./input/Day16_input.txt"));
 		Map<String, Integer> properties = new HashMap<>();
-		properties.put("children:", 3);
-		properties.put("cats:", 7);
-		properties.put("samoyeds:", 2);
-		properties.put("pomeranians:", 3);
-		properties.put("akitas:", 0);
-		properties.put("vizslas:", 0);
-		properties.put("goldfish:", 5);
-		properties.put("trees:", 3);
-		properties.put("cars:", 2);
-		properties.put("perfumes:", 1);
+		properties.put("children:", 3); properties.put("cats:", 7);
+		properties.put("samoyeds:", 2);	properties.put("pomeranians:", 3);
+		properties.put("akitas:"  , 0);	properties.put("vizslas:", 0);
+		properties.put("goldfish:", 5);	properties.put("trees:", 3);
+		properties.put("cars:"    , 2);	properties.put("perfumes:", 1);
 		System.out.println("Part One = " + solve(s, properties, false));
 		System.out.println("Part Two = " + solve(s, properties, true));
 	}
