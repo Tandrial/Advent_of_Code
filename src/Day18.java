@@ -4,21 +4,15 @@ import java.util.*;
 
 public class Day18 {
 
-	public static long partOne(List<String> s) {
+	public static long solve(List<String> s, boolean force) {
 		Boolean[][] grid = parseGrid(s);
 		for (int i = 0; i < 100; i++) {
+			if (force)
+				grid = forceLights(grid);
 			grid = nextGen(grid);
 		}
-		return Arrays.stream(grid).mapToLong((Boolean[] value) -> Arrays.stream(value).filter(v -> v).count()).sum();
-	}
-
-	public static long partTwo(List<String> s) {
-		Boolean[][] grid = parseGrid(s);
-		for (int i = 0; i < 100; i++) {
+		if (force)
 			grid = forceLights(grid);
-			grid = nextGen(grid);
-		}
-		grid = forceLights(grid);
 		return Arrays.stream(grid).mapToLong((Boolean[] value) -> Arrays.stream(value).filter(v -> v).count()).sum();
 	}
 
@@ -66,7 +60,7 @@ public class Day18 {
 
 	public static void main(String[] args) throws IOException {
 		List<String> s = Files.readAllLines(Paths.get("./input/Day18_input.txt"));
-		System.out.println("Part One = " + partOne(s));
-		System.out.println("Part One = " + partTwo(s));
+		System.out.println("Part One = " + solve(s, false));
+		System.out.println("Part One = " + solve(s, true));
 	}
 }
