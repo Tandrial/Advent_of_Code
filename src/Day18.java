@@ -43,10 +43,12 @@ public class Day18 {
 
 	private static int countNeighbours(int x, int y, Boolean[][] grid) {
 		int count = 0;
-		for (int x_off = x == 0 ? 0 : -1; x_off <= ((x == grid.length - 1) ? 0 : 1); x_off++) {
-			for (int y_off = y == 0 ? 0 : -1; y_off <= ((y == grid.length - 1) ? 0 : 1); y_off++) {
-				if ((x_off != 0 || y_off != 0) && grid[x + x_off][y + y_off])
-					count++;
+		for (int x_off = -1; x_off <= 1; x_off++) {
+			for (int y_off = -1; y_off <= 1; y_off++) {
+				try {
+					if ((x_off != 0 || y_off != 0) && grid[x + x_off][y + y_off])
+						count++;
+				} catch (Exception e) { }
 			}
 		}
 		return count;
