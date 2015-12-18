@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
-import java.util.function.*;
 
 public class Day18 {
 
@@ -10,7 +9,7 @@ public class Day18 {
 		for (int i = 0; i < 100; i++) {
 			grid = nextGen(grid);
 		}
-		return count(grid);
+		return Arrays.stream(grid).mapToLong((Boolean[] value) -> Arrays.stream(value).filter(v -> v).count()).sum();
 	}
 
 	public static long partTwo(List<String> s) {
@@ -20,16 +19,7 @@ public class Day18 {
 			grid = nextGen(grid);
 		}
 		grid = forceLights(grid);
-		return count(grid);
-	}
-
-	private static long count(Boolean[][] grid) {
-		return Arrays.stream(grid).mapToLong(new ToLongFunction<Boolean[]>() {
-			@Override
-			public long applyAsLong(Boolean[] value) {
-				return Arrays.stream(value).filter(v -> v).count();
-			}
-		}).sum();
+		return Arrays.stream(grid).mapToLong((Boolean[] value) -> Arrays.stream(value).filter(v -> v).count()).sum();
 	}
 
 	private static Boolean[][] forceLights(Boolean[][] grid) {
@@ -42,9 +32,8 @@ public class Day18 {
 
 	private static Boolean[][] nextGen(Boolean[][] grid) {
 		Boolean[][] next = new Boolean[grid.length][];
-		for (int i = 0; i < next.length; i++) {
+		for (int i = 0; i < next.length; i++)
 			next[i] = grid[i].clone();
-		}
 
 		for (int x = 0; x < next.length; x++) {
 			for (int y = 0; y < next[x].length; y++) {
@@ -55,21 +44,14 @@ public class Day18 {
 					next[x][y] = false;
 			}
 		}
-
 		return next;
 	}
 
 	private static int countNeighbours(int x, int y, Boolean[][] grid) {
 		int count = 0;
-		for (int x_off = -1; x_off <= 1; x_off++) {
-			for (int y_off = -1; y_off <= 1; y_off++) {
-				if (x_off == 0 && y_off == 0)
-					continue;
-				if (x + x_off < 0 || x + x_off >= grid.length)
-					continue;
-				if (y + y_off < 0 || y + y_off >= grid.length)
-					continue;
-				if (grid[x + x_off][y + y_off])
+		for (int x_off = x == 0 ? 0 : -1; x_off <= ((x == grid.length - 1) ? 0 : 1); x_off++) {
+			for (int y_off = y == 0 ? 0 : -1; y_off <= ((y == grid.length - 1) ? 0 : 1); y_off++) {
+				if ((x_off != 0 || y_off != 0) && grid[x + x_off][y + y_off])
 					count++;
 			}
 		}
@@ -77,17 +59,9 @@ public class Day18 {
 	}
 
 	private static Boolean[][] parseGrid(List<String> list) {
-		return list.stream().map(new Function<String, Boolean[]>() {
-			@Override
-			public Boolean[] apply(String t) {
-				return t.chars().mapToObj(new IntFunction<Boolean>() {
-					@Override
-					public Boolean apply(int value) {
-						return value == '#' ? true : false;
-					}
-				}).toArray(Boolean[]::new);
-			}
-		}).toArray(Boolean[][]::new);
+		return list.stream()
+				.map((String s) -> s.chars().mapToObj((int i) -> i == '#' ? true : false).toArray(Boolean[]::new))
+				.toArray(Boolean[][]::new);
 	}
 
 	public static void main(String[] args) throws IOException {
