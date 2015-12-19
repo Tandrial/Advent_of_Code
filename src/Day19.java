@@ -21,11 +21,11 @@ public class Day19 {
 			step++;
 			Set<String> candidates = new HashSet<>();
 			for (String key : current)
-				rules.stream().filter(p -> p.wasApplied(key)).forEach(r -> candidates.addAll(r.revert(key)));
+				rules.stream().forEach(r -> candidates.addAll(r.revert(key)));
 
-			Set<String> next = new HashSet<>();
-			candidates.stream().filter(p -> !current.contains(p)).filter(p -> p.length() == 1 || !p.contains("e"))
-					.sorted((a, b) -> a.length() - b.length()).limit(10).forEach(s -> next.add(s));
+			Set<String> next = candidates.stream().filter(p -> !current.contains(p))
+					.filter(p -> p.length() == 1 || !p.contains("e")).sorted((a, b) -> a.length() - b.length())
+					.limit(10).collect(Collectors.toSet());
 
 			current.clear();
 			current.addAll(next);
@@ -53,10 +53,6 @@ class Rule {
 	public Rule(String lhs, String rhs) {
 		this.lhs = lhs;
 		this.rhs = rhs;
-	}
-
-	public boolean wasApplied(String s) {
-		return s.indexOf(rhs) >= 0;
 	}
 
 	public Set<String> apply(String s) {
