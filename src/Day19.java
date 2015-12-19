@@ -20,8 +20,7 @@ public class Day19 {
 		while (current.size() > 0 && !current.contains("e")) {
 			step++;
 			Set<String> candidates = new HashSet<>();
-			for (String key : current)
-				rules.stream().forEach(r -> candidates.addAll(r.revert(key)));
+			current.forEach(key -> rules.stream().map(r -> r.revert(key)).forEach(candidates::addAll));
 
 			Set<String> next = candidates.stream().filter(p -> !current.contains(p))
 					.filter(p -> p.length() == 1 || !p.contains("e")).sorted((a, b) -> a.length() - b.length())
