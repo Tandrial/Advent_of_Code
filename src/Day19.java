@@ -1,59 +1,51 @@
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class Day19 {
 
-	public static long partOne(List<String> s) {
-		Set<Rule> rules = new HashSet<>();
-		String input = parseRules(s, rules);
+	public static long partOne(List<String> list, String input) {
+		Set<Rule> rules = parseRules(list);
 		Set<String> output = new HashSet<>();
 		rules.stream().forEach(r -> output.addAll(r.apply(input)));
 		return output.size();
 	}
 
-	public static int partTwo(List<String> list) {
-		Set<Rule> rules = new HashSet<>();
-		String input = parseRules(list, rules);
-		AtomicInteger step = new AtomicInteger(0);
-		final Map<String, Integer> current = new HashMap<>();
-		current.put(input, step.get());
-		while (!current.containsKey("e")) {
-			step.incrementAndGet();
-			Map<String, Integer> next = new HashMap<>();
+	public static int partTwo(List<String> list, String input) {
+		Set<Rule> rules = parseRules(list);
+		int step = 0;
+		final Set<String> current = new HashSet<String>();
+		current.add(input);
+		while (!current.contains("e")) {
+			step++;
 			Set<String> candidates = new HashSet<>();
-			for (String key : current.keySet()) {
+			for (String key : current)
 				rules.stream().filter(p -> p.wasApplied(key)).forEach(r -> candidates.addAll(r.revert(key)));
-			}
-			candidates.stream().filter(p -> !current.containsKey(p)).filter(p -> p.length() == 1 || !p.contains("e"))
-					.sorted((a, b) -> a.length() - b.length()).limit(10).forEach(s -> next.put(s, step.get()));
+
+			Set<String> next = new HashSet<>();
+			candidates.stream().filter(p -> !current.contains(p)).filter(p -> p.length() == 1 || !p.contains("e"))
+					.sorted((a, b) -> a.length() - b.length()).limit(10).forEach(s -> next.add(s));
 
 			if (next.size() == 0)
 				return -1;
 			current.clear();
-			current.putAll(next);
+			current.addAll(next);
 		}
-		return current.get("e");
+		return step;
 	}
 
-	private static String parseRules(List<String> list, Set<Rule> rules) {
-		for (String s : list) {
-			String[] line = s.split(" => ");
-			if (line.length == 2) {
-				rules.add(new Rule(line[0], line[1]));
-			} else if (line[0].length() > 0) {
-				return line[0];
-			}
-		}
-		return "";
+	private static Set<Rule> parseRules(List<String> list) {
+		return list.stream().map((String s) -> s.split(" => ")).map((String[] line) -> new Rule(line[0], line[1]))
+				.collect(Collectors.toSet());
 	}
 
 	public static void main(String[] args) throws IOException {
 		List<String> s = Files.readAllLines(Paths.get("./input/Day19_input.txt"));
-		System.out.println("Part One = " + partOne(s));
+		String input = "ORnPBPMgArCaCaCaSiThCaCaSiThCaCaPBSiRnFArRnFArCaCaSiThCaCaSiThCaCaCaCaCaCaSiRnFYFArSiRnMgArCaSiRnPTiTiBFYPBFArSiRnCaSiRnTiRnFArSiAlArPTiBPTiRnCaSiAlArCaPTiTiBPMgYFArPTiRnFArSiRnCaCaFArRnCaFArCaSiRnSiRnMgArFYCaSiRnMgArCaCaSiThPRnFArPBCaSiRnMgArCaCaSiThCaSiRnTiMgArFArSiThSiThCaCaSiRnMgArCaCaSiRnFArTiBPTiRnCaSiAlArCaPTiRnFArPBPBCaCaSiThCaPBSiThPRnFArSiThCaSiThCaSiThCaPTiBSiRnFYFArCaCaPRnFArPBCaCaPBSiRnTiRnFArCaPRnFArSiRnCaCaCaSiThCaRnCaFArYCaSiRnFArBCaCaCaSiThFArPBFArCaSiRnFArRnCaCaCaFArSiRnFArTiRnPMgArF";
+		System.out.println("Part One = " + partOne(s, input));
 		long start = System.currentTimeMillis();
-		System.out.println("Part One = " + partTwo(s));
+		System.out.println("Part One = " + partTwo(s, input));
 		System.out.println(System.currentTimeMillis() - start);
 	}
 }
@@ -84,11 +76,9 @@ class Rule {
 		int idx = s.indexOf(in);
 		while (idx >= 0) {
 			StringBuilder sb = new StringBuilder();
-			if (idx > 0)
-				sb.append(s.substring(0, idx));
+			sb.append(s.substring(0, idx));
 			sb.append(out);
-			if (idx + in.length() < s.length())
-				sb.append(s.substring(idx + in.length()));
+			sb.append(s.substring(idx + in.length()));
 			candidates.add(sb.toString());
 			idx = s.indexOf(in, idx + in.length());
 		}
