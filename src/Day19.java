@@ -17,7 +17,7 @@ public class Day19 {
 		int step = 0;
 		final Set<String> current = new HashSet<String>();
 		current.add(input);
-		while (!current.contains("e")) {
+		while (current.size() > 0 && !current.contains("e")) {
 			step++;
 			Set<String> candidates = new HashSet<>();
 			for (String key : current)
@@ -27,8 +27,6 @@ public class Day19 {
 			candidates.stream().filter(p -> !current.contains(p)).filter(p -> p.length() == 1 || !p.contains("e"))
 					.sorted((a, b) -> a.length() - b.length()).limit(10).forEach(s -> next.add(s));
 
-			if (next.size() == 0)
-				return -1;
 			current.clear();
 			current.addAll(next);
 		}
@@ -44,9 +42,7 @@ public class Day19 {
 		List<String> s = Files.readAllLines(Paths.get("./input/Day19_input.txt"));
 		String input = "ORnPBPMgArCaCaCaSiThCaCaSiThCaCaPBSiRnFArRnFArCaCaSiThCaCaSiThCaCaCaCaCaCaSiRnFYFArSiRnMgArCaSiRnPTiTiBFYPBFArSiRnCaSiRnTiRnFArSiAlArPTiBPTiRnCaSiAlArCaPTiTiBPMgYFArPTiRnFArSiRnCaCaFArRnCaFArCaSiRnSiRnMgArFYCaSiRnMgArCaCaSiThPRnFArPBCaSiRnMgArCaCaSiThCaSiRnTiMgArFArSiThSiThCaCaSiRnMgArCaCaSiRnFArTiBPTiRnCaSiAlArCaPTiRnFArPBPBCaCaSiThCaPBSiThPRnFArSiThCaSiThCaSiThCaPTiBSiRnFYFArCaCaPRnFArPBCaCaPBSiRnTiRnFArCaPRnFArSiRnCaCaCaSiThCaRnCaFArYCaSiRnFArBCaCaCaSiThFArPBFArCaSiRnFArRnCaCaCaFArSiRnFArTiRnPMgArF";
 		System.out.println("Part One = " + partOne(s, input));
-		long start = System.currentTimeMillis();
-		System.out.println("Part One = " + partTwo(s, input));
-		System.out.println(System.currentTimeMillis() - start);
+		System.out.println("Part Two = " + partTwo(s, input));
 	}
 }
 
@@ -64,14 +60,14 @@ class Rule {
 	}
 
 	public Set<String> apply(String s) {
-		return apply(s, lhs, rhs);
+		return Rule.apply(s, lhs, rhs);
 	}
 
 	public Set<String> revert(String s) {
-		return apply(s, rhs, lhs);
+		return Rule.apply(s, rhs, lhs);
 	}
 
-	private Set<String> apply(String s, String in, String out) {
+	private static Set<String> apply(String s, String in, String out) {
 		Set<String> candidates = new HashSet<>();
 		int idx = s.indexOf(in);
 		while (idx >= 0) {
