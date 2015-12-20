@@ -5,7 +5,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
-public class Day6 {
+public class Day06 {
 
 	public static int partOne(List<String> list) {
 		int[][] grid = new int[1000][1000];
@@ -55,7 +55,7 @@ public class Day6 {
 	}
 
 	public static void main(String[] args) throws IOException {
-		List<String> s = Files.readAllLines(Paths.get("./input/Day6_input.txt"));
+		List<String> s = Files.readAllLines(Paths.get("./input/Day06_input.txt"));
 		System.out.println("Part One = " + partOne(s));
 		System.out.println("Part Two = " + partTwo(s));
 	}

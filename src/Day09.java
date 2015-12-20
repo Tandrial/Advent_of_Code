@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Day9 {
+public class Day09 {
 
 	private static Map<String, Integer> cities;
 	private static int[][] distances;
@@ -59,7 +59,7 @@ public class Day9 {
 	}
 
 	public static void main(String[] args) throws IOException {
-		List<String> s = Files.readAllLines(Paths.get("./input/Day9_input.txt"));
+		List<String> s = Files.readAllLines(Paths.get("./input/Day09_input.txt"));
 		System.out.println("Part One = " + solve(s, true));
 		System.out.println("Part Two = " + solve(s, false));
 	}

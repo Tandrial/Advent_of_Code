@@ -4,7 +4,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
-public class Day2 {
+public class Day02 {
 
 	public static long partOne(List<String> list) {
 		int totalFeet = 0;
@@ -39,7 +39,7 @@ public class Day2 {
 	}
 
 	public static void main(String[] args) throws IOException {
-		List<String> s = Files.readAllLines(Paths.get("./input/Day2_input.txt"));
+		List<String> s = Files.readAllLines(Paths.get("./input/Day02_input.txt"));
 		System.out.println("Part One = " + partOne(s));
 		System.out.println("Part Two = " + partTwo(s));
 	}

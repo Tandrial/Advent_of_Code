@@ -3,7 +3,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
 
-public class Day3 {
+public class Day03 {
 
 	public static int partOne(String s) {
 		return solve(s, 1);
@@ -40,7 +40,7 @@ public class Day3 {
 	}
 
 	public static void main(String[] args) throws IOException {
-		String s = new String(Files.readAllBytes(Paths.get("./input/Day3_input.txt")));
+		String s = new String(Files.readAllBytes(Paths.get("./input/Day03_input.txt")));
 		System.out.println("Part One = " + partOne(s));
 		System.out.println("Part Two = " + partTwo(s));
 	}

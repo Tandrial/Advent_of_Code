@@ -1,7 +1,7 @@
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class Day4 {
+public class Day04 {
 
 	public static long partOne(String s) throws NoSuchAlgorithmException {
 		return solve(s, "00000");
