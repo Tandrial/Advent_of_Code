@@ -10,7 +10,7 @@ The My First Crime Scene Analysis Machine (MFCSAM for short) can detect a few sp
 
 *   `children`, by human DNA age analysis.
 *   `cats`. It doesn't differentiate individual breeds.
-*   Several <span title="It can tell them apart by their distinct Dog Residue.">seemingly random breeds of dog</span>: `[samoyeds](https://en.wikipedia.org/wiki/Samoyed_%28dog%29)`, `[pomeranians](https://en.wikipedia.org/wiki/Pomeranian_%28dog%29)`, `[akitas](https://en.wikipedia.org/wiki/Akita_%28dog%29)`, and `[vizslas](https://en.wikipedia.org/wiki/Vizsla)`.
+*   Several <span title="It can tell them apart by their distinct Dog Residue.">seemingly random breeds of dog</span>: `samoyeds`, `pomeranians`, `akitas`, and `vizslas`.
 *   `goldfish`. No other kinds of fish.
 *   `trees`, all in one group.
 *   `cars`, presumably by exhaust or gasoline or something.
@@ -29,7 +29,6 @@ goldfish: 5
 trees: 3
 cars: 2
 perfumes: 1
-
 ```
 
 You make a list of the things you can remember about each Aunt Sue. Things missing from your list aren't zero - you simply don't remember the value.

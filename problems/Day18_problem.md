@@ -17,7 +17,6 @@ For example, in a simplified 6x6 grid, the light marked `A` has the neighbors nu
 ..123.
 ..8A4.
 ..765.
-
 ```
 
 The state a light should have next is based on its current state (on or off) plus the _number of neighbors that are on_:
@@ -69,7 +68,6 @@ After 4 steps:
 ..##..
 ......
 ......
-
 ```
 
 After `4` steps, this example has four lights on.
@@ -130,7 +128,6 @@ After 5 steps:
 .##...
 #.#...
 ##...#
-
 ```
 
 After `5` steps, this example now has `17` lights on.

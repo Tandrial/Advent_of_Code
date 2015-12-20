@@ -26,7 +26,6 @@ x LSHIFT 2 -> f
 y RSHIFT 2 -> g
 NOT x -> h
 NOT y -> i
-
 ```
 
 After it is run, these are the signals on the wires:
@@ -40,7 +39,6 @@ h: 65412
 i: 65079
 x: 123
 y: 456
-
 ```
 
 In little Bobby's kit's instructions booklet (provided as your puzzle input), what signal is ultimately provided to _wire `a`_?

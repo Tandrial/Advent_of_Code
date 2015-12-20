@@ -14,7 +14,6 @@ For example, imagine a simpler machine that supports only the following replacem
 H => HO
 H => OH
 O => HH
-
 ```
 
 Given the replacements above and starting with `HOH`, the following molecules could be generated:
@@ -47,7 +46,6 @@ e => O
 H => HO
 H => OH
 O => HH
-
 ```
 
 If you'd like to make `HOH`, you start with `e`, and then make the following replacements:
