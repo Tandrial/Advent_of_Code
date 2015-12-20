@@ -4,7 +4,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Day5 {
+public class Day05 {
 
 	public static int partOne(List<String> list) {
 		int count = 0;
@@ -33,7 +33,7 @@ public class Day5 {
 	}
 
 	public static void main(String[] args) throws IOException {
-		List<String> s = Files.readAllLines(Paths.get("./input/Day5_input.txt"));
+		List<String> s = Files.readAllLines(Paths.get("./input/Day05_input.txt"));
 		System.out.println("Part One = " + partOne(s));
 		System.out.println("Part Two = " + partTwo(s));
 	}

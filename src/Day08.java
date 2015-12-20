@@ -3,7 +3,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-public class Day8 {
+public class Day08 {
 
 	public static int partOne(List<String> list) {
 		int count = 0;
@@ -35,7 +35,7 @@ public class Day8 {
 	}
 
 	public static void main(String[] args) throws IOException {
-		List<String> s = Files.readAllLines(Paths.get("./input/Day8_input.txt"));
+		List<String> s = Files.readAllLines(Paths.get("./input/Day08_input.txt"));
 		System.out.println("Part One = " + partOne(s));
 		System.out.println("Part Two = " + partTwo(s));
 	}
