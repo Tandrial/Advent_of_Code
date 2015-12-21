@@ -10,8 +10,8 @@ public class Day21 {
 		int maxGold = Integer.MIN_VALUE;
 		for (int weapon = 0; weapon < Fighter.weapons.length; weapon++)
 			for (int armor = 0; armor < Fighter.armors.length; armor++)
-				for (int lring = 0; lring < Fighter.dmg_rings.length + Fighter.armor_rings.length; lring++)
-					for (int rring = 0; rring < Fighter.dmg_rings.length + Fighter.armor_rings.length; rring++) {
+				for (int lring = 0; lring < 2 * Fighter.dmg_rings.length; lring++)
+					for (int rring = 0; rring < 2 * Fighter.dmg_rings.length; rring++) {
 						if (lring != 0 && lring == rring)
 							continue;
 						Fighter me = new Fighter(100, weapon, armor, lring, rring);
@@ -28,7 +28,7 @@ public class Day21 {
 	private static int[] parseBoss(List<String> s) {
 		int[] boss = new int[3];
 		for (int i = 0; i < boss.length; i++)
-			boss[i] = Integer.valueOf(s.get(i).split(":")[1].trim());
+			boss[i] = Integer.valueOf(s.get(i).split(": ")[1]);
 		return boss;
 	}
 
@@ -41,10 +41,10 @@ public class Day21 {
 
 class Fighter {
 
-	static int[][] weapons = new int[][] { { 8, 4 }, { 10, 5 }, { 25, 6 }, { 40, 7 }, { 74, 8 } };
-	static int[][] armors = new int[][] { { 0, 0 }, { 13, 1 }, { 31, 2 }, { 53, 3 }, { 75, 4 }, { 102, 5 } };
-	static int[][] dmg_rings = new int[][] { { 0, 0 }, { 25, 1 }, { 50, 2 }, { 100, 3 } };
-	static int[][] armor_rings = new int[][] { { 0, 0 }, { 20, 1 }, { 40, 2 }, { 80, 3 } };
+	static int[][] weapons = { { 8, 4 }, { 10, 5 }, { 25, 6 }, { 40, 7 }, { 74, 8 } };
+	static int[][] armors = { { 0, 0 }, { 13, 1 }, { 31, 2 }, { 53, 3 }, { 75, 4 }, { 102, 5 } };
+	static int[][] dmg_rings = { { 0, 0 }, { 25, 1 }, { 50, 2 }, { 100, 3 } };
+	static int[][] armor_rings = { { 0, 0 }, { 20, 1 }, { 40, 2 }, { 80, 3 } };
 
 	int hp;
 	int weapon, armor;
