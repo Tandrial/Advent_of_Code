@@ -8,21 +8,20 @@ public class Day21 {
 		int[] boss = parseBoss(s);
 		int minGold = Integer.MAX_VALUE;
 		int maxGold = Integer.MIN_VALUE;
-		for (int weapon = 0; weapon < Fighter.weapons.length; weapon++) {
-			for (int armor = 0; armor < Fighter.armors.length; armor++) {
-				for (int lring = 0; lring < Fighter.dmg_rings.length + Fighter.armor_rings.length; lring++) {
+		for (int weapon = 0; weapon < Fighter.weapons.length; weapon++)
+			for (int armor = 0; armor < Fighter.armors.length; armor++)
+				for (int lring = 0; lring < Fighter.dmg_rings.length + Fighter.armor_rings.length; lring++)
 					for (int rring = 0; rring < Fighter.dmg_rings.length + Fighter.armor_rings.length; rring++) {
 						if (lring != 0 && lring == rring)
 							continue;
 						Fighter me = new Fighter(100, weapon, armor, lring, rring);
-						if (simulate(me, boss.clone()))
+						boolean won = Math.ceil(me.hp / Math.max(1.0f, boss[1] - me.getDef())) >= Math
+								.ceil(boss[0] / Math.max(1.0f, me.getAtt() - boss[2]));
+						if (won)
 							minGold = Math.min(minGold, me.cost);
 						else
 							maxGold = Math.max(maxGold, me.cost);
 					}
-				}
-			}
-		}
 		return loose ? maxGold : minGold;
 	}
 
@@ -31,11 +30,6 @@ public class Day21 {
 		for (int i = 0; i < boss.length; i++)
 			boss[i] = Integer.valueOf(s.get(i).split(":")[1].trim());
 		return boss;
-	}
-
-	private static boolean simulate(Fighter me, int[] boss) {
-		return Math.ceil(me.hp / Math.max(1.0f, boss[1] - me.getDef())) >= Math
-				.ceil(boss[0] / Math.max(1.0f, me.getAtt() - boss[2]));
 	}
 
 	public static void main(String[] args) throws IOException {
