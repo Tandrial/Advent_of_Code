@@ -7,6 +7,7 @@ public class Day22 {
 	private static int solve(List<String> s, boolean hard) {
 		PriorityQueue<Wizard> wizards = new PriorityQueue<Wizard>((a, b) -> Integer.compare(b.manaSpend, a.manaSpend));
 		int minManaSpend = Integer.MAX_VALUE;
+		List<List<String>> casts = new ArrayList<>();
 		wizards.add(new Wizard(50, 500, parseBoss(s)));
 		while (wizards.size() > 0) {
 			Wizard curr = wizards.poll();
@@ -22,13 +23,20 @@ public class Day22 {
 					next.applyEffect();
 					next.hp -= Math.max(1, next.boss[1] - next.armor);
 
-					if (next.boss[0] <= 0)
-						minManaSpend = Math.min(minManaSpend, next.manaSpend);
-					else if (next.hp > 0 && next.manaSpend < minManaSpend)
+					if (next.boss[0] <= 0) {
+						if (next.manaSpend == minManaSpend)
+							casts.add(next.casts);
+						else if (next.manaSpend < minManaSpend) {
+							minManaSpend = next.manaSpend;
+							casts.clear();
+							casts.add(next.casts);
+						}
+					} else if (next.hp > 0 && next.manaSpend < minManaSpend)
 						wizards.add(next);
 				}
 			}
 		}
+		casts.stream().forEach(System.out::println);
 		return minManaSpend;
 	}
 
@@ -49,8 +57,10 @@ public class Day22 {
 class Wizard implements Cloneable {
 
 	static int[][] spells = { { 53, 0 }, { 73, 0 }, { 113, 6 }, { 173, 6 }, { 229, 5 } };
-
+	static String[] names = { "Magic Missle", "Drain", "Shield", "Poison", "Recharge" };
+	
 	int hp, mana, armor, manaSpend;
+	List<String> casts = new ArrayList<String>();
 
 	int[] active_effects = new int[5];
 	int[] boss; // {hp, dmg}
@@ -66,6 +76,7 @@ class Wizard implements Cloneable {
 	}
 
 	public void castSpell(int i) {
+		casts.add(names[i]);
 		mana -= spells[i][0];
 		manaSpend += spells[i][0];
 		active_effects[i] = spells[i][1];
@@ -81,14 +92,14 @@ class Wizard implements Cloneable {
 		for (int i = 0; i < active_effects.length; i++) {
 			if (active_effects[i] > 0) {
 				active_effects[i]--;
-				if (i == 2) { // Shield
+				if (i == 2) { // activate Shield
 					armor = 7;
 				} else if (i == 3) { // Poison
 					boss[0] -= 3;
 				} else if (i == 4) { // Recharge
 					mana += 101;
 				}
-			} else if (i == 2)
+			} else if (i == 2) // deactivate Shield
 				armor = 0;
 		}
 	}
@@ -98,6 +109,7 @@ class Wizard implements Cloneable {
 		neu.armor = this.armor;
 		neu.manaSpend = this.manaSpend;
 		neu.active_effects = this.active_effects.clone();
+		neu.casts.addAll(this.casts);
 		return neu;
 	}
 }
