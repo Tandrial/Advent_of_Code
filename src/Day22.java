@@ -1,16 +1,15 @@
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Day22 {
 
 	private static int solve(List<String> s, boolean hard) {
-		List<Wizard> wizards = new ArrayList<Wizard>();
-		AtomicInteger minMana = new AtomicInteger(Integer.MAX_VALUE);
+		PriorityQueue<Wizard> wizards = new PriorityQueue<Wizard>((a, b) -> Integer.compare(b.manaSpend, a.manaSpend));
+		int minManaSpend = Integer.MAX_VALUE;
 		wizards.add(new Wizard(50, 500, parseBoss(s)));
 		while (wizards.size() > 0) {
-			Wizard curr = wizards.remove(0);
+			Wizard curr = wizards.poll();
 			if (hard) {
 				if (curr.hp-- <= 0)
 					continue;
@@ -21,19 +20,16 @@ public class Day22 {
 					Wizard next = curr.clone();
 					next.castSpell(spell);
 					next.applyEffect();
+					next.hp -= Math.max(1, next.boss[1] - next.armor);
 
-					if (next.boss[0] <= 0) {
-						minMana.set(Math.min(minMana.get(), next.mana_spend));
-						wizards.removeIf(w -> w.mana_spend > minMana.get());
-					} else {
-						next.hp -= Math.max(1, next.boss[1] - next.armor);
-						if (next.hp > 0 && next.mana > 0 && next.mana_spend < minMana.get())
-							wizards.add(next);
-					}
+					if (next.boss[0] <= 0)
+						minManaSpend = Math.min(minManaSpend, next.manaSpend);
+					else if (next.hp > 0 && next.manaSpend < minManaSpend)
+						wizards.add(next);
 				}
 			}
 		}
-		return minMana.get();
+		return minManaSpend;
 	}
 
 	private static int[] parseBoss(List<String> s) {
@@ -54,7 +50,7 @@ class Wizard implements Cloneable {
 
 	static int[][] spells = { { 53, 0 }, { 73, 0 }, { 113, 6 }, { 173, 6 }, { 229, 5 } };
 
-	int hp, mana, armor, mana_spend;
+	int hp, mana, armor, manaSpend;
 
 	int[] active_effects = new int[3];
 	int[] boss; // {hp, dmg}
@@ -71,7 +67,7 @@ class Wizard implements Cloneable {
 
 	public void castSpell(int i) {
 		mana -= spells[i][0];
-		mana_spend += spells[i][0];
+		manaSpend += spells[i][0];
 		if (i == 0) { // Magic Missile
 			boss[0] -= 4;
 		} else if (i == 1) { // Drain
@@ -101,7 +97,7 @@ class Wizard implements Cloneable {
 	public Wizard clone() {
 		Wizard neu = new Wizard(hp, mana, boss.clone());
 		neu.armor = this.armor;
-		neu.mana_spend = this.mana_spend;
+		neu.manaSpend = this.manaSpend;
 		neu.active_effects = this.active_effects.clone();
 		return neu;
 	}
