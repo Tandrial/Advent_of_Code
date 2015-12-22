@@ -52,7 +52,7 @@ class Wizard implements Cloneable {
 
 	int hp, mana, armor, manaSpend;
 
-	int[] active_effects = new int[3];
+	int[] active_effects = new int[5];
 	int[] boss; // {hp, dmg}
 
 	public Wizard(int hp, int mana, int[] boss) {
@@ -62,19 +62,18 @@ class Wizard implements Cloneable {
 	}
 
 	public boolean canCast(int i) {
-		return mana >= spells[i][0] && (i < 2 || active_effects[i - 2] == 0);
+		return mana >= spells[i][0] && active_effects[i] == 0;
 	}
 
 	public void castSpell(int i) {
 		mana -= spells[i][0];
 		manaSpend += spells[i][0];
+		active_effects[i] = spells[i][1];
 		if (i == 0) { // Magic Missile
 			boss[0] -= 4;
 		} else if (i == 1) { // Drain
 			hp += 2;
 			boss[0] -= 2;
-		} else { // active effect
-			active_effects[i - 2] = spells[i][1];
 		}
 	}
 
@@ -82,14 +81,14 @@ class Wizard implements Cloneable {
 		for (int i = 0; i < active_effects.length; i++) {
 			if (active_effects[i] > 0) {
 				active_effects[i]--;
-				if (i == 0) { // Shield
+				if (i == 2) { // Shield
 					armor = 7;
-				} else if (i == 1) { // Poison
+				} else if (i == 3) { // Poison
 					boss[0] -= 3;
-				} else if (i == 2) { // Recharge
+				} else if (i == 4) { // Recharge
 					mana += 101;
 				}
-			} else if (i == 0)
+			} else if (i == 2)
 				armor = 0;
 		}
 	}
