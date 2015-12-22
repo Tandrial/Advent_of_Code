@@ -12,7 +12,7 @@ public class Day22 {
 		while (wizards.size() > 0) {
 			Wizard curr = wizards.poll();
 			if (hard) {
-				if (curr.hp-- <= 0)
+				if (--curr.hp <= 0)
 					continue;
 			}
 			curr.applyEffect();
