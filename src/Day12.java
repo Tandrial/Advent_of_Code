@@ -9,9 +9,8 @@ public class Day12 {
 		int sum = 0;
 		if (root.isJsonArray()) {
 			JsonArray jsonArray = root.getAsJsonArray();
-			for (JsonElement elem : jsonArray) {
+			for (JsonElement elem : jsonArray)
 				sum += solve(elem, checkForRed);
-			}
 		} else if (root.isJsonObject()) {
 			JsonObject jsonObject = root.getAsJsonObject();
 			for (java.util.Map.Entry<String, JsonElement> elem : jsonObject.entrySet()) {
