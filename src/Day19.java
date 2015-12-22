@@ -23,8 +23,7 @@ public class Day19 {
 			current.forEach(key -> rules.stream().map(r -> r.revert(key)).forEach(candidates::addAll));
 
 			Set<String> next = candidates.stream().filter(p -> !current.contains(p))
-					.filter(p -> p.length() == 1 || !p.contains("e")).sorted((a, b) -> a.length() - b.length())
-					.limit(10).collect(Collectors.toSet());
+					.sorted((a, b) -> a.length() - b.length()).limit(10).collect(Collectors.toSet());
 
 			current.clear();
 			current.addAll(next);
