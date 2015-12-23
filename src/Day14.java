@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Day14 {
@@ -25,17 +24,15 @@ public class Day14 {
 	}
 
 	private static List<Reindeer> parseReindeer(List<String> list) {
-		return list.stream().map(new Function<String, Reindeer>() {
-			@Override
-			public Reindeer apply(String t) {
-				String[] line = t.split(" ");
-				Reindeer r = new Reindeer();
-				r.fly_speed = Integer.parseInt(line[3]);
-				r.fly_dur = Integer.parseInt(line[6]);
-				r.rest_dur = Integer.parseInt(line[13]);
-				return r;
-			}
+		return list.stream().map(t -> {
+			String[] line = t.split(" ");
+			Reindeer r = new Reindeer();
+			r.fly_speed = Integer.parseInt(line[3]);
+			r.fly_dur = Integer.parseInt(line[6]);
+			r.rest_dur = Integer.parseInt(line[13]);
+			return r;
 		}).collect(Collectors.toList());
+
 	}
 
 	public static void main(String[] args) throws IOException {

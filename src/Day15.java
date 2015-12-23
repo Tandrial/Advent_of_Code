@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class Day15 {
@@ -40,16 +39,14 @@ public class Day15 {
 	}
 
 	public static List<Integer[]> parseIngeddients(List<String> list) {
-		return list.stream().map(new Function<String, Integer[]>() {
-			@Override
-			public Integer[] apply(String t) {
-				String[] line = t.split(" ");
-				Integer[] i = new Integer[5];
-				for (int x = 0; x < 5; x++)
-					i[x] = Integer.valueOf(line[(x + 1) * 2].replace(",", ""));
-				return i;
-			}
+		return list.stream().map(t -> {
+			String[] line = t.split(" ");
+			Integer[] i = new Integer[5];
+			for (int x = 0; x < 5; x++)
+				i[x] = Integer.valueOf(line[(x + 1) * 2].replace(",", ""));
+			return i;
 		}).collect(Collectors.toList());
+
 	}
 
 	private static long calcScore(Integer[] amounts, List<Integer[]> ingredients, boolean limit_cals) {
