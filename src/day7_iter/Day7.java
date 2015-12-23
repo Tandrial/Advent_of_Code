@@ -1,12 +1,8 @@
 package day7_iter;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.*;
+import java.util.*;
 
 public class Day7 {
 
@@ -64,7 +60,7 @@ public class Day7 {
 				}
 			}
 		}
-		
+
 		return varLookUp.get("a");
 	}
 
