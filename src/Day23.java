@@ -1,14 +1,15 @@
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Day23 {
 
 	public static long solve(List<String> list, long start_regA) {
-		String[][] ram = loadRam(list);
+		List<String[]> ram = loadRam(list);
 		long pc = 0, reg_a = start_regA, reg_b = 0, val;
-		while (pc < ram.length) {
-			String[] inst = ram[(int) pc];
+		while (pc < ram.size()) {
+			String[] inst = ram.get((int) pc);
 			switch (inst[0]) {
 			case "hlf":
 				if (inst[1].equals("a"))
@@ -53,11 +54,8 @@ public class Day23 {
 		return reg_b;
 	}
 
-	private static String[][] loadRam(List<String> list) {
-		String[][] ram = new String[list.size()][];
-		for (int i = 0; i < ram.length; i++)
-			ram[i] = list.get(i).replace(",", "").split(" ");
-		return ram;
+	private static List<String[]> loadRam(List<String> list) {
+		return list.stream().map(t -> t.replace(",", "").split(" ")).collect(Collectors.toList());
 	}
 
 	public static void main(String[] args) throws IOException {
