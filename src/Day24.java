@@ -1,7 +1,6 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -14,9 +13,7 @@ public class Day24 {
 		List<Integer> weights = loadWeights(list);
 		Collections.sort(weights);
 		int value = weights.stream().reduce(0, (a, b) -> a + b) / 3;
-		List<Integer> w1 = new ArrayList<Integer>();
-		w1.addAll(weights);
-		Set<Set<Integer>> result = solve(value, new HashSet<Integer>(), w1, new HashSet<Set<Integer>>());
+		Set<Set<Integer>> result = solve(value, new HashSet<Integer>(), weights, new HashSet<Set<Integer>>());
 
 		return result.stream().sorted((a, b) -> Integer.compare(a.size(), b.size()))
 				.map(t -> t.stream().reduce(1, (a, b) -> a * b)).findFirst().get();
@@ -27,16 +24,19 @@ public class Day24 {
 		if (weight == 0) {
 			combinations.add(current);
 			return combinations;
-		} else if (weight < 0 || unused.isEmpty() || current.size() > 5)
+		} else if (weight < 0 || unused.isEmpty() || current.size() > 6)
 			return combinations;
 		else {
 			List<Integer> tail = unused.subList(1, unused.size());
+			if (tail.stream().reduce(0, (a, b) -> a + b) < weight)
+				return combinations;
 			Set<Set<Integer>> one = solve(weight, current, tail, combinations);
 			Set<Integer> neu = new HashSet<>();
 			neu.addAll(current);
 			neu.add(unused.get(0));
 			Set<Set<Integer>> two = solve(weight - unused.get(0), neu, tail, combinations);
 			one.addAll(two);
+			System.out.println(one.size());
 			return one;
 		}
 	}
