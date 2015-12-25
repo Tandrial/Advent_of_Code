@@ -1,6 +1,5 @@
 import java.io.IOException;
 import java.nio.file.*;
-import java.util.stream.IntStream;
 
 public class Day25 {
 	public static long solve(String s) {
@@ -8,7 +7,8 @@ public class Day25 {
 		int col = Integer.valueOf(s.split(" ")[18].replace(".", "").trim());
 
 		long code = 20151125L;
-		int step = IntStream.range(1, row + col - 1).boxed().reduce(0, (a, b) -> a + b) + col;
+		int step = row + col - 2;
+		step = step * (step + 1) / 2 + col;
 
 		for (int i = 1; i < step; i++) {
 			code *= 252533;
@@ -19,7 +19,8 @@ public class Day25 {
 	}
 
 	public static void main(String[] args) throws IOException {
-		String s = new String(Files.readAllBytes(Paths.get(".input/Day25_input.txt")));
+		String s = new String(Files.readAllBytes(Paths.get("./input/Day25_input.txt")));
 		System.out.println("Part One = " + solve(s));
+
 	}
 }
