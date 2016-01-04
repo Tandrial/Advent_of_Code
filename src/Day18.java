@@ -4,8 +4,10 @@ import java.util.*;
 
 public class Day18 {
 
-	public static long solve(List<String> s, boolean force) {
-		Boolean[][] grid = parseGrid(s);
+	public static long solve(List<String> list, boolean force) {
+		Boolean[][] grid = list.stream()
+				.map((String s) -> s.chars().mapToObj((int i) -> i == '#' ? true : false).toArray(Boolean[]::new))
+				.toArray(Boolean[][]::new);
 		for (int i = 0; i < 100; i++) {
 			if (force)
 				grid = forceLights(grid);
@@ -48,16 +50,11 @@ public class Day18 {
 				try {
 					if ((x_off != 0 || y_off != 0) && grid[x + x_off][y + y_off])
 						count++;
-				} catch (Exception e) { }
+				} catch (Exception e) {
+				}
 			}
 		}
 		return count;
-	}
-
-	private static Boolean[][] parseGrid(List<String> list) {
-		return list.stream()
-				.map((String s) -> s.chars().mapToObj((int i) -> i == '#' ? true : false).toArray(Boolean[]::new))
-				.toArray(Boolean[][]::new);
 	}
 
 	public static void main(String[] args) throws IOException {

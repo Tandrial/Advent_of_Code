@@ -6,56 +6,37 @@ import java.util.stream.Collectors;
 public class Day23 {
 
 	public static long solve(List<String> list, long start_regA) {
-		List<String[]> ram = loadRam(list);
-		long pc = 0, reg_a = start_regA, reg_b = 0, val;
+		List<String[]> ram = list.stream().map(t -> t.replace(",", "").split(" ")).collect(Collectors.toList());
+		int pc = 0, reg;
+		long[] regs = { start_regA, 0 };
 		while (pc < ram.size()) {
-			String[] inst = ram.get((int) pc);
+			String[] inst = ram.get(pc);
+			reg = inst[1].equals("a") ? 0 : 1;
 			switch (inst[0]) {
 			case "hlf":
-				if (inst[1].equals("a"))
-					reg_a >>= 1;
-				else
-					reg_b >>= 1;
-				pc++;
+				regs[reg] >>= 1;
 				break;
 			case "tpl":
-				if (inst[1].equals("a"))
-					reg_a *= 3;
-				else
-					reg_b *= 3;
-				pc++;
+				regs[reg] *= 3;
 				break;
 			case "inc":
-				if (inst[1].equals("a"))
-					reg_a++;
-				else
-					reg_b++;
-				pc++;
+				regs[reg]++;
 				break;
 			case "jmp":
-				pc += Integer.valueOf(inst[1]);
+				pc += Integer.valueOf(inst[1]) - 1;
 				break;
 			case "jie":
-				val = inst[1].equals("a") ? reg_a : reg_b;
-				if (val % 2 == 0)
-					pc += Integer.valueOf(inst[2]);
-				else
-					pc++;
+				if (regs[reg] % 2 == 0)
+					pc += Integer.valueOf(inst[2]) - 1;
 				break;
 			case "jio":
-				val = inst[1].equals("a") ? reg_a : reg_b;
-				if (val == 1)
-					pc += Integer.valueOf(inst[2]);
-				else
-					pc++;
+				if (regs[reg] == 1)
+					pc += Integer.valueOf(inst[2]) - 1;
 				break;
 			}
+			pc++;
 		}
-		return reg_b;
-	}
-
-	private static List<String[]> loadRam(List<String> list) {
-		return list.stream().map(t -> t.replace(",", "").split(" ")).collect(Collectors.toList());
+		return regs[1];
 	}
 
 	public static void main(String[] args) throws IOException {
