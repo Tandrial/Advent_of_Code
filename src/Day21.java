@@ -15,8 +15,8 @@ public class Day21 {
 						if (lring != 0 && lring == rring)
 							continue;
 						Fighter me = new Fighter(100, weapon, armor, lring, rring);
-						boolean won = Math.ceil(me.hp / Math.max(1.0f, boss[1] - me.getDef())) >= Math
-								.ceil(boss[0] / Math.max(1.0f, me.getAtt() - boss[2]));
+						boolean won = Math.ceil(me.hp / Math.max(1.0f, boss[1] - me.getDef())) >= 
+									  Math.ceil(boss[0] / Math.max(1.0f, me.getAtt() - boss[2]));
 						if (won)
 							minGold = Math.min(minGold, me.cost);
 						else

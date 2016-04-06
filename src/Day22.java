@@ -105,8 +105,7 @@ class Wizard implements Cloneable {
 	}
 
 	public Wizard clone() {
-		Wizard neu = new Wizard(hp, mana, boss.clone());
-		neu.armor = this.armor;
+		Wizard neu = new Wizard(hp, mana, boss.clone());		
 		neu.manaSpend = this.manaSpend;
 		neu.active_effects = this.active_effects.clone();
 		neu.casts.addAll(this.casts);

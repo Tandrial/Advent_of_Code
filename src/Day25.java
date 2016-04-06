@@ -15,13 +15,11 @@ public class Day25 {
 			code *= 252533;
 			code %= 33554393;
 		}
-
 		return code;
 	}
 
 	public static void main(String[] args) throws IOException {
 		String s = new String(Files.readAllBytes(Paths.get("./input/Day25_input.txt")));
 		System.out.println("Part One = " + solve(s));
-
 	}
 }

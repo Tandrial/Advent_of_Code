@@ -28,31 +28,25 @@ public class Day09 {
 	}
 
 	private static int genDistances(List<String> list) {
-		int count = 0;
 		distances = new int[list.size()][list.size()];
 		cities = new HashMap<>();
 		for (String s : list) {
 			String[] line = s.split(" = ");
 			int value = Integer.valueOf(line[1]);
-			int idx_1, idx_2;
+			int[] indexes = { 0, 0 };
 			line = line[0].split(" to ");
-			if (cities.containsKey(line[0])) {
-				idx_1 = cities.get(line[0]);
-			} else {
-				idx_1 = count++;
-				cities.put(line[0], idx_1);
+			for (int i = 0; i < indexes.length; i++) {
+				if (cities.containsKey(line[i])) {
+					indexes[i] = cities.get(line[i]);
+				} else {
+					indexes[i] = cities.size();
+					cities.put(line[i], indexes[i]);
+				}
 			}
-			if (cities.containsKey(line[1])) {
-				idx_2 = cities.get(line[1]);
-			} else {
-				idx_2 = count++;
-				cities.put(line[1], idx_2);
-			}
-
-			distances[idx_1][idx_2] = value;
-			distances[idx_2][idx_1] = value;
+			distances[indexes[0]][indexes[1]] = value;
+			distances[indexes[1]][indexes[0]] = value;
 		}
-		return count;
+		return cities.size();
 	}
 
 	public static void main(String[] args) throws IOException {
