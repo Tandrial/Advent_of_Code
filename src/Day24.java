@@ -9,13 +9,24 @@ public class Day24 {
 		List<Integer> weights = loadWeights(list);
 
 		int value = weights.stream().reduce(0, (a, b) -> a + b) / groupCount;
-		int count = 1;
+		int[] size = { 1, 1 };
 		List<List<Integer>> result = new ArrayList<>();
 		do {
-			for (List<Integer> c : new CombinationIterator<Integer>(weights, count++))
-				if (c.stream().reduce(0, (a, b) -> a + b) == value)
-					result.add(c);
-
+			for (List<Integer> g1 : new CombinationIterator<Integer>(weights, size[0]++)) {
+				if (g1.stream().reduce(0, (a, b) -> a + b) == value) {
+					List<Integer> remaining = new ArrayList<Integer>();
+					remaining.addAll(weights);
+					remaining.removeAll(g1);
+					while (size[1] <= remaining.size() || result.size() == 0) {
+						for (List<Integer> c2 : new CombinationIterator<Integer>(remaining, size[1]++)) {
+							if (c2.stream().reduce(0, (a, b) -> a + b) == value) {
+								result.add(g1);
+								break;
+							}
+						}
+					}
+				}
+			}
 		} while (result.size() == 0);
 
 		return result.stream().map(x -> x.stream().mapToLong(Long::valueOf).reduce(1L, (a, b) -> a * b)).sorted()
@@ -27,7 +38,7 @@ public class Day24 {
 	}
 
 	public static void main(String[] args) throws IOException {
-		List<String> s = Files.readAllLines(Paths.get("./input/Day24_input.txt"));
+		List<String> s = Files.readAllLines(Paths.get("/home/michael/Advent_of_Code/input/Day24_input.txt"));
 		System.out.println("Part One = " + solve(s, 3));
 		System.out.println("Part Two = " + solve(s, 4));
 	}

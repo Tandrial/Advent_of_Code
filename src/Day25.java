@@ -1,5 +1,6 @@
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Day25 {
 	public static long solve(String s) {
