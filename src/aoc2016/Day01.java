@@ -45,9 +45,9 @@ public class Day01 {
   }
 
   public static void main(String[] args) throws IOException {
-    List<String> s = Files.readAllLines(Paths.get("Day01_input.txt"));
+    String s = new String(Files.readAllBytes(Paths.get("./input/2016/Day01_input.txt")));
 
-    Day01 day1 = new Day01(s.get(0));
+    Day01 day1 = new Day01(s);
     System.out.println("Part one = " + day1.partOne());
     System.out.println("Part two = " + day1.partTwo());
   }
