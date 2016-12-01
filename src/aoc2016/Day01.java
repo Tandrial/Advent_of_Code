@@ -1,4 +1,5 @@
 package aoc2016;
+
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;

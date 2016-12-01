@@ -1,7 +1,6 @@
 # --- Advent of Code ---
 
-My solutions for the Advent of Code 2015.
-
+My solutions for the Advent of Code.
 
 
 "Your tenacity for making things that make other things so that people can make things is alarming." -a beta tester
