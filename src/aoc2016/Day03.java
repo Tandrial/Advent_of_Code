@@ -3,6 +3,7 @@ package aoc2016;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
+import java.util.stream.IntStream;
 
 public class Day03 {
   public static int checkTriangle(Integer[][] input) {
@@ -15,15 +16,11 @@ public class Day03 {
   }
 
   public static Integer[][] transpose(Integer[][] input) {
-    Integer[][] res = new Integer[input[0].length][input.length];
-    for (int i = 0; i < input.length; i++)
-      for (int j = 0; j < input[i].length; j++)
-        res[j][i] = input[i][j];
-    return res;
+    return IntStream.range(0, input[0].length).mapToObj(r -> IntStream.range(0, input.length).map(c -> input[c][r]).boxed().toArray(Integer[]::new)).toArray(Integer[][]::new);
   }
 
   public static Integer[][] parse(List<String> lines) {
-    return lines.stream().map(s -> Arrays.stream(s.trim().split("\\s+")).map(x -> Integer.valueOf(x)).toArray(Integer[]::new)).toArray(Integer[][]::new);
+    return lines.stream().map(s -> Arrays.stream(s.trim().split("\\s+")).map(Integer::valueOf).toArray(Integer[]::new)).toArray(Integer[][]::new);
   }
 
   public static void main(String[] args) throws IOException {
