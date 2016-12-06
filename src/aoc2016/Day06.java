@@ -3,24 +3,25 @@ package aoc2016;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.*;
 
 public class Day06 {
-  public static String solve(Character[][] input,Comparator<Map.Entry<String, Long>> sortBy) {
+  public static String solve(Character[][] input, Comparator<Map.Entry<Character, Long>> sortBy) {
     StringBuilder sb = new StringBuilder();
     for (Character[] xs : input) {
-      Map<String, Long> freqDist = Arrays.stream(xs).map(c -> String.valueOf(c)).collect(Collectors.groupingBy(c -> c, Collectors.counting()));
-      sb.append(freqDist.entrySet().stream().sorted(sortBy).limit(1).map(Map.Entry::getKey).collect(Collectors.joining()));
+      Map<Character, Long> freqDist = Arrays.stream(xs).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+      freqDist.entrySet().stream().sorted(sortBy).limit(1).map(Map.Entry::getKey).forEachOrdered(sb::append);
     }
     return sb.toString();
   }
 
   public static Character[][] transpose(Character[][] input) {
-    return IntStream.range(0, input[0].length).mapToObj(r -> IntStream.range(0, input.length).mapToObj(c -> Character.valueOf((char) input[c][r])).toArray(Character[]::new)).toArray(Character[][]::new);
+    return IntStream.range(0, input[0].length).mapToObj(r -> IntStream.range(0, input.length).mapToObj(c -> (char) input[c][r]).toArray(Character[]::new)).toArray(Character[][]::new);
   }
 
   public static Character[][] parse(List<String> lines) {
-    return lines.stream().map(s -> s.chars().mapToObj(c -> Character.valueOf((char) c)).toArray(Character[]::new)).toArray(Character[][]::new);
+    return lines.stream().map(s -> s.chars().mapToObj(c -> (char) c).toArray(Character[]::new)).toArray(Character[][]::new);
   }
 
   public static void main(String[] args) throws IOException {
