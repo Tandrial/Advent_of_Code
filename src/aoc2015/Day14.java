@@ -34,7 +34,6 @@ public class Day14 {
       r.rest_dur = Integer.parseInt(line[13]);
       return r;
     }).collect(Collectors.toList());
-
   }
 
   public static void main(String[] args) throws IOException {
