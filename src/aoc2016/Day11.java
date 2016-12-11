@@ -6,182 +6,168 @@ import java.util.*;
 import java.util.regex.*;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.MinMaxPriorityQueue;
+class Layout {
+  static Set<Layout> seenLayouts = new HashSet<>();
 
-public class Day11 {
+  int                elevatorPos = 0;
+  List<Set<String>>  floors      = new ArrayList<>();
 
-  static Set<List<Set<String>>> seenLayouts = new HashSet<>();
-
-  public static Set<List<Set<String>>> genNextMoves(List<Set<String>> layout) {
-    seenLayouts.add(layout);
-    Set<List<Set<String>>> result = new HashSet<>();
-    int currFloor = -1;
-
-    for (int i = 0; i < layout.size(); i++) {
-      if (layout.get(i).contains("E")) {
-        currFloor = i;
-        break;
-      }
+  public Layout(List<String> input) {
+    for (String line : input) {
+      Matcher m = Pattern.compile("(a \\w+-compatible microchip|a \\w+ generator)(and (a \\w+-compatible microchip)| and (a \\w+ generator))*").matcher(line);
+      Set<String> floor = new HashSet<>();
+      while (m.find())
+        floor.add(m.group(1));
+      floors.add(floor);
     }
-    Set<String> floor = new HashSet<>(layout.get(currFloor));
-    floor.remove("E");
-    Set<Set<String>> moves = new HashSet<>();
+  }
 
-    for (String s : floor) {
-      Set<String> sSet = new HashSet<>();
-      sSet.add(s);
-      moves.add(sSet);
-      for (String s2 : floor) {
-        sSet = new HashSet<>();
-        sSet.add(s);
-        sSet.add(s2);
-        moves.add(sSet);
-      }
-    }
+  public Layout(int elevatorPos, List<Set<String>> floors) {
+    this.elevatorPos = elevatorPos;
+    this.floors = floors;
+  }
 
-    for (Integer dir : new int[] { -1, 1 }) {
-      for (Set<String> x : moves) {
-        if (currFloor == 0 && dir == -1)
-          continue;
-        if (currFloor == 3 && dir == 1)
-          continue;
-        if (dir == -1) {
-          boolean skip = true;
-          for (int i = 0; i < currFloor; i++) {
-            if (layout.get(i).size() != 0)
-              skip = false;
-          }
-          if (skip)
-            continue;
-        }
-
-        List<Set<String>> newLayout = new ArrayList<>();
-        for (Set<String> f : layout) {
-          newLayout.add(new HashSet<>(f));
-        }
-        newLayout.get(currFloor).removeAll(x);
-        newLayout.get(currFloor).remove("E");
-        newLayout.get(currFloor + dir).addAll(x);
-        newLayout.get(currFloor + dir).add("E");
-        if (seenLayouts.contains(newLayout) || !checkLayout(newLayout))
-          continue;
-        seenLayouts.add(newLayout);
-        result.add(newLayout);
-      }
-    }
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + elevatorPos;
+    result = prime * result + ((floors == null) ? 0 : floors.hashCode());
     return result;
   }
 
-  public static Integer scoreLayout(List<Set<String>> layout) {
-    int cnt = 0;
-    for (int i = 0; i < layout.size() - 1; i++) {
-      Set<String> floor = layout.get(i);
-      cnt += (layout.size() - i) * layout.get(i).size();
-      Set<String> chips = new HashSet<>();
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (obj == null) {
+      return false;
+    }
+    if (!(obj instanceof Layout)) {
+      return false;
+    }
+    Layout other = (Layout) obj;
+    if (elevatorPos != other.elevatorPos) {
+      return false;
+    }
+    if (floors == null) {
+      if (other.floors != null) {
+        return false;
+      }
+    } else if (!floors.equals(other.floors)) {
+      return false;
+    }
+    return true;
+  }
+
+  public boolean isValid() {
+    for (Set<String> floor : floors) {
+      Set<String> unpairedChips = new HashSet<>();
       Set<String> generators = new HashSet<>();
       for (String item : floor) {
         if (item.contains("microchip"))
-          chips.add(item);
-        else if (item.contains("generator")) {
+          unpairedChips.add(item);
+        else if (item.contains("generator"))
           generators.add(item);
-        }
       }
-      for (String gen : generators) {
-        if (chips.remove(gen.replace(" generator", "-compatible microchip"))) {
-          cnt -= (layout.size() - i);
-        }
+      for (String generator : generators) 
+        unpairedChips.remove(generator.replace(" generator", "-compatible microchip"));      
+      if (unpairedChips.size() > 0 && generators.size() > 0) {
+        return false;
       }
+    }
+    return true;
+  }
+
+  public boolean isDone() {
+    return !floors.stream().limit(floors.size() - 1).anyMatch(floor -> floor.size() > 0);
+  }
+
+  public int getScore() {
+    int cnt = 0;
+    for (int i = 0; i < floors.size() - 1; i++) {
+      Set<String> unpairedChips = new HashSet<>();
+      Set<String> generators = new HashSet<>();
+      cnt += (floors.size() - i) * floors.get(i).size();
+      for (String item : floors.get(i)) {
+        if (item.contains("microchip"))
+          unpairedChips.add(item);
+        else if (item.contains("generator"))
+          generators.add(item);
+      }
+      for (String gen : generators)
+        if (unpairedChips.remove(gen.replace(" generator", "-compatible microchip")))
+          cnt -= (floors.size() - i);
     }
     return cnt;
   }
 
-  public static boolean checkLayout(List<Set<String>> layout) {
-    boolean result = true;
-    for (Set<String> floor : layout) {
-      Set<String> chips = new HashSet<>();
-      Set<String> generators = new HashSet<>();
-      for (String item : floor) {
-        if (item.contains("microchip"))
-          chips.add(item);
-        else if (item.contains("generator")) {
-          generators.add(item);
+  public Set<Layout> genNextMoves() {
+    Set<Set<String>> possibleMoves = new HashSet<>();
+    for (String item : floors.get(elevatorPos)) {
+      possibleMoves.add(new HashSet<>(Arrays.asList(new String[] { item })));
+      for (String item2 : floors.get(elevatorPos))
+        possibleMoves.add(new HashSet<>(Arrays.asList(new String[] { item, item2 })));
+    }
+    Set<Layout> nextMoves = new HashSet<>();
+    for (int dir = -1; dir <= 1; dir += 2) {
+      if (elevatorPos == 0 && dir == -1)
+        continue;
+      if (elevatorPos == 3 && dir == 1)
+        continue;
+      if (dir == -1 && !floors.stream().limit(elevatorPos).anyMatch(floor -> floor.size() > 0))
+        continue;
+
+      for (Set<String> move : possibleMoves) {
+        List<Set<String>> floorsneu = new ArrayList<>();
+        for (int i = 0; i < floors.size(); i++) {
+          Set<String> f = new HashSet<>(floors.get(i));
+          if (i == elevatorPos) {
+            f.removeAll(move);
+          } else if (i == elevatorPos + dir) {
+            f.addAll(move);
+          }
+          floorsneu.add(f);
         }
-      }
-      for (String gen : generators) {
-        chips.remove(gen.replace(" generator", "-compatible microchip"));
-      }
-      if (chips.size() > 0 && generators.size() > 0) {
-        result = false;
-        break;
+
+        Layout newLayout = new Layout(elevatorPos + dir, floorsneu);
+        if (seenLayouts.contains(newLayout) || !newLayout.isValid())
+          continue;
+        seenLayouts.add(newLayout);
+        nextMoves.add(newLayout);
       }
     }
-    return result;
+    return nextMoves;
   }
+}
 
-  public static boolean checkDone(List<Set<String>> layout) {
-    for (int i = 0; i < layout.size() - 1; i++)
-      if (layout.get(i).size() > 0)
-        return false;
-    return true;
-  }
-
-  public static List<Set<String>> parse(List<String> input) {
-    List<Set<String>> result = new ArrayList<>();
-    for (String line : input) {
-      Set<String> floor = new HashSet<>();
-      if (line.contains("first floor"))
-        floor.add("E");
-      Matcher m = Pattern
-          .compile(
-              "(a \\w+-compatible microchip|a \\w+ generator)(and (a \\w+-compatible microchip)| and (a \\w+ generator))*")
-          .matcher(line);
-
-      while (m.find()) {
-        floor.add(m.group(1));
-      }
-      result.add(floor);
-    }
-
-    return result;
-  }
-
-  private static int solve(List<Set<String>> layout) {
-    boolean foundGoal = false;
+public class Day11 {
+  private static int solve(Layout layout) {
+    Layout.seenLayouts.clear();
     int step = 0;
-    MinMaxPriorityQueue<List<Set<String>>> layouts = MinMaxPriorityQueue
-        .orderedBy((List<Set<String>> o1, List<Set<String>> o2) -> scoreLayout(o1).compareTo(scoreLayout(o2)))
-        .maximumSize(8000).create();
+    PriorityQueue<Layout> layouts = new PriorityQueue<>((o1, o2) -> Integer.compare(o1.getScore(), o2.getScore()));
     layouts.add(layout);
-    while (!foundGoal && layouts.size() > 0) {
-      MinMaxPriorityQueue<List<Set<String>>> nextLayouts = MinMaxPriorityQueue
-          .orderedBy((List<Set<String>> o1, List<Set<String>> o2) -> scoreLayout(o1).compareTo(scoreLayout(o2)))
-          .maximumSize(8000).create();
-      for (List<Set<String>> l : layouts) {
-        nextLayouts.addAll(genNextMoves(l).stream().collect(Collectors.toSet()));
+    while (layouts.size() > 0) {
+      PriorityQueue<Layout> nextLayouts = new PriorityQueue<>((o1, o2) -> Integer.compare(o1.getScore(), o2.getScore()));
+      for (Layout l : layouts) {
+        nextLayouts.addAll(l.genNextMoves().stream().collect(Collectors.toSet()));
+        if (nextLayouts.size() >= 7000)
+          break;
       }
       step++;
-      if (nextLayouts.stream().anyMatch(Day11::checkDone))
-        foundGoal = true;
+      if (nextLayouts.stream().anyMatch(Layout::isDone))
+        break;
       layouts = nextLayouts;
-      System.out.println("step = " + step + " moves.size = " + nextLayouts.size());
     }
     return step;
   }
 
   public static void main(String[] args) throws IOException {
     List<String> lines = Files.readAllLines(Paths.get("./input/2016/Day11_input.txt"));
-    List<Set<String>> layout = parse(lines);
-
+    Layout layout = new Layout(lines);
     System.out.println("Part One = " + solve(layout));
-    layout = parse(lines);
-    for (Set<String> floor : layout) {
-      if (floor.contains("E")) {
-        floor.add("a elerium generator");
-        floor.add("a elerium-compatible microchip");
-        floor.add("a dilithium generator");
-        floor.add("a dilithium-compatible microchip");
-      }
-    }
+    layout.floors.get(0).addAll(Arrays.asList(new String[] { "a elerium generator", "a elerium-compatible microchip", "a dilithium generator", "a dilithium-compatible microchip" }));
     System.out.println("Part Two = " + solve(layout));
   }
 }
