@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 import java.util.regex.*;
-import java.util.stream.Collectors;
+import java.util.stream.*;
 
 class Layout {
-  static Set<Layout> seenLayouts = new HashSet<>();
+  static Set<String> seenLayouts = new HashSet<>();
 
   int                elevatorPos = 0;
   List<Set<String>>  floors      = new ArrayList<>();
@@ -29,7 +29,22 @@ class Layout {
 
   @Override
   public int hashCode() {
-    return elevatorPos + floors.hashCode();
+    return hash().hashCode();
+  }
+
+  public String hash() {
+    int[][] counts = new int[2][floors.size()];
+    for (int i = 0; i < this.floors.size(); i++) {
+      for (String item : floors.get(i))
+        if (item.contains("generator"))
+          counts[0][i] += 1;
+        else
+          counts[1][i] += 1;
+    }
+
+    StringBuilder gensChipsCount = new StringBuilder();
+    IntStream.range(0,floors.size()).mapToObj(i -> String.format("%d(%d;%d)", i, counts[0][i], counts[1][i])).forEach(gensChipsCount::append);
+    return String.format("[%d]%s", elevatorPos, gensChipsCount.toString());
   }
 
   @Override
@@ -65,25 +80,6 @@ class Layout {
     return !floors.stream().limit(floors.size() - 1).anyMatch(floor -> floor.size() > 0);
   }
 
-  public int getScore() {
-    int cnt = 0;
-    for (int i = 0; i < floors.size() - 1; i++) {
-      Set<String> unpairedChips = new HashSet<>();
-      Set<String> generators = new HashSet<>();
-      cnt += (floors.size() - i) * floors.get(i).size();
-      for (String item : floors.get(i)) {
-        if (item.contains("microchip"))
-          unpairedChips.add(item);
-        else if (item.contains("generator"))
-          generators.add(item);
-      }
-      for (String gen : generators)
-        if (unpairedChips.remove(gen.replace(" generator", "-compatible microchip")))
-          cnt -= (floors.size() - i);
-    }
-    return cnt;
-  }
-
   public Set<Layout> genNextMoves() {
     Set<Set<String>> possibleMoves = new HashSet<>();
     for (String item : floors.get(elevatorPos)) {
@@ -113,9 +109,10 @@ class Layout {
         }
 
         Layout newLayout = new Layout(elevatorPos + dir, floorsneu);
-        if (seenLayouts.contains(newLayout) || !newLayout.isValid())
+        if (seenLayouts.contains(newLayout.hash()) || !newLayout.isValid())
           continue;
-        seenLayouts.add(newLayout);
+
+        seenLayouts.add(newLayout.hash());
         nextMoves.add(newLayout);
       }
     }
@@ -126,15 +123,14 @@ class Layout {
 public class Day11 {
   private static int solve(Layout layout) {
     Layout.seenLayouts.clear();
+    Layout.seenLayouts.add(layout.hash());
     int step = 0;
-    PriorityQueue<Layout> layouts = new PriorityQueue<>((o1, o2) -> Integer.compare(o1.getScore(), o2.getScore()));
+    Queue<Layout> layouts = new ArrayDeque<>();
     layouts.add(layout);
     while (layouts.size() > 0) {
-      PriorityQueue<Layout> nextLayouts = new PriorityQueue<>((o1, o2) -> Integer.compare(o1.getScore(), o2.getScore()));
+      Queue<Layout> nextLayouts = new ArrayDeque<>();
       for (Layout l : layouts) {
         nextLayouts.addAll(l.genNextMoves().stream().collect(Collectors.toSet()));
-        if (nextLayouts.size() >= 7000)
-          break;
       }
       step++;
       if (nextLayouts.stream().anyMatch(Layout::isDone))
