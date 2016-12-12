@@ -7,7 +7,7 @@ import java.util.regex.*;
 import java.util.stream.*;
 
 class Layout {
-  static Set<String> seenLayouts = new HashSet<>();
+  static Set<Layout> seenLayouts = new HashSet<>();
 
   int                elevatorPos = 0;
   List<Set<String>>  floors      = new ArrayList<>();
@@ -28,11 +28,17 @@ class Layout {
   }
 
   @Override
-  public int hashCode() {
-    return hash().hashCode();
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null || !(obj instanceof Layout))
+      return false;
+    Layout other = (Layout) obj;
+    return this.hashCode() == other.hashCode();
   }
 
-  public String hash() {
+  @Override
+  public int hashCode() {
     int[][] counts = new int[2][floors.size()];
     for (int i = 0; i < this.floors.size(); i++) {
       for (String item : floors.get(i))
@@ -43,20 +49,8 @@ class Layout {
     }
 
     StringBuilder gensChipsCount = new StringBuilder();
-    IntStream.range(0,floors.size()).mapToObj(i -> String.format("%d(%d;%d)", i, counts[0][i], counts[1][i])).forEach(gensChipsCount::append);
-    return String.format("[%d]%s", elevatorPos, gensChipsCount.toString());
-  }
-
-  @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null || !(obj instanceof Layout))
-      return false;
-    Layout other = (Layout) obj;
-    if (elevatorPos != other.elevatorPos)
-      return false;
-    return floors.equals(other.floors);
+    IntStream.range(0, floors.size()).mapToObj(i -> String.format("%d(%d;%d)", i, counts[0][i], counts[1][i])).forEach(gensChipsCount::append);
+    return String.format("[%d]%s", elevatorPos, gensChipsCount.toString()).hashCode();
   }
 
   public boolean isValid() {
@@ -77,7 +71,7 @@ class Layout {
   }
 
   public boolean isDone() {
-    return !floors.stream().limit(floors.size() - 1).anyMatch(floor -> floor.size() > 0);
+    return floors.stream().limit(floors.size() - 1).allMatch(Set::isEmpty);
   }
 
   public Set<Layout> genNextMoves() {
@@ -93,26 +87,25 @@ class Layout {
         continue;
       if (elevatorPos == 3 && dir == 1)
         continue;
-      if (dir == -1 && !floors.stream().limit(elevatorPos).anyMatch(floor -> floor.size() > 0))
+      if (dir == -1 && floors.stream().limit(elevatorPos).allMatch(Set::isEmpty))
         continue;
 
       for (Set<String> move : possibleMoves) {
         List<Set<String>> floorsneu = new ArrayList<>();
         for (int i = 0; i < floors.size(); i++) {
           Set<String> f = new HashSet<>(floors.get(i));
-          if (i == elevatorPos) {
+          if (i == elevatorPos)
             f.removeAll(move);
-          } else if (i == elevatorPos + dir) {
+          else if (i == elevatorPos + dir)
             f.addAll(move);
-          }
           floorsneu.add(f);
         }
 
         Layout newLayout = new Layout(elevatorPos + dir, floorsneu);
-        if (seenLayouts.contains(newLayout.hash()) || !newLayout.isValid())
+        if (seenLayouts.contains(newLayout) || !newLayout.isValid())
           continue;
 
-        seenLayouts.add(newLayout.hash());
+        seenLayouts.add(newLayout);
         nextMoves.add(newLayout);
       }
     }
@@ -123,21 +116,18 @@ class Layout {
 public class Day11 {
   private static int solve(Layout layout) {
     Layout.seenLayouts.clear();
-    Layout.seenLayouts.add(layout.hash());
+    Layout.seenLayouts.add(layout);
     int step = 0;
-    Queue<Layout> layouts = new ArrayDeque<>();
+    Set<Layout> layouts = new HashSet<>();
     layouts.add(layout);
-    while (layouts.size() > 0) {
-      Queue<Layout> nextLayouts = new ArrayDeque<>();
-      for (Layout l : layouts) {
-        nextLayouts.addAll(l.genNextMoves().stream().collect(Collectors.toSet()));
-      }
+    while (true) {
+      Set<Layout> nextLayouts = new HashSet<>();
+      layouts.parallelStream().map(Layout::genNextMoves).forEach(nextLayouts::addAll);
       step++;
       if (nextLayouts.stream().anyMatch(Layout::isDone))
-        break;
+        return step;
       layouts = nextLayouts;
     }
-    return step;
   }
 
   public static void main(String[] args) throws IOException {
