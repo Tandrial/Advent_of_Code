@@ -29,36 +29,19 @@ class Layout {
 
   @Override
   public int hashCode() {
-    final int prime = 31;
-    int result = 1;
-    result = prime * result + elevatorPos;
-    result = prime * result + ((floors == null) ? 0 : floors.hashCode());
-    return result;
+    return elevatorPos + floors.hashCode();
   }
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj) {
+    if (this == obj)
       return true;
-    }
-    if (obj == null) {
+    if (obj == null || !(obj instanceof Layout))
       return false;
-    }
-    if (!(obj instanceof Layout)) {
-      return false;
-    }
     Layout other = (Layout) obj;
-    if (elevatorPos != other.elevatorPos) {
+    if (elevatorPos != other.elevatorPos)
       return false;
-    }
-    if (floors == null) {
-      if (other.floors != null) {
-        return false;
-      }
-    } else if (!floors.equals(other.floors)) {
-      return false;
-    }
-    return true;
+    return floors.equals(other.floors);
   }
 
   public boolean isValid() {
@@ -71,11 +54,9 @@ class Layout {
         else if (item.contains("generator"))
           generators.add(item);
       }
-      for (String generator : generators) 
-        unpairedChips.remove(generator.replace(" generator", "-compatible microchip"));      
-      if (unpairedChips.size() > 0 && generators.size() > 0) {
+      generators.stream().map(generator -> generator.replace(" generator", "-compatible microchip")).forEach(unpairedChips::remove);
+      if (unpairedChips.size() > 0 && generators.size() > 0)
         return false;
-      }
     }
     return true;
   }
