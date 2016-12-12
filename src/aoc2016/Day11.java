@@ -3,6 +3,7 @@ package aoc2016;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.regex.*;
 import java.util.stream.*;
 
@@ -39,13 +40,10 @@ class Layout {
 
   @Override
   public int hashCode() {
-    int[][] counts = new int[2][floors.size()];
+    long[][] counts = new long[2][floors.size()];
     for (int i = 0; i < this.floors.size(); i++) {
-      for (String item : floors.get(i))
-        if (item.contains("generator"))
-          counts[0][i] += 1;
-        else
-          counts[1][i] += 1;
+      counts[0][i] = floors.get(i).stream().filter(item -> item.contains("microchip")).count();
+      counts[1][i] = floors.get(i).stream().filter(item -> item.contains("generator")).count();
     }
 
     StringBuilder gensChipsCount = new StringBuilder();
@@ -55,37 +53,27 @@ class Layout {
 
   public boolean isValid() {
     for (Set<String> floor : floors) {
-      Set<String> unpairedChips = new HashSet<>();
-      Set<String> generators = new HashSet<>();
-      for (String item : floor) {
-        if (item.contains("microchip"))
-          unpairedChips.add(item);
-        else if (item.contains("generator"))
-          generators.add(item);
-      }
+      Set<String> unpairedChips = floor.stream().filter(item -> item.contains("microchip")).collect(Collectors.toSet());
+      Set<String> generators    = floor.stream().filter(item -> item.contains("generator")).collect(Collectors.toSet());
       generators.stream().map(generator -> generator.replace(" generator", "-compatible microchip")).forEach(unpairedChips::remove);
       if (unpairedChips.size() > 0 && generators.size() > 0)
         return false;
     }
     return true;
   }
-
-  public boolean isDone() {
-    return floors.stream().limit(floors.size() - 1).allMatch(Set::isEmpty);
-  }
+  
+  static Predicate<Layout> isDone = layout -> layout.floors.stream().limit(layout.floors.size() - 1).allMatch(Set::isEmpty);
 
   public Set<Layout> genNextMoves() {
     Set<Set<String>> possibleMoves = new HashSet<>();
-    for (String item : floors.get(elevatorPos)) {
-      possibleMoves.add(new HashSet<>(Arrays.asList(new String[] { item })));
+    floors.get(elevatorPos).stream().map(item -> Stream.of(item).collect(Collectors.toSet())).forEach(possibleMoves::add);
+    for (String item : floors.get(elevatorPos))
       for (String item2 : floors.get(elevatorPos))
-        possibleMoves.add(new HashSet<>(Arrays.asList(new String[] { item, item2 })));
-    }
+        possibleMoves.add(Stream.of(item, item2).collect(Collectors.toSet()));
+
     Set<Layout> nextMoves = new HashSet<>();
     for (int dir = -1; dir <= 1; dir += 2) {
-      if (elevatorPos == 0 && dir == -1)
-        continue;
-      if (elevatorPos == 3 && dir == 1)
+      if (elevatorPos == 0 && dir == -1 || elevatorPos == (floors.size() - 1) && dir == 1)
         continue;
       if (dir == -1 && floors.stream().limit(elevatorPos).allMatch(Set::isEmpty))
         continue;
@@ -118,16 +106,13 @@ public class Day11 {
     Layout.seenLayouts.clear();
     Layout.seenLayouts.add(layout);
     int step = 0;
-    Set<Layout> layouts = new HashSet<>();
+    List<Layout> layouts = new ArrayList<>();
     layouts.add(layout);
-    while (true) {
-      Set<Layout> nextLayouts = new HashSet<>();
-      layouts.parallelStream().map(Layout::genNextMoves).forEach(nextLayouts::addAll);
+    while (!layouts.parallelStream().anyMatch(Layout.isDone)) {
+      layouts = layouts.parallelStream().map(Layout::genNextMoves).flatMap(Set::stream).collect(Collectors.toList());
       step++;
-      if (nextLayouts.stream().anyMatch(Layout::isDone))
-        return step;
-      layouts = nextLayouts;
     }
+    return step;
   }
 
   public static void main(String[] args) throws IOException {
