@@ -15,8 +15,8 @@ public class Day13 {
     }
 
     public boolean isValid(int offset) {
-      long value = x * x + 3 * x + 2 * x * y + y + y * y + offset;
-      return x >= 0 && y >= 0 && (BitSet.valueOf(new long[] { value }).cardinality() % 2) == 0;
+      int value = x * x + 3 * x + 2 * x * y + y + y * y + offset;
+      return x >= 0 && y >= 0 && (Integer.bitCount(value) % 2) == 0;
     }
   }
 
