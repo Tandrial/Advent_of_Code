@@ -27,8 +27,7 @@ public class Day02 {
   public static void main(String[] args) throws IOException {
     List<String> s = Files.readAllLines(Paths.get("./input/2016/Day02_input.txt"));
     char[][] keypad1 = { { '1', '2', '3' }, { '4', '5', '6' }, { '7', '8', '9' } };
-    char[][] keypad2 = { { 0, 0, '1', 0, 0 }, { 0, '2', '3', '4', 0 }, { '5', '6', '7', '8', '9' },
-        { 0, 'A', 'B', 'C', 0 }, { 0, 0, 'D', 0, 0 } };
+    char[][] keypad2 = { { 0, 0, '1', 0, 0 }, { 0, '2', '3', '4', 0 }, { '5', '6', '7', '8', '9' }, { 0, 'A', 'B', 'C', 0 }, { 0, 0, 'D', 0, 0 } };
 
     System.out.println("Part One = " + solve(new Point(1, 1), keypad1, s));
     System.out.println("Part Two = " + solve(new Point(2, 0), keypad2, s));
