@@ -4,16 +4,16 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 
-public class Day13 {
-  static private List<String>         persons   = new ArrayList<>();
-  static private Map<String, Integer> happiness = new HashMap<>();
+class Day13 {
+  static private final List<String>         persons   = new ArrayList<>();
+  static private final Map<String, Integer> happiness = new HashMap<>();
 
-  public static long partOne(List<String> s) {
+  private static long partOne(List<String> s) {
     parseList(s);
     return solve();
   }
 
-  public static long partTwo(List<String> s) {
+  private static long partTwo(List<String> s) {
     parseList(s);
     persons.add("tan");
     return solve();

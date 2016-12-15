@@ -5,9 +5,9 @@ import java.nio.file.*;
 import java.util.List;
 import java.util.regex.Pattern;
 
-public class Day05 {
+class Day05 {
 
-  public static int partOne(List<String> list) {
+  private static int partOne(List<String> list) {
     int count = 0;
     for (String s : list) {
       if (!Pattern.matches("(.*[aeiou]){3}.*", s))
@@ -21,7 +21,7 @@ public class Day05 {
     return count;
   }
 
-  public static int partTwo(List<String> list) {
+  private static int partTwo(List<String> list) {
     int count = 0;
     for (String s : list) {
       if (!Pattern.matches(".*(..).*\\1.*", s))

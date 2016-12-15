@@ -1,7 +1,7 @@
 package aoc2015.day7_iter;
 
 public class Input extends Gate {
-	String value;
+	private final String value;
 
 	public Input(String value) {
 		super("");

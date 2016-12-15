@@ -4,19 +4,19 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 
-public class Day07 {
+class Day07 {
 
-  private Map<String, String>  expressionMap = new HashMap<>();
-  private Map<String, Integer> cache         = new HashMap<>();
+  private final Map<String, String>  expressionMap = new HashMap<>();
+  private final Map<String, Integer> cache         = new HashMap<>();
 
-  public Day07(List<String> list) {
+  private Day07(List<String> list) {
     for (String s : list) {
       String[] line = s.split(" -> ");
       expressionMap.put(line[1], line[0]);
     }
   }
 
-  public int eval(String expr) {
+  private int eval(String expr) {
     if (!cache.containsKey(expr)) {
       if (isNumeric(expr)) {
         cache.put(expr, Integer.valueOf(expr));
@@ -41,7 +41,7 @@ public class Day07 {
     return cache.get(expr);
   }
 
-  public static boolean isNumeric(String str) {
+  private static boolean isNumeric(String str) {
     try {
       Integer.parseInt(str);
     } catch (NumberFormatException nfe) {

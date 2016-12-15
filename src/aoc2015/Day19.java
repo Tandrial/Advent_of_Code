@@ -5,26 +5,26 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Day19 {
+class Day19 {
 
-  public static long partOne(List<String> list, String input) {
+  private static long partOne(List<String> list, String input) {
     Set<Rule> rules = parseRules(list);
     Set<String> output = new HashSet<>();
-    rules.stream().forEach(r -> output.addAll(r.apply(input)));
+    rules.forEach(r -> output.addAll(r.apply(input)));
     return output.size();
   }
 
-  public static int partTwo(List<String> list, String input) {
+  private static int partTwo(List<String> list, String input) {
     Set<Rule> rules = parseRules(list);
     int step = 0;
-    final Set<String> current = new HashSet<String>();
+    final Set<String> current = new HashSet<>();
     current.add(input);
     while (current.size() > 0 && !current.contains("e")) {
       step++;
       Set<String> candidates = new HashSet<>();
       current.forEach(key -> rules.stream().map(r -> r.revert(key)).forEach(candidates::addAll));
 
-      Set<String> next = candidates.stream().filter(p -> !current.contains(p)).sorted((a, b) -> a.length() - b.length())
+      Set<String> next = candidates.stream().filter(p -> !current.contains(p)).sorted(Comparator.comparingInt(String::length))
           .limit(10).collect(Collectors.toSet());
 
       current.clear();
@@ -47,8 +47,8 @@ public class Day19 {
 }
 
 class Rule {
-  String lhs;
-  String rhs;
+  private final String lhs;
+  private final String rhs;
 
   public Rule(String lhs, String rhs) {
     this.lhs = lhs;
@@ -67,11 +67,8 @@ class Rule {
     Set<String> candidates = new HashSet<>();
     int idx = s.indexOf(in);
     while (idx >= 0) {
-      StringBuilder sb = new StringBuilder();
-      sb.append(s.substring(0, idx));
-      sb.append(out);
-      sb.append(s.substring(idx + in.length()));
-      candidates.add(sb.toString());
+      String sb = s.substring(0, idx) + out + s.substring(idx + in.length());
+      candidates.add(sb);
       idx = s.indexOf(in, idx + in.length());
     }
     return candidates;

@@ -3,7 +3,7 @@ package aoc2015;
 import java.util.*;
 
 // Taken from: http://stackoverflow.com/a/8376120
-public class CombinationIterator<T> implements Iterable<List<T>>, Iterator<List<T>> {
+class CombinationIterator<T> implements Iterable<List<T>>, Iterator<List<T>> {
   private List<T> items;
   private int     choose;
   private boolean finished;
@@ -41,7 +41,7 @@ public class CombinationIterator<T> implements Iterable<List<T>>, Iterator<List<
       }
     }
 
-    List<T> result = new ArrayList<T>(choose);
+    List<T> result = new ArrayList<>(choose);
     for (int i = 0; i < choose; i++) {
       result.add(items.get(current[i]));
     }

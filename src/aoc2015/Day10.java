@@ -1,12 +1,12 @@
 package aoc2015;
 
-public class Day10 {
+class Day10 {
 
-  public static int partOne(String s) {
+  private static int partOne(String s) {
     return solve(40, s);
   }
 
-  public static int partTwo(String s) {
+  private static int partTwo(String s) {
     return solve(50, s);
   }
 

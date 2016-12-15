@@ -4,9 +4,8 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 
-public class Day09 {
+class Day09 {
 
-  private static Map<String, Integer> cities;
   private static int[][]              distances;
 
   private static int solve(List<String> list, boolean findMin) {
@@ -16,8 +15,8 @@ public class Day09 {
     outer: for (Integer[] move : new NumberPermutation(count)) {
       int curr = 0;
       for (int i = 0; i < move.length - 1; i++) {
-        int start = Integer.valueOf(move[i]);
-        int dst = Integer.valueOf(move[i + 1]);
+        int start = move[i];
+        int dst = move[i + 1];
         int dist = distances[start][dst];
         if (dist == 0)
           continue outer;
@@ -31,7 +30,7 @@ public class Day09 {
 
   private static int genDistances(List<String> list) {
     distances = new int[list.size()][list.size()];
-    cities = new HashMap<>();
+    Map<String, Integer> cities = new HashMap<>();
     for (String s : list) {
       String[] line = s.split(" = ");
       int value = Integer.valueOf(line[1]);

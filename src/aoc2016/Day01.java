@@ -5,14 +5,14 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 
-public class Day01 {
-  private int[][]    moves     = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
-  private Point[]    sol       = { new Point(), null };
+class Day01 {
+  private final int[][]    moves     = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
+  private final Point[]    sol       = { new Point(), null };
 
-  private Set<Point> visited   = new HashSet<>();
+  private final Set<Point> visited   = new HashSet<>();
   private int        direction = 0;
 
-  public void solve(String string) {
+  private void solve(String string) {
     for (String s : string.split(", ")) {
       direction = Math.floorMod(direction + (s.charAt(0) == 'L' ? -1 : 1), 4);
 

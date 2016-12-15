@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 
-public class Day22 {
+class Day22 {
 
   private static int solve(List<String> s, boolean hard) {
-    PriorityQueue<Wizard> wizards = new PriorityQueue<Wizard>((a, b) -> Integer.compare(b.manaSpend, a.manaSpend));
+    PriorityQueue<Wizard> wizards = new PriorityQueue<>((a, b) -> Integer.compare(b.manaSpend, a.manaSpend));
     int minManaSpend = Integer.MAX_VALUE;
     List<List<String>> casts = new ArrayList<>();
     wizards.add(new Wizard(50, 500, parseBoss(s)));
@@ -36,7 +36,7 @@ public class Day22 {
         }
       }
     }
-    casts.stream().forEach(System.out::println);
+    casts.forEach(System.out::println);
     return minManaSpend;
   }
 
@@ -56,14 +56,17 @@ public class Day22 {
 
 class Wizard implements Cloneable {
 
-  static int[][]  spells         = { { 53, 0 }, { 73, 0 }, { 113, 6 }, { 173, 6 }, { 229, 5 } };
-  static String[] names          = { "Magic Missle", "Drain", "Shield", "Poison", "Recharge" };
+  static final int[][]  spells         = { { 53, 0 }, { 73, 0 }, { 113, 6 }, { 173, 6 }, { 229, 5 } };
+  private static final String[] names          = { "Magic Missle", "Drain", "Shield", "Poison", "Recharge" };
 
-  int             hp, mana, armor, manaSpend;
-  List<String>    casts          = new ArrayList<String>();
+  int                   hp;
+  private int mana;
+  int armor;
+  int manaSpend;
+  final List<String>    casts          = new ArrayList<>();
 
-  int[]           active_effects = new int[5];
-  int[]           boss;                                                                         // {hp,
+  private int[]                 active_effects = new int[5];
+  final int[]           boss;                                                                   // {hp,
                                                                                                 // dmg}
 
   public Wizard(int hp, int mana, int[] boss) {

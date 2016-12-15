@@ -1,7 +1,7 @@
 package aoc2015.day7_iter;
 
-abstract public class Gate {
-	private String out;
+abstract class Gate {
+	private final String out;
 
 	abstract public int getValue();
 
@@ -11,15 +11,15 @@ abstract public class Gate {
 		return out;
 	}
 
-	public Gate(String out) {
+	Gate(String out) {
 		this.out = out;
 	}
 }
 
 abstract class UnaryGate extends Gate {
-	Gate in;
+	final Gate in;
 
-	public UnaryGate(Gate in, String out) {
+	UnaryGate(Gate in, String out) {
 		super(out);
 		this.in = in;
 	}
@@ -30,10 +30,10 @@ abstract class UnaryGate extends Gate {
 }
 
 abstract class BinaryGate extends Gate {
-	Gate in1;
-	Gate in2;
+	final Gate in1;
+	final Gate in2;
 
-	public BinaryGate(Gate in1, Gate in2, String out) {
+	BinaryGate(Gate in1, Gate in2, String out) {
 		super(out);
 		this.in1 = in1;
 		this.in2 = in2;

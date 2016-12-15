@@ -5,8 +5,8 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Day04 {
-  public static int partOne(List<String> input) {
+class Day04 {
+  private static int partOne(List<String> input) {
     int partOne = 0;
     for (String s : input) {
       String hash = s.substring(s.indexOf('[') + 1, s.length() - 1);
@@ -19,7 +19,7 @@ public class Day04 {
     return partOne;
   }
 
-  public static int partTwo(List<String> input) {
+  private static int partTwo(List<String> input) {
     for (String s : input) {
       int secID = Integer.parseInt(s.substring(s.lastIndexOf('-') + 1, s.indexOf('[')));
       String d = s.codePoints().mapToObj(c -> String.valueOf((char) ((c - 'a' + secID) % 26 + 'a'))).collect(Collectors.joining());
@@ -29,7 +29,7 @@ public class Day04 {
     return -1;
   }
 
-  public static String buildHash(Map<String, Long> count) {
+  private static String buildHash(Map<String, Long> count) {
     return count.entrySet().stream().sorted(Map.Entry.comparingByKey()).sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).limit(5).map(Map.Entry::getKey).collect(Collectors.joining());
   }
   

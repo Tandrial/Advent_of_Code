@@ -13,15 +13,15 @@ import java.util.NoSuchElementException;
  * 
  * @see #NumberPermutation(int)
  */
-public class NumberPermutation implements Iterable<Integer[]> {
+class NumberPermutation implements Iterable<Integer[]> {
 
-  protected final Integer[] arr;
+  private final Integer[] arr;
 
   /**
    * Creates an implicit Iterable collection of all permutations of
    * numbersequence from 0 to stop.
    * 
-   * @param stop
+   * @param end
    *          End of the number sequence (exclusive)
    * 
    * 
@@ -43,9 +43,9 @@ public class NumberPermutation implements Iterable<Integer[]> {
 
     return new Iterator<Integer[]>() {
 
-      Integer[] array  = arr.clone();
-      int       length = array.length;
-      int[]     index  = (length == 0) ? null : new int[length];
+      final Integer[] array  = arr.clone();
+      final int       length = array.length;
+      int[]           index  = (length == 0) ? null : new int[length];
 
       @Override
       public boolean hasNext() {

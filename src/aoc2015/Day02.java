@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 
-public class Day02 {
+class Day02 {
 
-  public static long partOne(List<String> list) {
+  private static long partOne(List<String> list) {
     int totalFeet = 0;
     for (String s : list) {
       int[] size = new int[3];
@@ -22,7 +22,7 @@ public class Day02 {
     return totalFeet;
   }
 
-  public static long partTwo(List<String> list) {
+  private static long partTwo(List<String> list) {
     int totalFeet = 0;
     for (String s : list) {
       int[] size = new int[3];

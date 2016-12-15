@@ -5,9 +5,9 @@ import java.nio.file.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Day23 {
+class Day23 {
 
-  public static long solve(List<String> list, long start_regA) {
+  private static long solve(List<String> list, long start_regA) {
     List<String[]> ram = list.stream().map(t -> t.replace(",", "").split(" ")).collect(Collectors.toList());
     int pc = 0, reg;
     long[] regs = { start_regA, 0 };

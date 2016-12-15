@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 
-public class Day02 {
-  public static String solve(Point pos, char[][] keypad, List<String> xs) {
+class Day02 {
+  private static String solve(Point pos, char[][] keypad, List<String> xs) {
     StringBuilder password = new StringBuilder();
     for (String s : xs) {
       for (char c : s.toCharArray()) {

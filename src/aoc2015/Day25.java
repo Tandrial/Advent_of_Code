@@ -3,8 +3,8 @@ package aoc2015;
 import java.io.IOException;
 import java.nio.file.*;
 
-public class Day25 {
-  public static long solve(String s) {
+class Day25 {
+  private static long solve(String s) {
     int row = Integer.valueOf(s.split(" ")[16].replace(",", "").trim());
     int col = Integer.valueOf(s.split(" ")[18].replace(".", "").trim());
 

@@ -2,9 +2,9 @@ package aoc2015;
 
 import java.util.regex.Pattern;
 
-public class Day11 {
+class Day11 {
 
-  public static String solve(String s) {
+  private static String solve(String s) {
     while (true) {
       s = genNext(s);
       boolean check = false;

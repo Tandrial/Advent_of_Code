@@ -6,9 +6,9 @@ import java.util.*;
 import java.util.function.UnaryOperator;
 import java.util.stream.*;
 
-public class Day08 {
+class Day08 {
 
-  public static void solve(List<String> input) {
+  private static void solve(List<String> input) {
     int[][] lcd = new int[6][50];
     for (String s : input) {
       if (s.startsWith("rect")) {
@@ -25,11 +25,11 @@ public class Day08 {
     Arrays.stream(lcd).map(xs -> Arrays.stream(xs).mapToObj(x -> String.valueOf(x == 1 ? '#' : ' ')).collect(Collectors.joining())).forEachOrdered(System.out::println);
   }
 
-  public static UnaryOperator<int[][]> transpose() {
-    return m -> { return IntStream.range(0, m[0].length).mapToObj(r -> IntStream.range(0, m.length).map(c -> m[c][r]).toArray()).toArray(int[][]::new); };
+  private static UnaryOperator<int[][]> transpose() {
+    return m -> IntStream.range(0, m[0].length).mapToObj(r -> IntStream.range(0, m.length).map(c -> m[c][r]).toArray()).toArray(int[][]::new);
   }
   
-  public static int[][] rect(int a, int b, int[][] arr) {
+  private static int[][] rect(int a, int b, int[][] arr) {
     int[][] result = new int[arr.length][];
     for (int i = 0; i < arr.length; i++)
       result[i] = Arrays.copyOf(arr[i], arr[i].length);
@@ -38,7 +38,7 @@ public class Day08 {
     return result;
   }
 
-  public static int[][] rotRow(int y, int by, int[][] arr) {
+  private static int[][] rotRow(int y, int by, int[][] arr) {
     int[][] result = new int[arr.length][];
     for (int i = 0; i < arr.length; i++)
       result[i] = Arrays.copyOf(arr[i], arr[i].length);

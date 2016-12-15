@@ -2,11 +2,11 @@ package aoc2016;
 
 import java.security.*;
 
-public class Day05 {
-  public static String solve(String s, boolean partTwo) throws NoSuchAlgorithmException {
+class Day05 {
+  private static String solve(String s, boolean partTwo) throws NoSuchAlgorithmException {
     MessageDigest digest = MessageDigest.getInstance("md5");
     char[] sb = new char[8];
-    String result = "";
+    String result;
     long cnt = 0;
     int charsFound = 0;
     while (charsFound < 8) {

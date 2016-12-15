@@ -5,7 +5,7 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Day24 {
+class Day24 {
 
   private static long solve(List<String> list, int groupCount) {
     List<Integer> weights = loadWeights(list);
@@ -14,18 +14,17 @@ public class Day24 {
     int count = 1;
     List<List<Integer>> result = new ArrayList<>();
     do {
-      for (List<Integer> c : new CombinationIterator<Integer>(weights, count++))
+      for (List<Integer> c : new CombinationIterator<>(weights, count++))
         if (c.stream().reduce(0, (a, b) -> a + b) == value)
           result.add(c);
 
     } while (result.size() == 0);
 
-    return result.stream().map(x -> x.stream().mapToLong(Long::valueOf).reduce(1L, (a, b) -> a * b)).sorted()
-        .findFirst().get();
+    return result.stream().map(x -> x.stream().mapToLong(Long::valueOf).reduce(1L, (a, b) -> a * b)).sorted().findFirst().get();
   }
 
   private static List<Integer> loadWeights(List<String> list) {
-    return list.stream().map(t -> Integer.valueOf(t)).collect(Collectors.toList());
+    return list.stream().map(Integer::valueOf).collect(Collectors.toList());
   }
 
   public static void main(String[] args) throws IOException {

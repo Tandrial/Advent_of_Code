@@ -4,11 +4,11 @@ import java.nio.file.*;
 
 public class Day01 {
 
-	public static int partOne(String s) {
+	private static int partOne(String s) {
 		return s.chars().map(x -> x == '(' ? 1 : -1).sum();
 	}
 
-	public static int partTwo(String s, int acc, int step) {
+	private static int partTwo(String s, int acc, int step) {
 		if (s.length() == 0 || acc == -1)
 			return step;
 		else if (s.charAt(0) == '(')

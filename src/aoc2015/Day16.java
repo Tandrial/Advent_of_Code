@@ -5,7 +5,7 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Day16 {
+class Day16 {
 
   private static int solve(List<String> s, Map<String, Integer> properties, boolean partTwo) {
     for (Map<String, Integer> aunt : parseAunts(s)) {

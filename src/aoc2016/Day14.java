@@ -4,11 +4,11 @@ import java.security.*;
 import java.util.*;
 import java.util.regex.*;
 
-public class Day14 {
-  static int index = 0;
-  static int number = 0;
+class Day14 {
+  private static int index = 0;
+  private static int number = 0;
 
-  public static long solve(String salt, int strech) throws NoSuchAlgorithmException {
+  private static long solve(String salt, int stretch) throws NoSuchAlgorithmException {
     index = 0;
     number = 0;
     int cnt = 0;
@@ -16,7 +16,7 @@ public class Day14 {
     Map<String, Set<Integer>> validHashes = new HashMap<>();
     while (cnt < 64) {
       while (hashes.size() <= 1001) {
-        String next = genNext(salt, strech);
+        String next = genNext(salt, stretch);
         hashes.add(next);
         Matcher m2 = Pattern.compile("(.)\\1\\1\\1\\1").matcher(next);
         if (m2.find())
@@ -33,9 +33,9 @@ public class Day14 {
     return number - 1;
   }
 
-  public static String genNext(String salt, int strech) throws NoSuchAlgorithmException {
+  private static String genNext(String salt, int stretch) throws NoSuchAlgorithmException {
     String result = salt + index++;
-    for (int i = 0; i <= strech; i++) {
+    for (int i = 0; i <= stretch; i++) {
       MessageDigest digest = MessageDigest.getInstance("md5");
       byte[] hashBytes = digest.digest(result.getBytes());
       result = javax.xml.bind.DatatypeConverter.printHexBinary(hashBytes).toLowerCase();

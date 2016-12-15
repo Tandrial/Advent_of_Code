@@ -8,9 +8,9 @@ import java.util.regex.*;
 import java.util.stream.*;
 
 class Layout {
-  static Set<Layout> seenLayouts = new HashSet<>();
+  static final Set<Layout> seenLayouts = new HashSet<>();
 
-  int                elevatorPos = 0;
+  private int                elevatorPos = 0;
   List<Set<String>>  floors      = new ArrayList<>();
 
   public Layout(List<String> input) {
@@ -23,7 +23,7 @@ class Layout {
     }
   }
 
-  public Layout(int elevatorPos, List<Set<String>> floors) {
+  private Layout(int elevatorPos, List<Set<String>> floors) {
     this.elevatorPos = elevatorPos;
     this.floors = floors;
   }
@@ -51,7 +51,7 @@ class Layout {
     return String.format("[%d]%s", elevatorPos, gensChipsCount.toString()).hashCode();
   }
 
-  public boolean isValid() {
+  private boolean isValid() {
     for (Set<String> floor : floors) {
       Set<String> unpairedChips = floor.stream().filter(item -> item.contains("microchip")).collect(Collectors.toSet());
       Set<String> generators    = floor.stream().filter(item -> item.contains("generator")).collect(Collectors.toSet());
@@ -62,7 +62,7 @@ class Layout {
     return true;
   }
   
-  static Predicate<Layout> isDone = layout -> layout.floors.stream().limit(layout.floors.size() - 1).allMatch(Set::isEmpty);
+  static final Predicate<Layout> isDone = layout -> layout.floors.stream().limit(layout.floors.size() - 1).allMatch(Set::isEmpty);
 
   public Set<Layout> genNextMoves() {
     Set<Set<String>> possibleMoves = new HashSet<>();
@@ -79,17 +79,17 @@ class Layout {
         continue;
 
       for (Set<String> move : possibleMoves) {
-        List<Set<String>> floorsneu = new ArrayList<>();
+        List<Set<String>> floorsNeu = new ArrayList<>();
         for (int i = 0; i < floors.size(); i++) {
           Set<String> f = new HashSet<>(floors.get(i));
           if (i == elevatorPos)
             f.removeAll(move);
           else if (i == elevatorPos + dir)
             f.addAll(move);
-          floorsneu.add(f);
+          floorsNeu.add(f);
         }
 
-        Layout newLayout = new Layout(elevatorPos + dir, floorsneu);
+        Layout newLayout = new Layout(elevatorPos + dir, floorsNeu);
         if (seenLayouts.contains(newLayout) || !newLayout.isValid())
           continue;
 
@@ -101,14 +101,14 @@ class Layout {
   }
 }
 
-public class Day11 {
+class Day11 {
   private static int solve(Layout layout) {
     Layout.seenLayouts.clear();
     Layout.seenLayouts.add(layout);
     int step = 0;
     List<Layout> layouts = new ArrayList<>();
     layouts.add(layout);
-    while (!layouts.parallelStream().anyMatch(Layout.isDone)) {
+    while (layouts.parallelStream().noneMatch(Layout.isDone)) {
       layouts = layouts.parallelStream().map(Layout::genNextMoves).flatMap(Set::stream).collect(Collectors.toList());
       step++;
     }
@@ -119,7 +119,7 @@ public class Day11 {
     List<String> lines = Files.readAllLines(Paths.get("./input/2016/Day11_input.txt"));
     Layout layout = new Layout(lines);
     System.out.println("Part One = " + solve(layout));
-    layout.floors.get(0).addAll(Arrays.asList(new String[] { "a elerium generator", "a elerium-compatible microchip", "a dilithium generator", "a dilithium-compatible microchip" }));
+    layout.floors.get(0).addAll(Arrays.asList("a elerium generator", "a elerium-compatible microchip", "a dilithium generator", "a dilithium-compatible microchip"));
     System.out.println("Part Two = " + solve(layout));
   }
 }

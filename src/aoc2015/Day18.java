@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 
-public class Day18 {
+class Day18 {
 
-  public static long solve(List<String> list, boolean force) {
+  private static long solve(List<String> list, boolean force) {
     Boolean[][] grid = list.stream()
-        .map((String s) -> s.chars().mapToObj((int i) -> i == '#' ? true : false).toArray(Boolean[]::new))
+        .map((String s) -> s.chars().mapToObj((int i) -> i == '#').toArray(Boolean[]::new))
         .toArray(Boolean[][]::new);
     for (int i = 0; i < 100; i++) {
       if (force)

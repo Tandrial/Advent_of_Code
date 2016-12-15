@@ -6,10 +6,10 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.regex.*;
 
-public class Day15 {
-  static long t;
+class Day15 {
+  private static long t;
 
-  public static long solve(List<Point> discs) {
+  private static long solve(List<Point> discs) {
     Point biggest = discs.get(0);
     t = biggest.x - biggest.y;
     while (discs.stream().anyMatch(d -> ((t + d.y) % d.x) != 0))
@@ -17,7 +17,7 @@ public class Day15 {
     return t;
   }
 
-  public static List<Point> parse(List<String> input) {
+  private static List<Point> parse(List<String> input) {
     List<Point> discs = new ArrayList<>();
     for (String s : input) {
       Matcher m = Pattern.compile("Disc #(\\d+) has (\\d+) positions; at time=0, it is at position (\\d+)\\.")

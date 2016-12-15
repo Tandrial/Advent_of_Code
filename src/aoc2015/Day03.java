@@ -4,17 +4,17 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.HashSet;
 
-public class Day03 {
+class Day03 {
 
-  public static int partOne(String s) {
+  private static int partOne(String s) {
     return solve(s, 1);
   }
 
-  public static int partTwo(String s) {
+  private static int partTwo(String s) {
     return solve(s, 2);
   }
 
-  public static int solve(String s, int santaCount) {
+  private static int solve(String s, int santaCount) {
     HashSet<String> houses = new HashSet<>();
     int[][] pos = new int[santaCount][2];
     houses.add("0:0");

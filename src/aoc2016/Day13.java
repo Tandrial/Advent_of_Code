@@ -4,7 +4,7 @@ import java.awt.Point;
 import java.util.*;
 import java.util.stream.Stream;
 
-public class Day13 {
+class Day13 {
 
   static class Cell extends Point {
     int steps = 0;
@@ -20,7 +20,7 @@ public class Day13 {
     }
   }
 
-  public static int solve(int endX, int endY, int offset, boolean partTwo) {
+  private static int solve(int endX, int endY, int offset, boolean partTwo) {
     Set<Cell> visited = new HashSet<>();
     Queue<Cell> queue = new ArrayDeque<>();
     queue.add(new Cell(1, 1, 0));

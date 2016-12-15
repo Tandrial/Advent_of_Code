@@ -5,16 +5,16 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Day17 {
+class Day17 {
 
-  public static List<Integer> partOne(List<String> list) {
+  private static List<Integer> partOne(List<String> list) {
     List<Integer> containers = list.stream().mapToInt(Integer::valueOf).boxed().collect(Collectors.toList());
     List<Integer> solutionLength = new ArrayList<>();
     System.out.println("Part One = " + solve(150, 0, containers, solutionLength));
     return solutionLength;
   }
 
-  public static long partTwo(List<Integer> solutions) {
+  private static long partTwo(List<Integer> solutions) {
     int min = solutions.stream().min(Integer::compareTo).get();
     return solutions.stream().filter(x -> x.equals(min)).count();
   }

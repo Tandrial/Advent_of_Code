@@ -5,16 +5,16 @@ import java.nio.file.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Day12 {
+class Day12 {
 
-  public static long getValue(String s, long[] regs) {
+  private static long getValue(String s, long[] regs) {
     if (s.charAt(0) >= 'a' && s.charAt(0) <= 'd')
       return regs[s.charAt(0) - 'a'];
     else
       return Long.valueOf(s);
   }
 
-  public static long solve(List<String> list, long start_regC) {
+  private static long solve(List<String> list, long start_regC) {
     List<String[]> ram = list.stream().map(t -> t.split(" ")).collect(Collectors.toList());
     int pc = 0, reg;
     long[] regs = { 0, 0, start_regC, 0 };

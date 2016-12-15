@@ -5,9 +5,9 @@ import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Day15 {
+class Day15 {
 
-  public static long solve(List<String> list, boolean limit_cals) {
+  private static long solve(List<String> list, boolean limit_cals) {
     List<Integer[]> ingredients = parseIngeddients(list);
     Integer[] amounts = new Integer[ingredients.size()];
     for (int i = 0; i < amounts.length; i++) {
@@ -40,7 +40,7 @@ public class Day15 {
     return max;
   }
 
-  public static List<Integer[]> parseIngeddients(List<String> list) {
+  private static List<Integer[]> parseIngeddients(List<String> list) {
     return list.stream().map(t -> {
       String[] line = t.split(" ");
       Integer[] i = new Integer[5];

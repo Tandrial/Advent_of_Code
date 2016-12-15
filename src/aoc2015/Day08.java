@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.List;
 
-public class Day08 {
+class Day08 {
 
-  public static int partOne(List<String> list) {
+  private static int partOne(List<String> list) {
     int count = 0;
     for (String s : list) {
       char[] chars = s.toCharArray();
@@ -27,7 +27,7 @@ public class Day08 {
     return count;
   }
 
-  public static int partTwo(List<String> list) {
+  private static int partTwo(List<String> list) {
     return list.stream().mapToInt(x -> cntSub("\\", x) + cntSub("\"", x) + 2).sum();
   }
 

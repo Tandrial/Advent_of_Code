@@ -5,11 +5,11 @@ import java.nio.file.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Day14 {
-  static long maxDistance = 0;
-  static long maxPoints   = 0;
+class Day14 {
+  private static long maxDistance = 0;
+  private static long maxPoints   = 0;
 
-  public static void simulate(List<String> list, int dur) {
+  private static void simulate(List<String> list, int dur) {
     List<Reindeer> reindeers = parseReindeer(list);
     maxDistance = 0;
     maxPoints = 0;
@@ -45,11 +45,13 @@ public class Day14 {
 }
 
 class Reindeer {
-  public static int maxDistance = 0;
+  private static int maxDistance = 0;
 
   int               fly_speed, fly_dur, rest_dur;
-  int               points, distance, counter;
-  boolean           flying      = true;
+  int               points;
+  int distance;
+  private int counter;
+  private boolean           flying      = true;
 
   public void tick() {
     counter++;

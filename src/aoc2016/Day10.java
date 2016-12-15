@@ -6,11 +6,11 @@ import java.util.*;
 import java.util.regex.*;
 import java.util.stream.IntStream;
 
-public class Day10 {
+class Day10 {
   private static class Bot {
     static String          partOne;
     String                 id     = "";
-    PriorityQueue<Integer> values = new PriorityQueue<>(2, (o1, o2) -> o2.compareTo(o1));
+    final PriorityQueue<Integer> values = new PriorityQueue<>(2, Comparator.reverseOrder());
     String[]               passTo = { "", "" };
 
     public Bot(String id, String idLow, String idHigh) {
@@ -32,9 +32,9 @@ public class Day10 {
     }
   }
 
-  static Map<String, Bot> bots = new HashMap<>();
+  private static final Map<String, Bot> bots = new HashMap<>();
 
-  public static String partOne(List<String> input, int[] cmp) {
+  private static String partOne(List<String> input, int[] cmp) {
     Queue<String> moves = new ArrayDeque<>(input);
     while (!moves.isEmpty()) {
       String move = moves.poll();
@@ -51,13 +51,13 @@ public class Day10 {
     return Bot.partOne;
   }
 
-  public static int partTwo(int max) {
-    return IntStream.range(0, max + 1).map(x -> bots.get("output " + String.valueOf(x)).values.peek()).reduce(1, Math::multiplyExact);
+  private static int partTwo() {
+    return IntStream.range(0, 2 + 1).map(x -> bots.get("output " + String.valueOf(x)).values.peek()).reduce(1, Math::multiplyExact);
   }
 
   public static void main(String[] args) throws IOException {
     List<String> lines = Files.readAllLines(Paths.get("./input/2016/Day10_input.txt"));
     System.out.println("Part One = " + partOne(lines, new int[] { 61, 17 }));
-    System.out.println("Part Two = " + partTwo(2));
+    System.out.println("Part Two = " + partTwo());
   }
 }

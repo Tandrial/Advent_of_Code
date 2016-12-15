@@ -5,9 +5,9 @@ import java.nio.file.*;
 
 import com.google.gson.*;
 
-public class Day12 {
+class Day12 {
 
-  public static int solve(JsonElement root, boolean checkForRed) {
+  private static int solve(JsonElement root, boolean checkForRed) {
     int sum = 0;
     if (root.isJsonArray()) {
       JsonArray jsonArray = root.getAsJsonArray();

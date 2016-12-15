@@ -6,8 +6,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.*;
 
-public class Day06 {
-  public static String solve(Character[][] input, Comparator<Map.Entry<Character, Long>> sortBy) {
+class Day06 {
+  private static String solve(Character[][] input, Comparator<Map.Entry<Character, Long>> sortBy) {
     StringBuilder sb = new StringBuilder();
     for (Character[] xs : input) {
       Map<Character, Long> freqDist = Arrays.stream(xs).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
@@ -16,11 +16,11 @@ public class Day06 {
     return sb.toString();
   }
 
-  public static Character[][] transpose(Character[][] input) {
-    return IntStream.range(0, input[0].length).mapToObj(r -> IntStream.range(0, input.length).mapToObj(c -> (char) input[c][r]).toArray(Character[]::new)).toArray(Character[][]::new);
+  private static Character[][] transpose(Character[][] input) {
+    return IntStream.range(0, input[0].length).mapToObj(r -> IntStream.range(0, input.length).mapToObj(c -> input[c][r]).toArray(Character[]::new)).toArray(Character[][]::new);
   }
 
-  public static Character[][] parse(List<String> lines) {
+  private static Character[][] parse(List<String> lines) {
     return lines.stream().map(s -> s.chars().mapToObj(c -> (char) c).toArray(Character[]::new)).toArray(Character[][]::new);
   }
 

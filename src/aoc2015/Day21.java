@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.List;
 
-public class Day21 {
+class Day21 {
 
   private static int solve(List<String> s, boolean loose) {
     int[] boss = parseBoss(s);
@@ -43,15 +43,17 @@ public class Day21 {
 
 class Fighter {
 
-  static int[][] weapons     = { { 8, 4 }, { 10, 5 }, { 25, 6 }, { 40, 7 }, { 74, 8 } };
-  static int[][] armors      = { { 0, 0 }, { 13, 1 }, { 31, 2 }, { 53, 3 }, { 75, 4 }, { 102, 5 } };
-  static int[][] dmg_rings   = { { 0, 0 }, { 25, 1 }, { 50, 2 }, { 100, 3 } };
-  static int[][] armor_rings = { { 0, 0 }, { 20, 1 }, { 40, 2 }, { 80, 3 } };
+  static final int[][] weapons     = { { 8, 4 }, { 10, 5 }, { 25, 6 }, { 40, 7 }, { 74, 8 } };
+  static final int[][] armors      = { { 0, 0 }, { 13, 1 }, { 31, 2 }, { 53, 3 }, { 75, 4 }, { 102, 5 } };
+  static final int[][] dmg_rings   = { { 0, 0 }, { 25, 1 }, { 50, 2 }, { 100, 3 } };
+  private static final int[][] armor_rings = { { 0, 0 }, { 20, 1 }, { 40, 2 }, { 80, 3 } };
 
-  int            hp;
-  int            weapon, armor;
-  int            lring, rring;
-  int            cost;
+  final int hp;
+  private final int weapon;
+  private final int armor;
+  private final int lring;
+  private final int rring;
+  int       cost;
 
   public Fighter(int hp, int weapon, int armor, int lring, int rring) {
     this.hp = hp;

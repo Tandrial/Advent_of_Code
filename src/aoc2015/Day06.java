@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 
-public class Day06 {
+class Day06 {
 
-  public static int partOne(List<String> list) {
+  private static int partOne(List<String> list) {
     int[][] grid = new int[1000][1000];
     for (String s : list) {
       Point[] p = parsePoints(s);
@@ -23,10 +23,10 @@ public class Day06 {
         }
       }
     }
-    return Arrays.stream(grid).flatMapToInt(x -> Arrays.stream(x)).sum();
+    return Arrays.stream(grid).flatMapToInt(Arrays::stream).sum();
   }
 
-  public static long partTwo(List<String> list) {
+  private static long partTwo(List<String> list) {
     int[][] grid = new int[1000][1000];
     for (String s : list) {
       Point[] p = parsePoints(s);
@@ -42,7 +42,7 @@ public class Day06 {
         }
       }
     }
-    return Arrays.stream(grid).flatMapToInt(x -> Arrays.stream(x)).sum();
+    return Arrays.stream(grid).flatMapToInt(Arrays::stream).sum();
   }
 
   private static Point[] parsePoints(String s) {

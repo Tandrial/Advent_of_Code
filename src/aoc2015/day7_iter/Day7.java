@@ -4,15 +4,15 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 
-public class Day7 {
+class Day7 {
 
-	public static Map<String, Integer> varLookUp = new HashMap<>();
+	public static final Map<String, Integer> varLookUp = new HashMap<>();
 
-	public static int partOne(List<String> list) {
+	private static int partOne(List<String> list) {
 		return partTwo(list, -1);
 	}
 
-	public static int partTwo(List<String> list, int a_force) {
+	private static int partTwo(List<String> list, int a_force) {
 		List<Gate> toSolve = new ArrayList<>();
 		varLookUp.clear();
 		for (String s : list) {
