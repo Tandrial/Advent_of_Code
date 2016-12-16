@@ -1,16 +1,16 @@
 package aoc2016;
 
-import java.awt.Point;
+import java.awt.*;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.*;
 
 class Day01 {
-  private final int[][]    moves     = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };
-  private final Point[]    sol       = { new Point(), null };
+  private final int[][] moves = {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+  private final Point[] sol = {new Point(), null};
 
-  private final Set<Point> visited   = new HashSet<>();
-  private int        direction = 0;
+  private final Set<Point> visited = new HashSet<>();
+  private int direction = 0;
 
   private void solve(String string) {
     for (String s : string.split(", ")) {
@@ -27,7 +27,7 @@ class Day01 {
       }
     }
     System.out.println(String.format("Part one = %d\nPart two = %d", Math.abs(sol[0].x) + Math.abs(sol[0].y),
-        Math.abs(sol[1].x) + Math.abs(sol[1].y)));
+      Math.abs(sol[1].x) + Math.abs(sol[1].y)));
   }
 
   public static void main(String[] args) throws IOException {

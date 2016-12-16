@@ -32,7 +32,7 @@ class Day04 {
   private static String buildHash(Map<String, Long> count) {
     return count.entrySet().stream().sorted(Map.Entry.comparingByKey()).sorted(Collections.reverseOrder(Map.Entry.comparingByValue())).limit(5).map(Map.Entry::getKey).collect(Collectors.joining());
   }
-  
+
   public static void main(String[] args) throws IOException {
     List<String> lines = Files.readAllLines(Paths.get("./input/2016/Day04_input.txt"));
     System.out.println("Part One = " + partOne(lines));

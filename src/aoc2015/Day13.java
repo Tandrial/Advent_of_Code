@@ -5,7 +5,7 @@ import java.nio.file.*;
 import java.util.*;
 
 class Day13 {
-  static private final List<String>         persons   = new ArrayList<>();
+  static private final List<String> persons = new ArrayList<>();
   static private final Map<String, Integer> happiness = new HashMap<>();
 
   private static long partOne(List<String> s) {

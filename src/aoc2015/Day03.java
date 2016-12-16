@@ -20,20 +20,20 @@ class Day03 {
     houses.add("0:0");
     for (int i = 0; i < s.length(); i++) {
       switch (s.charAt(i)) {
-      case '>':
-        pos[i % santaCount][0]++;
-        break;
-      case '^':
-        pos[i % santaCount][1]++;
-        break;
-      case '<':
-        pos[i % santaCount][0]--;
-        break;
-      case 'v':
-        pos[i % santaCount][1]--;
-        break;
-      default:
-        break;
+        case '>':
+          pos[i % santaCount][0]++;
+          break;
+        case '^':
+          pos[i % santaCount][1]++;
+          break;
+        case '<':
+          pos[i % santaCount][0]--;
+          break;
+        case 'v':
+          pos[i % santaCount][1]--;
+          break;
+        default:
+          break;
       }
       houses.add(pos[i % santaCount][0] + ":" + pos[i % santaCount][1]);
     }

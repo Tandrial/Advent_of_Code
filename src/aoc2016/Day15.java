@@ -21,7 +21,7 @@ class Day15 {
     List<Point> discs = new ArrayList<>();
     for (String s : input) {
       Matcher m = Pattern.compile("Disc #(\\d+) has (\\d+) positions; at time=0, it is at position (\\d+)\\.")
-          .matcher(s);
+        .matcher(s);
       if (m.find())
         discs.add(new Point(Integer.valueOf(m.group(2)), Integer.valueOf(m.group(1)) + Integer.valueOf(m.group(3))));
     }

@@ -47,11 +47,11 @@ class Day06 {
 
   private static Point[] parsePoints(String s) {
     String[] line = s.split(" ");
-    Point p1 = new Point(Integer.valueOf(line[line.length - 3].split(",")[0]),
-        Integer.valueOf(line[line.length - 3].split(",")[1]));
-    Point p2 = new Point(Integer.valueOf(line[line.length - 1].split(",")[0]),
-        Integer.valueOf(line[line.length - 1].split(",")[1]));
-    return new Point[] { p1, p2 };
+    String[] p1_s = line[line.length - 3].split(",");
+    String[] p2_s = line[line.length - 1].split(",");
+    Point p1 = new Point(Integer.valueOf(p1_s[0]), Integer.valueOf(p1_s[1]));
+    Point p2 = new Point(Integer.valueOf(p2_s[0]), Integer.valueOf(p2_s[1]));
+    return new Point[]{p1, p2};
   }
 
   public static void main(String[] args) throws IOException {

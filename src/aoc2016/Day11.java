@@ -9,9 +9,9 @@ import java.util.stream.*;
 
 class Layout {
   static final Set<Layout> seenLayouts = new HashSet<>();
-
-  private int                elevatorPos = 0;
-  List<Set<String>>  floors      = new ArrayList<>();
+  static final Predicate<Layout> isDone = layout -> layout.floors.stream().limit(layout.floors.size() - 1).allMatch(Set::isEmpty);
+  List<Set<String>> floors = new ArrayList<>();
+  private int elevatorPos = 0;
 
   public Layout(List<String> input) {
     for (String line : input) {
@@ -54,17 +54,15 @@ class Layout {
   private boolean isValid() {
     for (Set<String> floor : floors) {
       Set<String> unpairedChips = floor.stream().filter(item -> item.contains("microchip")).collect(Collectors.toSet());
-      Set<String> generators    = floor.stream().filter(item -> item.contains("generator")).collect(Collectors.toSet());
+      Set<String> generators = floor.stream().filter(item -> item.contains("generator")).collect(Collectors.toSet());
       generators.stream().map(generator -> generator.replace(" generator", "-compatible microchip")).forEach(unpairedChips::remove);
       if (unpairedChips.size() > 0 && generators.size() > 0)
         return false;
     }
     return true;
   }
-  
-  static final Predicate<Layout> isDone = layout -> layout.floors.stream().limit(layout.floors.size() - 1).allMatch(Set::isEmpty);
 
-  public Set<Layout> genNextMoves() {
+  Set<Layout> genNextMoves() {
     Set<Set<String>> possibleMoves = new HashSet<>();
     floors.get(elevatorPos).stream().map(item -> Stream.of(item).collect(Collectors.toSet())).forEach(possibleMoves::add);
     for (String item : floors.get(elevatorPos))

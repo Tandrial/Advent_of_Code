@@ -8,8 +8,8 @@ class Day18 {
 
   private static long solve(List<String> list, boolean force) {
     Boolean[][] grid = list.stream()
-        .map((String s) -> s.chars().mapToObj((int i) -> i == '#').toArray(Boolean[]::new))
-        .toArray(Boolean[][]::new);
+      .map((String s) -> s.chars().mapToObj(i -> i == '#').toArray(Boolean[]::new))
+      .toArray(Boolean[][]::new);
     for (int i = 0; i < 100; i++) {
       if (force)
         grid = forceLights(grid);
@@ -33,7 +33,7 @@ class Day18 {
     for (int i = 0; i < next.length; i++)
       next[i] = grid[i].clone();
 
-    for (int x = 0; x < next.length; x++) {
+    for (int x = 0; x < next.length; x++)
       for (int y = 0; y < next[x].length; y++) {
         int count = countNeighbours(x, y, grid);
         if (count == 3)
@@ -41,21 +41,18 @@ class Day18 {
         else if (count != 2)
           next[x][y] = false;
       }
-    }
     return next;
   }
 
   private static int countNeighbours(int x, int y, Boolean[][] grid) {
     int count = 0;
-    for (int x_off = -1; x_off <= 1; x_off++) {
-      for (int y_off = -1; y_off <= 1; y_off++) {
+    for (int x_off = -1; x_off <= 1; x_off++)
+      for (int y_off = -1; y_off <= 1; y_off++)
         try {
           if ((x_off != 0 || y_off != 0) && grid[x + x_off][y + y_off])
             count++;
         } catch (Exception e) {
         }
-      }
-    }
     return count;
   }
 

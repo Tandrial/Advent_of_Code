@@ -1,9 +1,9 @@
 package aoc2015;
 
+import com.google.gson.*;
+
 import java.io.IOException;
 import java.nio.file.*;
-
-import com.google.gson.*;
 
 class Day12 {
 

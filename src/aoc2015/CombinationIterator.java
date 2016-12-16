@@ -1,13 +1,16 @@
 package aoc2015;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 // Taken from: http://stackoverflow.com/a/8376120
 class CombinationIterator<T> implements Iterable<List<T>>, Iterator<List<T>> {
   private List<T> items;
-  private int     choose;
+  private int choose;
   private boolean finished;
-  private int[]   current;
+  private int[] current;
 
   public CombinationIterator(List<T> items, int choose) {
     if (items == null || items.size() == 0) {

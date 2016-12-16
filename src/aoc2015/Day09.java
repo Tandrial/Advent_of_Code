@@ -6,20 +6,20 @@ import java.util.*;
 
 class Day09 {
 
-  private static int[][]              distances;
+  private static int[][] distances;
 
   private static int solve(List<String> list, boolean findMin) {
     int count = genDistances(list);
     int max = 0;
     int min = Integer.MAX_VALUE;
-    outer: for (Integer[] move : new NumberPermutation(count)) {
+    for (Integer[] move : new NumberPermutation(count)) {
       int curr = 0;
       for (int i = 0; i < move.length - 1; i++) {
         int start = move[i];
         int dst = move[i + 1];
         int dist = distances[start][dst];
         if (dist == 0)
-          continue outer;
+          break;
         curr += dist;
       }
       max = Math.max(curr, max);
@@ -34,7 +34,7 @@ class Day09 {
     for (String s : list) {
       String[] line = s.split(" = ");
       int value = Integer.valueOf(line[1]);
-      int[] indexes = { 0, 0 };
+      int[] indexes = {0, 0};
       line = line[0].split(" to ");
       for (int i = 0; i < indexes.length; i++) {
         if (cities.containsKey(line[i])) {

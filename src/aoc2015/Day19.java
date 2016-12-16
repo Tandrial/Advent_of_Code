@@ -25,7 +25,7 @@ class Day19 {
       current.forEach(key -> rules.stream().map(r -> r.revert(key)).forEach(candidates::addAll));
 
       Set<String> next = candidates.stream().filter(p -> !current.contains(p)).sorted(Comparator.comparingInt(String::length))
-          .limit(10).collect(Collectors.toSet());
+        .limit(10).collect(Collectors.toSet());
 
       current.clear();
       current.addAll(next);
@@ -35,7 +35,7 @@ class Day19 {
 
   private static Set<Rule> parseRules(List<String> list) {
     return list.stream().map((String s) -> s.split(" => ")).map((String[] line) -> new Rule(line[0], line[1]))
-        .collect(Collectors.toSet());
+      .collect(Collectors.toSet());
   }
 
   public static void main(String[] args) throws IOException {
@@ -55,14 +55,6 @@ class Rule {
     this.rhs = rhs;
   }
 
-  public Set<String> apply(String s) {
-    return Rule.apply(s, lhs, rhs);
-  }
-
-  public Set<String> revert(String s) {
-    return Rule.apply(s, rhs, lhs);
-  }
-
   private static Set<String> apply(String s, String in, String out) {
     Set<String> candidates = new HashSet<>();
     int idx = s.indexOf(in);
@@ -72,5 +64,13 @@ class Rule {
       idx = s.indexOf(in, idx + in.length());
     }
     return candidates;
+  }
+
+  Set<String> apply(String s) {
+    return Rule.apply(s, lhs, rhs);
+  }
+
+  Set<String> revert(String s) {
+    return Rule.apply(s, rhs, lhs);
   }
 }

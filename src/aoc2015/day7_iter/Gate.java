@@ -1,45 +1,45 @@
 package aoc2015.day7_iter;
 
 abstract class Gate {
-	private final String out;
+  private final String out;
 
-	abstract public int getValue();
+  Gate(String out) {
+    this.out = out;
+  }
 
-	abstract public boolean canSolve();
+  abstract public int getValue();
 
-	public String getOut() {
-		return out;
-	}
+  abstract public boolean canSolve();
 
-	Gate(String out) {
-		this.out = out;
-	}
+  public String getOut() {
+    return out;
+  }
 }
 
 abstract class UnaryGate extends Gate {
-	final Gate in;
+  final Gate in;
 
-	UnaryGate(Gate in, String out) {
-		super(out);
-		this.in = in;
-	}
+  UnaryGate(Gate in, String out) {
+    super(out);
+    this.in = in;
+  }
 
-	public boolean canSolve() {
-		return in.canSolve();
-	}
+  public boolean canSolve() {
+    return in.canSolve();
+  }
 }
 
 abstract class BinaryGate extends Gate {
-	final Gate in1;
-	final Gate in2;
+  final Gate in1;
+  final Gate in2;
 
-	BinaryGate(Gate in1, Gate in2, String out) {
-		super(out);
-		this.in1 = in1;
-		this.in2 = in2;
-	}
+  BinaryGate(Gate in1, Gate in2, String out) {
+    super(out);
+    this.in1 = in1;
+    this.in2 = in2;
+  }
 
-	public boolean canSolve() {
-		return in1.canSolve() && in2.canSolve();
-	}
+  public boolean canSolve() {
+    return in1.canSolve() && in2.canSolve();
+  }
 }

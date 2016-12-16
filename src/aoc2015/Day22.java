@@ -56,18 +56,15 @@ class Day22 {
 
 class Wizard implements Cloneable {
 
-  static final int[][]  spells         = { { 53, 0 }, { 73, 0 }, { 113, 6 }, { 173, 6 }, { 229, 5 } };
-  private static final String[] names          = { "Magic Missle", "Drain", "Shield", "Poison", "Recharge" };
-
-  int                   hp;
-  private int mana;
+  static final int[][] spells = {{53, 0}, {73, 0}, {113, 6}, {173, 6}, {229, 5}};
+  private static final String[] names = {"Magic Missle", "Drain", "Shield", "Poison", "Recharge"};
+  final List<String> casts = new ArrayList<>();
+  final int[] boss; // {hp, dmg}
+  int hp;
   int armor;
   int manaSpend;
-  final List<String>    casts          = new ArrayList<>();
-
-  private int[]                 active_effects = new int[5];
-  final int[]           boss;                                                                   // {hp,
-                                                                                                // dmg}
+  private int mana;
+  private int[] active_effects = new int[5];
 
   public Wizard(int hp, int mana, int[] boss) {
     this.hp = hp;
@@ -75,11 +72,11 @@ class Wizard implements Cloneable {
     this.boss = boss;
   }
 
-  public boolean canCast(int i) {
+  boolean canCast(int i) {
     return mana >= spells[i][0] && active_effects[i] == 0;
   }
 
-  public void castSpell(int i) {
+  void castSpell(int i) {
     casts.add(names[i]);
     mana -= spells[i][0];
     manaSpend += spells[i][0];
@@ -92,7 +89,7 @@ class Wizard implements Cloneable {
     }
   }
 
-  public void applyEffect() {
+  void applyEffect() {
     for (int i = 0; i < active_effects.length; i++) {
       if (active_effects[i] > 0) {
         active_effects[i]--;

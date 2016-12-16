@@ -6,14 +6,33 @@ import java.util.*;
 
 class Day07 {
 
-  private final Map<String, String>  expressionMap = new HashMap<>();
-  private final Map<String, Integer> cache         = new HashMap<>();
+  private final Map<String, String> expressionMap = new HashMap<>();
+  private final Map<String, Integer> cache = new HashMap<>();
 
   private Day07(List<String> list) {
     for (String s : list) {
       String[] line = s.split(" -> ");
       expressionMap.put(line[1], line[0]);
     }
+  }
+
+  private static boolean isNumeric(String str) {
+    try {
+      Integer.parseInt(str);
+    } catch (NumberFormatException nfe) {
+      return false;
+    }
+    return true;
+  }
+
+  public static void main(String[] args) throws IOException {
+    List<String> s = Files.readAllLines(Paths.get("./input/2015/Day07_input.txt"));
+    Day07 day7 = new Day07(s);
+    int res = day7.eval("a");
+    System.out.println("Part One = " + res);
+    day7.cache.clear();
+    day7.expressionMap.put("b", String.valueOf(res));
+    System.out.println("Part Two = " + day7.eval("a"));
   }
 
   private int eval(String expr) {
@@ -39,24 +58,5 @@ class Day07 {
       }
     }
     return cache.get(expr);
-  }
-
-  private static boolean isNumeric(String str) {
-    try {
-      Integer.parseInt(str);
-    } catch (NumberFormatException nfe) {
-      return false;
-    }
-    return true;
-  }
-
-  public static void main(String[] args) throws IOException {
-    List<String> s = Files.readAllLines(Paths.get("./input/2015/Day07_input.txt"));
-    Day07 day7 = new Day07(s);
-    int res = day7.eval("a");
-    System.out.println("Part One = " + res);
-    day7.cache.clear();
-    day7.expressionMap.put("b", String.valueOf(res));
-    System.out.println("Part Two = " + day7.eval("a"));
   }
 }

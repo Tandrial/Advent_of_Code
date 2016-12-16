@@ -28,7 +28,7 @@ class Day08 {
   private static UnaryOperator<int[][]> transpose() {
     return m -> IntStream.range(0, m[0].length).mapToObj(r -> IntStream.range(0, m.length).map(c -> m[c][r]).toArray()).toArray(int[][]::new);
   }
-  
+
   private static int[][] rect(int a, int b, int[][] arr) {
     int[][] result = new int[arr.length][];
     for (int i = 0; i < arr.length; i++)

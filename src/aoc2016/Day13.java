@@ -1,6 +1,6 @@
 package aoc2016;
 
-import java.awt.Point;
+import java.awt.*;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -14,7 +14,7 @@ class Day13 {
       this.steps = steps;
     }
 
-    public boolean isValid(int offset) {
+    boolean isValid(int offset) {
       int value = x * x + 3 * x + 2 * x * y + y + y * y + offset;
       return x >= 0 && y >= 0 && (Integer.bitCount(value) % 2) == 0;
     }
@@ -31,9 +31,9 @@ class Day13 {
       if (!partTwo && curr.x == endX && curr.y == endY)
         return curr.steps;
       Stream.of(new Point(0, 1), new Point(0, -1), new Point(1, 0), new Point(-1, 0))
-          .map(p -> new Cell(curr.x + p.x, curr.y + p.y, curr.steps + 1))
-          .filter(c -> c.isValid(offset) && !visited.contains(c) && !queue.contains(c))
-          .filter(c -> !partTwo || c.steps <= 50).forEach(queue::add);
+        .map(p -> new Cell(curr.x + p.x, curr.y + p.y, curr.steps + 1))
+        .filter(c -> c.isValid(offset) && !visited.contains(c) && !queue.contains(c))
+        .filter(c -> !partTwo || c.steps <= 50).forEach(queue::add);
     }
     return visited.size();
   }

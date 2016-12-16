@@ -26,7 +26,7 @@ class Day06 {
 
   public static void main(String[] args) throws IOException {
     List<String> lines = Files.readAllLines(Paths.get("./input/2016/Day06_input.txt"));
-    System.out.println("Part One = " + solve(transpose(parse(lines)),Collections.reverseOrder(Map.Entry.comparingByValue())));
-    System.out.println("Part Two = " + solve(transpose(parse(lines)),Map.Entry.comparingByValue()));    
+    System.out.println("Part One = " + solve(transpose(parse(lines)), Collections.reverseOrder(Map.Entry.comparingByValue())));
+    System.out.println("Part Two = " + solve(transpose(parse(lines)), Map.Entry.comparingByValue()));
   }
 }

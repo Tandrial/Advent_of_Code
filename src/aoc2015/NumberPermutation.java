@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
  * http://stackoverflow.com/a/13037291
  * <p>
  * implements Iterable&ltInteger[]&gt
- * 
+ *
  * @see #NumberPermutation(int)
  */
 class NumberPermutation implements Iterable<Integer[]> {
@@ -20,11 +20,8 @@ class NumberPermutation implements Iterable<Integer[]> {
   /**
    * Creates an implicit Iterable collection of all permutations of
    * numbersequence from 0 to stop.
-   * 
-   * @param end
-   *          End of the number sequence (exclusive)
-   * 
-   * 
+   *
+   * @param end End of the number sequence (exclusive)
    * @see Iterable
    * @see #iterator
    */
@@ -43,9 +40,9 @@ class NumberPermutation implements Iterable<Integer[]> {
 
     return new Iterator<Integer[]>() {
 
-      final Integer[] array  = arr.clone();
-      final int       length = array.length;
-      int[]           index  = (length == 0) ? null : new int[length];
+      final Integer[] array = arr.clone();
+      final int length = array.length;
+      int[] index = (length == 0) ? null : new int[length];
 
       @Override
       public boolean hasNext() {

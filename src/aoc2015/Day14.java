@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 
 class Day14 {
   private static long maxDistance = 0;
-  private static long maxPoints   = 0;
+  private static long maxPoints = 0;
 
   private static void simulate(List<String> list, int dur) {
     List<Reindeer> reindeers = parseReindeer(list);
@@ -47,13 +47,13 @@ class Day14 {
 class Reindeer {
   private static int maxDistance = 0;
 
-  int               fly_speed, fly_dur, rest_dur;
-  int               points;
+  int fly_speed, fly_dur, rest_dur;
+  int points;
   int distance;
   private int counter;
-  private boolean           flying      = true;
+  private boolean flying = true;
 
-  public void tick() {
+  void tick() {
     counter++;
     if (flying) {
       if (counter == fly_dur) {
@@ -68,7 +68,7 @@ class Reindeer {
     }
   }
 
-  public void addPoints() {
+  void addPoints() {
     if (distance == Reindeer.maxDistance)
       points++;
   }
