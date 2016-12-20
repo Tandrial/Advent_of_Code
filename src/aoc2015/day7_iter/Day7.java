@@ -65,16 +65,11 @@ class Day7 {
   }
 
   static boolean isNumeric(String str) {
-    try {
-      Integer.parseInt(str);
-    } catch (NumberFormatException nfe) {
-      return false;
-    }
-    return true;
+    return str.chars().allMatch(Character::isDigit);
   }
 
   public static void main(String[] args) throws IOException {
-    List<String> s = Files.readAllLines(Paths.get("./input/Day7_input.txt"));
+    List<String> s = Files.readAllLines(Paths.get("./input/2015/Day07_input.txt"));
     int res = partOne(s);
     System.out.println("Part One = " + res);
     System.out.println("Part Two = " + partTwo(s, res));

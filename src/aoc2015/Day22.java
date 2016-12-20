@@ -18,7 +18,7 @@ class Day22 {
       curr.applyEffect();
       for (int spell = 0; spell < Wizard.spells.length; spell++) {
         if (curr.canCast(spell)) {
-          Wizard next = curr.clone();
+          Wizard next = new Wizard(curr);
           next.castSpell(spell);
           next.applyEffect();
           next.hp -= Math.max(1, next.boss[1] - next.armor);
@@ -54,10 +54,10 @@ class Day22 {
   }
 }
 
-class Wizard implements Cloneable {
+class Wizard {
 
   static final int[][] spells = {{53, 0}, {73, 0}, {113, 6}, {173, 6}, {229, 5}};
-  private static final String[] names = {"Magic Missle", "Drain", "Shield", "Poison", "Recharge"};
+  private static final String[] names = {"Magic Missile", "Drain", "Shield", "Poison", "Recharge"};
   final List<String> casts = new ArrayList<>();
   final int[] boss; // {hp, dmg}
   int hp;
@@ -70,6 +70,12 @@ class Wizard implements Cloneable {
     this.hp = hp;
     this.mana = mana;
     this.boss = boss;
+  }
+  public Wizard (Wizard old) {
+    this(old.hp, old.mana, old.boss.clone());
+    this.manaSpend = old.manaSpend;
+    this.active_effects = old.active_effects.clone();
+    this.casts.addAll(old.casts);
   }
 
   boolean canCast(int i) {
@@ -103,13 +109,5 @@ class Wizard implements Cloneable {
       } else if (i == 2) // deactivate Shield
         armor = 0;
     }
-  }
-
-  public Wizard clone() {
-    Wizard neu = new Wizard(hp, mana, boss.clone());
-    neu.manaSpend = this.manaSpend;
-    neu.active_effects = this.active_effects.clone();
-    neu.casts.addAll(this.casts);
-    return neu;
   }
 }

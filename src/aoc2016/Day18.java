@@ -1,6 +1,6 @@
 package aoc2016;
 
-public class Day18 {
+class Day18 {
   private static long solve(String input, int roundCount) {
     long cnt = 0;
     for (int round = 1; round <= roundCount; round++) {

@@ -3,7 +3,7 @@ package aoc2016;
 import java.util.*;
 import java.util.stream.*;
 
-public class Day19 {
+class Day19 {
   private static int partOne(int size) {
     Deque<Integer> queue = IntStream.rangeClosed(1, size).boxed().collect(Collectors.toCollection(ArrayDeque::new));
     while (queue.size() > 1) {

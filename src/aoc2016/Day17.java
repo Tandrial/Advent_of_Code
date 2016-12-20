@@ -16,7 +16,7 @@ class Location extends java.awt.Point {
   }
 }
 
-public class Day17 {
+class Day17 {
   private final static char[] direction = {'U', 'D', 'L', 'R'};
   private final static int[] x_off = {0, 0, -1, 1};
   private final static int[] y_off = {-1, 1, 0, 0};
