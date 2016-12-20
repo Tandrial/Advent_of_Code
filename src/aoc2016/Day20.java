@@ -6,22 +6,25 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 class Day20 {
+  private static class Range implements Comparable<Range> {
+    private final Long start;
+    private final Long stop;
 
-  private static class Range {
-    private final long start;
-    private final long stop;
-
-    public Range(String s) {
+    Range(String s) {
       String[] in = s.split("-");
       start = Long.valueOf(in[0]);
       stop = Long.valueOf(in[1]);
+    }
+
+    @Override
+    public int compareTo(Range other) {
+      return start.compareTo(other.start);
     }
   }
 
   private static long partOne(List<String> input) {
     long result = 0;
-    List<Range> ranges = input.stream().map(Range::new).collect(Collectors.toList());
-    ranges.sort(Comparator.comparingLong(o -> o.start));
+    TreeSet<Range> ranges = input.stream().map(Range::new).collect(Collectors.toCollection(TreeSet::new));
     for (Range range : ranges) {
       if (result < range.start)
         return result;
@@ -33,8 +36,8 @@ class Day20 {
   private static long partTwo(List<String> input, long max) {
     long result = 0;
     long cnt = 0;
-    List<Range> ranges = input.stream().map(Range::new).collect(Collectors.toList());
-    ranges.sort(Comparator.comparingLong(o -> o.start));
+
+    TreeSet<Range> ranges = input.stream().map(Range::new).collect(Collectors.toCollection(TreeSet::new));
     for (Range range : ranges) {
       if (result < range.start)
         cnt += range.start - result;
