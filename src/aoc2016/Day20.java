@@ -22,9 +22,8 @@ class Day20 {
     }
   }
 
-  private static long partOne(List<String> input) {
+  private static long partOne(TreeSet<Range> ranges ) {
     long result = 0;
-    TreeSet<Range> ranges = input.stream().map(Range::new).collect(Collectors.toCollection(TreeSet::new));
     for (Range range : ranges) {
       if (result < range.start)
         return result;
@@ -33,11 +32,9 @@ class Day20 {
     return result;
   }
 
-  private static long partTwo(List<String> input, long max) {
+  private static long partTwo(TreeSet<Range> ranges , long max) {
     long result = 0;
     long cnt = 0;
-
-    TreeSet<Range> ranges = input.stream().map(Range::new).collect(Collectors.toCollection(TreeSet::new));
     for (Range range : ranges) {
       if (result < range.start)
         cnt += range.start - result;
@@ -49,7 +46,8 @@ class Day20 {
 
   public static void main(String[] args) throws IOException {
     List<String> s = Files.readAllLines(Paths.get("./input/2016/Day20_input.txt"));
-    System.out.println("Part One = " + partOne(s));
-    System.out.println("Part Two = " + partTwo(s, 4294967295L));
+    TreeSet<Range> ranges = s.stream().map(Range::new).collect(Collectors.toCollection(TreeSet::new));
+    System.out.println("Part One = " + partOne(ranges));
+    System.out.println("Part Two = " + partTwo(ranges, 4294967295L));
   }
 }
