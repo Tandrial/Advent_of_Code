@@ -1,124 +1,78 @@
 package aoc2016.jav;
 
-
-import java.awt.*;
+import java.awt.Point;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.*;
-import java.util.List;
+import java.util.stream.*;
 
 public class Day24 {
     private static class Node extends Point {
         final int num;
-        final int step;
+        final int steps;
 
-        public Node(int x, int y, int num, int step) {
+        public Node(int x, int y, int num, int steps) {
             super(x, y);
             this.num = num;
-            this.step = step;
-        }
-
-        @Override
-        public boolean equals(Object o) {
-            return super.equals(o);
-        }
-
-        @Override
-        public String toString() {
-            return num + " " + super.toString();
+            this.steps = steps;
         }
     }
 
-
-    public static int solve(int[][] maze, List<Node> goals, boolean part2) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 1; i < goals.size(); i++)
-            sb.append(i);
-
-        List<String> permutations = new ArrayList<>();
-        permutation("", sb.toString(), permutations);
+    private static int solve(int[][] maze, List<Node> goals, boolean part2) {
+        List<String> permutations =
+                permutation("", IntStream.range(1, goals.size()).mapToObj(String::valueOf).collect(Collectors.joining()));
         int fewestSteps = Integer.MAX_VALUE;
-        int checked = 0;
 
         Map<Integer, Integer> results = new HashMap<>();
-
-        outer:
-        for (String curr_permu : permutations) {
-            checked++;
-            if (checked % 250 == 0)
-                System.out.println(String.format("%d/%d (%d prozent)", checked, permutations.size(), (int)(checked * 100.0f / permutations.size())));
-            Node start = goals.get(0);
-            Node end = goals.get(curr_permu.charAt(0) - '0');
-            int steps = stepsFromTo(maze, start, end);
-
-            for (char c : curr_permu.substring(1).toCharArray()) {
-                start = end;
-                end = goals.get(c - '0');
-                steps += stepsFromTo(maze, start, end);
+        for (String permutation : permutations) {
+            int steps = 0;
+            for (int i = 0; i < permutation.length() - 1; i++) {
+                steps += stepsFromTo(maze, goals.get(permutation.charAt(i) - '0'), goals.get(permutation.charAt(i + 1) - '0'));
             }
-            if (!results.containsKey(end.num) || results.get(end.num) > steps) {
-                results.put(end.num, steps);
-            }
-            if (steps < fewestSteps) {
-                fewestSteps = steps;
-            }
+            Node end = goals.get(permutation.charAt(permutation.length() - 1) - '0');
+            results.put(end.num, Math.min(steps, results.getOrDefault(end.num, steps)));
+            fewestSteps = Math.min(fewestSteps, steps);
         }
-        if (part2) {
-            int fewestPart2 = Integer.MAX_VALUE;
-            for (Map.Entry<Integer, Integer> e : results.entrySet()) {
-                int steps = stepsFromTo(maze, goals.get(e.getKey()), goals.get(0));
-                if (e.getValue() + steps < fewestPart2)
-                    fewestPart2 = e.getValue() + steps;
-            }
-            return fewestPart2;
-        }
-
-        return fewestSteps;
+        return part2 ? results.entrySet().stream().mapToInt(e -> e.getValue() + stepsFromTo(maze, goals.get(e.getKey()), goals.get(0))).min().getAsInt() : fewestSteps;
     }
 
-    static Map<String, Integer> shortesWayLookUp = new HashMap<>();
+    private static final Map<Integer, Integer> shortestWayLookUp = new HashMap<>();
 
-    private final static int[] x_off = {0, 0, -1, 1};
-    private final static int[] y_off = {-1, 1, 0, 0};
-
-    public static int stepsFromTo(int[][] maze, Node start, Node end) {
-        if (shortesWayLookUp.containsKey(start.num + ";" + end.num))
-            return shortesWayLookUp.get(start.num + ";" + end.num);
+    private static int stepsFromTo(int[][] maze, Node start, Node end) {
+        if (shortestWayLookUp.containsKey(start.hashCode() + end.hashCode()))
+            return shortestWayLookUp.get(start.hashCode() + end.hashCode());
         Queue<Node> queue = new ArrayDeque<>();
         Set<Node> visited = new HashSet<>();
         queue.add(start);
 
         while (!queue.isEmpty()) {
             Node curr = queue.poll();
-            if (curr.equals(end)) {
-                shortesWayLookUp.put(start.num + ";" + end.num, curr.step);
-                shortesWayLookUp.put(end.num + ";" + start.num, curr.step);
-                return curr.step;
-            }
             visited.add(curr);
-            for (int i = 0; i < x_off.length; i++) {
-                if (maze[curr.x + x_off[i]][curr.y + y_off[i]] != -1) {
-                    Node neu = new Node(curr.x + x_off[i], curr.y + y_off[i], -100, curr.step + 1);
-                    if (!visited.contains(neu))
-                        queue.add(neu);
-                }
+            if (curr.equals(end)) {
+                shortestWayLookUp.put(start.hashCode() + end.hashCode(), curr.steps);
+                return curr.steps;
             }
+            Stream.of(new Point(0, 1), new Point(0, -1), new Point(1, 0), new Point(-1, 0))
+                    .map(p -> new Node(curr.x + p.x, curr.y + p.y, -100, curr.steps + 1))
+                    .filter(c -> maze[c.x][c.y] != -1 && !visited.contains(c) && !queue.contains(c))
+                    .forEach(queue::add);
         }
-
         return -1;
     }
 
 
-    private static void permutation(String prefix, String str, List<String> permu) {
+    private static List<String> permutation(String prefix, String str) {
         int n = str.length();
-        if (n == 0) permu.add(prefix);
-        else
+        if (n == 0) return Collections.singletonList("0" + prefix);
+        else {
+            List<String> result = new ArrayList<>();
             for (int i = 0; i < n; i++)
-                permutation(prefix + str.charAt(i), str.substring(0, i) + str.substring(i + 1, n), permu);
+                result.addAll(permutation(prefix + str.charAt(i), str.substring(0, i) + str.substring(i + 1, n)));
+            return result;
+        }
     }
 
-    public static int[][] parse(List<String> m, List<Node> goals) {
+    private static int[][] parse(List<String> m, List<Node> goals) {
         int[][] maze = new int[m.size()][m.get(0).length()];
 
         for (int i = 0; i < maze.length; i++) {
@@ -129,7 +83,6 @@ public class Day24 {
 
                 if (num >= 0 && num <= 9)
                     goals.add(new Node(i, j, num, 0));
-
             }
         }
         return maze;
@@ -140,12 +93,7 @@ public class Day24 {
         List<Node> goals = new ArrayList<>();
         int[][] maze = parse(s, goals);
         goals.sort(Comparator.comparingInt(n -> n.num));
-        long start = System.currentTimeMillis();
         System.out.println("Part One = " + solve(maze, goals, false));
-        long part1 = System.currentTimeMillis();
         System.out.println("Part Two = " + solve(maze, goals, true));
-        System.out.println("p1 = " + (part1 - start) + " p2 = " + (System.currentTimeMillis() - part1));
     }
 }
-
-
