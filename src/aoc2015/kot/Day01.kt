@@ -23,6 +23,6 @@ object Day01 {
 
 fun main(args: Array<String>) {
     val input = File("./input/2015/Day01_input.txt").readText()
-    System.out.println("Part One = ${Day01.partOne(input)}")
-    System.out.println("Part Two = ${Day01.partTwo(input)}")
+    println("Part One = ${Day01.partOne(input)}")
+    println("Part Two = ${Day01.partTwo(input)}")
 }

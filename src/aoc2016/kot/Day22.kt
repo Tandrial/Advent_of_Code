@@ -44,6 +44,6 @@ object Day22 {
 
 fun main(args: Array<String>) {
     val s = Files.readAllLines(Paths.get("./input/2016/Day22_input.txt"))
-    println("Part One = " + Day22.partOne(Day22.parse(s)))
-    println("Part One = " + Day22.partTwo(Day22.parse(s)))
+    println("Part One = ${Day22.partOne(Day22.parse(s))}")
+    println("Part One = ${Day22.partTwo(Day22.parse(s))}")
 }

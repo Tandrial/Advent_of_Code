@@ -23,8 +23,8 @@ object Day03 {
 
 fun main(args: Array<String>): Unit {
     val input = File("./input/2015/Day03_input.txt").readText()
-    System.out.println("Part One = ${Day03.partOne(input).size}")
+    println("Part One = ${Day03.partOne(input).size}")
     val santa = Day03.partOne(input.filterIndexed { idx, c -> idx % 2 == 0 })
     val santa2 = Day03.partOne(input.filterIndexed { idx, c -> idx % 2 == 1 })
-    System.out.println("Part Two = ${santa.union(santa2).size}")
+    println("Part Two = ${santa.union(santa2).size}")
 }

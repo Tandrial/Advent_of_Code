@@ -4,9 +4,7 @@ import java.security.MessageDigest
 
 object Day04 {
     fun solve(salt: String, prefix : String): Int {
-        var num = 0
-        while (!md5Hash(salt + num).startsWith(prefix)) num++
-        return num
+        return generateSequence(0) {it + 1}.map { md5Hash(salt + it) }.indexOfFirst { it.startsWith(prefix) }
     }
     val digest = MessageDigest.getInstance("MD5")!!
     fun md5Hash(input: String): String {
@@ -28,6 +26,6 @@ object Day04 {
 }
 
 fun main(args: Array<String>) {
-    System.out.println("Part One = ${Day04.solve("yzbqklnj", "00000")}")
-    System.out.println("Part Two = ${Day04.solve("yzbqklnj", "000000")}")
+    println("Part One = ${Day04.solve("yzbqklnj", "00000")}")
+    println("Part Two = ${Day04.solve("yzbqklnj", "000000")}")
 }

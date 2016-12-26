@@ -24,7 +24,6 @@ class Day25 {
             regs[0] = i;
             int pc = 0, reg;
             long lastSig = 1;
-            outer:
             while (pc < ram.size()) {
                 String[] inst = ram.get(pc);
                 reg = inst[1].charAt(0) - 'a';
@@ -44,7 +43,7 @@ class Day25 {
                         break;
                     case "out":
                         if (getValue(inst[1], regs) == lastSig) {
-                            break outer;
+                            pc = Integer.MAX_VALUE - 1;
                         } else if (periodeLength > 500)
                             return i;
                         periodeLength++;

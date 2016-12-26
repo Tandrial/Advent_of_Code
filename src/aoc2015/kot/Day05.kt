@@ -16,6 +16,6 @@ fun isNice2(s: String): Boolean {
 
 fun main(args: Array<String>) {
     val input = java.io.File("./input/2015/Day05_input.txt").readLines()
-    System.out.println("Part One = ${input.count(::isNice)}")
-    System.out.println("Part Two = ${input.count(::isNice2)}")
+    println("Part One = ${input.count(::isNice)}")
+    println("Part Two = ${input.count(::isNice2)}")
 }
