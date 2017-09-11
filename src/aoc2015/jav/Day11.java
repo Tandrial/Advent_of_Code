@@ -16,7 +16,7 @@ class Day11 {
       }
       if (!check)
         continue;
-      if (Pattern.matches(".*(i|o|l).*", s))
+      if (Pattern.matches(".*[iol].*", s))
         continue;
       if (!Pattern.matches(".*(.)\\1.*(.)\\2.*", s))
         continue;

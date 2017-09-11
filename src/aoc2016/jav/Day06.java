@@ -17,7 +17,7 @@ class Day06 {
   }
 
   private static Character[][] transpose(Character[][] input) {
-    return IntStream.range(0, input[0].length).mapToObj(r -> IntStream.range(0, input.length).mapToObj(c -> input[c][r]).toArray(Character[]::new)).toArray(Character[][]::new);
+    return IntStream.range(0, input[0].length).mapToObj(r -> Arrays.stream(input).map(characters -> characters[r]).toArray(Character[]::new)).toArray(Character[][]::new);
   }
 
   private static Character[][] parse(List<String> lines) {

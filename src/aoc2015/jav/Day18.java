@@ -51,7 +51,7 @@ class Day18 {
         try {
           if ((x_off != 0 || y_off != 0) && grid[x + x_off][y + y_off])
             count++;
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
     return count;
   }

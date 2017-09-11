@@ -71,7 +71,8 @@ class Wizard {
     this.mana = mana;
     this.boss = boss;
   }
-  public Wizard (Wizard old) {
+
+  public Wizard(Wizard old) {
     this(old.hp, old.mana, old.boss.clone());
     this.manaSpend = old.manaSpend;
     this.active_effects = old.active_effects.clone();
@@ -99,12 +100,16 @@ class Wizard {
     for (int i = 0; i < active_effects.length; i++) {
       if (active_effects[i] > 0) {
         active_effects[i]--;
-        if (i == 2) { // activate Shield
-          armor = 7;
-        } else if (i == 3) { // Poison
-          boss[0] -= 3;
-        } else if (i == 4) { // Recharge
-          mana += 101;
+        switch (i) {
+          case 2:  // activate Shield
+            armor = 7;
+            break;
+          case 3:  // Poison
+            boss[0] -= 3;
+            break;
+          case 4:  // Recharge
+            mana += 101;
+            break;
         }
       } else if (i == 2) // deactivate Shield
         armor = 0;

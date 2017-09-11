@@ -20,7 +20,7 @@ class Day24 {
 
     } while (result.size() == 0);
 
-    return result.stream().map(x -> x.stream().mapToLong(Long::valueOf).reduce(1L, (a, b) -> a * b)).sorted().findFirst().get();
+    return result.stream().map(x -> x.stream().mapToLong(Long::valueOf).reduce(1L, (a, b) -> a * b)).sorted().findFirst().orElse(Long.MIN_VALUE);
   }
 
   private static List<Integer> loadWeights(List<String> list) {

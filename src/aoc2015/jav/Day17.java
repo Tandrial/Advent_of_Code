@@ -15,7 +15,7 @@ class Day17 {
   }
 
   private static long partTwo(List<Integer> solutions) {
-    int min = solutions.stream().min(Integer::compareTo).get();
+    int min = solutions.stream().min(Integer::compareTo).orElse(Integer.MIN_VALUE);
     return solutions.stream().filter(x -> x.equals(min)).count();
   }
 

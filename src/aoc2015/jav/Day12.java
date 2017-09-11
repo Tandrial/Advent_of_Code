@@ -24,7 +24,7 @@ class Day12 {
     } else if (root.isJsonPrimitive()) {
       try {
         sum += root.getAsInt();
-      } catch (NumberFormatException ex) {
+      } catch (NumberFormatException ignored) {
       }
     }
     return sum;

@@ -43,11 +43,11 @@ class Day13 {
       for (int i = 0; i < persons.size(); i++) {
         int pos_l = i - 1 == -1 ? persons.size() - 1 : i - 1;
         String left = persons.get(pos[i]) + persons.get(pos[pos_l]);
-        currHappy += happiness.containsKey(left) ? happiness.get(left) : 0;
+        currHappy += happiness.getOrDefault(left, 0);
 
         int pos_r = (i + 1) % persons.size();
         String right = persons.get(pos[i]) + persons.get(pos[pos_r]);
-        currHappy += happiness.containsKey(right) ? happiness.get(right) : 0;
+        currHappy += happiness.getOrDefault(right, 0);
       }
       maxHappy = Math.max(maxHappy, currHappy);
     }

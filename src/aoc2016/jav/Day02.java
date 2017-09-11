@@ -11,10 +11,20 @@ class Day02 {
     for (String s : xs) {
       for (char c : s.toCharArray()) {
         Point old = new Point(pos);
-        if (c == 'U') pos.x = Math.max(0, pos.x - 1);
-        else if (c == 'L') pos.y = Math.max(0, pos.y - 1);
-        else if (c == 'D') pos.x = Math.min(keypad.length - 1, pos.x + 1);
-        else if (c == 'R') pos.y = Math.min(keypad[0].length - 1, pos.y + 1);
+        switch (c) {
+          case 'U':
+            pos.x = Math.max(0, pos.x - 1);
+            break;
+          case 'L':
+            pos.y = Math.max(0, pos.y - 1);
+            break;
+          case 'D':
+            pos.x = Math.min(keypad.length - 1, pos.x + 1);
+            break;
+          case 'R':
+            pos.y = Math.min(keypad[0].length - 1, pos.y + 1);
+            break;
+        }
 
         if (keypad[pos.x][pos.y] == 0)
           pos = old;

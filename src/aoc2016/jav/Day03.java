@@ -16,7 +16,7 @@ class Day03 {
   }
 
   private static Integer[][] transpose(Integer[][] input) {
-    return IntStream.range(0, input[0].length).mapToObj(r -> IntStream.range(0, input.length).map(c -> input[c][r]).boxed().toArray(Integer[]::new)).toArray(Integer[][]::new);
+    return IntStream.range(0, input[0].length).mapToObj(r -> Arrays.stream(input).mapToInt(integers -> integers[r]).boxed().toArray(Integer[]::new)).toArray(Integer[][]::new);
   }
 
   private static Integer[][] parse(List<String> lines) {

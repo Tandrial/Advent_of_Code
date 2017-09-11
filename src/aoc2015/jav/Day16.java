@@ -9,7 +9,7 @@ class Day16 {
 
   private static int solve(List<String> s, Map<String, Integer> properties, boolean partTwo) {
     for (Map<String, Integer> aunt : parseAunts(s)) {
-      if (aunt.entrySet().stream().map(entry -> {
+      if (aunt.entrySet().stream().allMatch(entry -> {
         if (entry.getKey().equals("Sue"))
           return true;
         if (partTwo && (entry.getKey().equals("cats:") || entry.getKey().equals("trees:"))) {
@@ -19,7 +19,7 @@ class Day16 {
         } else {
           return properties.get(entry.getKey()).equals(entry.getValue());
         }
-      }).allMatch(t -> t))
+      }))
         return aunt.get("Sue");
     }
     return -1;

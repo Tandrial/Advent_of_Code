@@ -6,6 +6,8 @@ import java.util.*;
 
 class Day07 {
 
+  private static int i;
+
   private static int partOne(List<String> input) {
     int cnt = 0;
     for (String s : input) {
@@ -29,8 +31,6 @@ class Day07 {
     }
     return cnt;
   }
-
-  private static int i;
 
   private static int partTwo(List<String> input) {
     int cnt = 0;

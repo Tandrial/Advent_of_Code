@@ -7,31 +7,6 @@ import java.util.regex.*;
 import java.util.stream.IntStream;
 
 class Day10 {
-  private static class Bot {
-    static String          partOne;
-    String                 id     = "";
-    final PriorityQueue<Integer> values = new PriorityQueue<>(2, Comparator.reverseOrder());
-    String[]               passTo = { "", "" };
-
-    public Bot(String id, String idLow, String idHigh) {
-      this.id = id;
-      this.passTo = new String[] { idHigh, idLow };
-    }
-
-    public Collection<String> accept(int value, int[] cmp) {
-      values.add(value);
-      Collection<String> result = new ArrayList<>();
-      if (values.size() == 2) {
-        int[] val = { values.poll(), values.poll() };
-        if (val[0] == cmp[0] && val[1] == cmp[1])
-          Bot.partOne = id;
-        for (int i = 0; i < val.length; i++)
-          result.add(String.format("value %d goes to %s", val[i], passTo[i]));
-      }
-      return result;
-    }
-  }
-
   private static final Map<String, Bot> bots = new HashMap<>();
 
   private static String partOne(List<String> input, int[] cmp) {
@@ -52,12 +27,37 @@ class Day10 {
   }
 
   private static int partTwo() {
-    return IntStream.range(0, 2 + 1).map(x -> bots.get("output " + String.valueOf(x)).values.peek()).reduce(1, Math::multiplyExact);
+    return IntStream.range(0, 3).map(x -> bots.get("output " + String.valueOf(x)).values.peek()).reduce(1, Math::multiplyExact);
   }
 
   public static void main(String[] args) throws IOException {
     List<String> lines = Files.readAllLines(Paths.get("./input/2016/Day10_input.txt"));
-    System.out.println("Part One = " + partOne(lines, new int[] { 61, 17 }));
+    System.out.println("Part One = " + partOne(lines, new int[]{61, 17}));
     System.out.println("Part Two = " + partTwo());
+  }
+
+  private static class Bot {
+    static String partOne;
+    final PriorityQueue<Integer> values = new PriorityQueue<>(2, Comparator.reverseOrder());
+    final String id;
+    final String[] passTo;
+
+    Bot(String id, String idLow, String idHigh) {
+      this.id = id;
+      this.passTo = new String[]{idHigh, idLow};
+    }
+
+    Collection<String> accept(int value, int[] cmp) {
+      values.add(value);
+      Collection<String> result = new ArrayList<>();
+      if (values.size() == 2) {
+        int[] val = {values.poll(), values.poll()};
+        if (val[0] == cmp[0] && val[1] == cmp[1])
+          Bot.partOne = id;
+        for (int i = 0; i < val.length; i++)
+          result.add(String.format("value %d goes to %s", val[i], passTo[i]));
+      }
+      return result;
+    }
   }
 }
