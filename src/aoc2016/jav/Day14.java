@@ -1,5 +1,7 @@
 package aoc2016.jav;
 
+import aoc2015.jav.StringHex;
+
 import java.security.*;
 import java.util.*;
 import java.util.regex.*;
@@ -38,7 +40,7 @@ class Day14 {
     for (int i = 0; i <= stretch; i++) {
       MessageDigest digest = MessageDigest.getInstance("md5");
       byte[] hashBytes = digest.digest(result.getBytes());
-      result = javax.xml.bind.DatatypeConverter.printHexBinary(hashBytes).toLowerCase();
+      result = StringHex.bytesToHex(hashBytes).toLowerCase();
     }
     return result;
   }

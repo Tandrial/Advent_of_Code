@@ -1,5 +1,7 @@
 package aoc2016.jav;
 
+import aoc2015.jav.StringHex;
+
 import java.security.MessageDigest;
 import java.util.*;
 
@@ -50,7 +52,7 @@ class Day17 {
   private static String hashPath(String path) throws java.security.NoSuchAlgorithmException {
     MessageDigest digest = MessageDigest.getInstance("md5");
     byte[] hashBytes = digest.digest(path.getBytes());
-    return javax.xml.bind.DatatypeConverter.printHexBinary(hashBytes).substring(0, 4);
+    return StringHex.bytesToHex(hashBytes).substring(0, 4);
   }
 
   public static void main(String[] args) throws java.security.NoSuchAlgorithmException {

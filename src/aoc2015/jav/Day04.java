@@ -20,7 +20,7 @@ class Day04 {
     do {
       byte[] inputBytes = (s + cnt++).getBytes();
       byte[] hashBytes = digest.digest(inputBytes);
-      result = javax.xml.bind.DatatypeConverter.printHexBinary(hashBytes);
+      result = aoc2015.jav.StringHex.bytesToHex(hashBytes);
     } while (!result.startsWith(difficulty));
     return cnt - 1;
   }

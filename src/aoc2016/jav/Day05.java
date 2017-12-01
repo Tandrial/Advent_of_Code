@@ -1,5 +1,7 @@
 package aoc2016.jav;
 
+import aoc2015.jav.StringHex;
+
 import java.security.*;
 
 class Day05 {
@@ -13,7 +15,7 @@ class Day05 {
       do {
         byte[] inputBytes = (s + cnt++).getBytes();
         byte[] hashBytes = digest.digest(inputBytes);
-        result = javax.xml.bind.DatatypeConverter.printHexBinary(hashBytes);
+        result = StringHex.bytesToHex(hashBytes);
       } while (!result.startsWith("00000"));
       if (!partTwo) {
         sb[charsFound++] = result.charAt(5);
