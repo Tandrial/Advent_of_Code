@@ -1,7 +1,8 @@
 package aoc2017.kot
 
 import itertools.times
-import itertools.to2DIntArr
+import to2DIntArr
+
 import java.io.File
 
 object Day02 {

@@ -1,5 +1,6 @@
 package aoc2017.kot
 
+import sort
 import java.io.File
 
 object Day04 {
@@ -10,11 +11,6 @@ object Day04 {
     it.split(" ").map { it.sort() }
   }.count { it.size == it.toSet().size }
 
-  fun String.sort(): String {
-    val carr = this.toCharArray()
-    carr.sort()
-    return String(carr)
-  }
 }
 
 fun main(args: Array<String>) {
@@ -22,5 +18,3 @@ fun main(args: Array<String>) {
   println("Part One = ${Day04.partOne(input)}")
   println("Part Two = ${Day04.partTwo(input)}")
 }
-
-
