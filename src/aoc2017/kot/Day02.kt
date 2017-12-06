@@ -16,7 +16,7 @@ object Day02 {
 }
 
 fun main(args: Array<String>) {
-  val input = File("./input/2017/Day02_input.txt").to2DIntArr("\t")
+  val input = File("./input/2017/Day02_input.txt").to2DIntArr()
   println("Part One = ${Day02.partOne(input)}")
   println("Part Two = ${Day02.partTwo(input)}")
 }
