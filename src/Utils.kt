@@ -25,3 +25,10 @@ fun File.to2DIntArr(delim: Pattern = "\\s+".toPattern()): List<List<Int>> {
  * @return [List] of [Int]s
  */
 fun String.toIntList(delim: Pattern = "\\s+".toPattern()): List<Int> = this.split(delim).map { it.toInt() }
+
+/**
+ * Converts the [Int]s in the [Iterable] into their hex-Representation and joints them together
+ *
+ * @return a [String] of hexValuess
+ */
+fun Iterable<Int>.toHexString(): String = joinToString(separator = "") { it.toString(16).padStart(2, '0') }

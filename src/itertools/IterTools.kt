@@ -27,17 +27,17 @@ package itertools
 import kotlin.coroutines.experimental.buildSequence
 
 /**
- * Splits this string into chunks of [size]. The last element might be shorter if the string can't evenly divided
+ * Splits the [Iterable] into chunks of [size]. The last element might be shorter if the string can't evenly divided
  *
  * @param size The size of the chunks
  * @return [Sequence] of [size] big chunks
  */
-fun String.chunksOfSize(size: Int): Sequence<String> = buildSequence {
+fun <T : Any> Iterable<T>.chunksOfSize(size: Int): Sequence<List<T>> = buildSequence {
   val iterator = iterator()
   while (iterator.hasNext()) {
-    val window = StringBuilder()
-    (1..size).forEach { if (iterator.hasNext()) window.append(iterator.next()) }
-    yield(window.toString())
+    val window = mutableListOf<T>()
+    (1..size).forEach { if (iterator.hasNext()) window += (iterator.next()) }
+    yield(window)
   }
 }
 
@@ -366,9 +366,9 @@ fun <T : Any> MutableList<T>.reverseRightOf(start: Int) {
 
 fun main(args: Array<String>) {
   val s = "ABCDEFGHIJKLMN"
-  print("\"$s\".chunksOfSize(3): ")
-  for (chunk in s.chunksOfSize(3)) print("$chunk ")
-  println()
+//  print("\"$s\".chunksOfSize(3): ")
+//  for (chunk in s.chunksOfSize(3)) print("$chunk ")
+//  println()
 
   println("'c' * 3 = ${'c' * 3}")
 
