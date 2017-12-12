@@ -1,12 +1,13 @@
 package aoc2017.kot
 
+import getWords
 import java.io.File
 
 object Day07 {
   data class Program(val name: String, val oWeight: Int, val supports: List<String> = listOf(), var weight: Int = oWeight)
 
   private fun parse(input: List<String>): List<Program> = input.map {
-    val line = Regex("\\w+").findAll(it).toList().map { it.value }
+    val line = it.getWords()
     Program(line[0], line[1].toInt(), line.drop(2))
   }
 
