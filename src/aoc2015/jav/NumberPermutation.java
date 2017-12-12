@@ -38,7 +38,7 @@ class NumberPermutation implements Iterable<Integer[]> {
   @Override
   public Iterator<Integer[]> iterator() {
 
-    return new Iterator<Integer[]>() {
+    return new Iterator<>() {
 
       final Integer[] array = arr.clone();
       final int length = array.length;
