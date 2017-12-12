@@ -8,29 +8,19 @@ object Day12 {
     var vis = setOf(start)
     while (true) {
       val next = vis.toMutableSet()
-      for (elem in vis) {
-        next.addAll(input[elem]!!)
-      }
+      vis.forEach { next.addAll(input[it]!!) }
       if (next == vis) break
       vis = next
     }
     return vis
   }
 
-  fun partTwo(input: List<String>): Int {
-    val pipes = parse(input)
-    val vis = mutableSetOf<Set<String>>()
-    pipes.keys.mapTo(vis) { partOne(pipes, it) }
-    return vis.size
-  }
-
-  fun parse(input: List<String>): Map<String, List<String>> {
-    return input.map { val all = it.getWords(); all[0] to all.drop(1) }.toMap()
-  }
+  fun partTwo(input: Map<String, List<String>>): Int = input.keys.map { partOne(input, it) }.toSet().size
 }
 
 fun main(args: Array<String>) {
   val input = File("./input/2017/Day12_input.txt").readLines()
-  println("Part One = ${Day12.partOne(Day12.parse(input), "0").size}")
-  println("Part Two = ${Day12.partTwo(input)}")
+  val connections = input.map { val all = it.getWords(); all[0] to all.drop(1) }.toMap()
+  println("Part One = ${Day12.partOne(connections, "0").size}")
+  println("Part Two = ${Day12.partTwo(connections)}")
 }
