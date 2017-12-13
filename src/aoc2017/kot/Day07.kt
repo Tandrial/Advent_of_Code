@@ -12,6 +12,7 @@ object Day07 {
   }
 
   fun partOne(input: List<String>): String {
+    // The root node has no edge pointing to it ==> it never shows up on the right side of an edge
     val out = parse(input)
     val onRightSide = out.flatMap { it.supports }
     return out.first { it.name !in onRightSide }.name
@@ -22,6 +23,7 @@ object Day07 {
     updatedWeights(lookUp[rootNode]!!, lookUp)
 
     for (p in lookUp.values) {
+      // Group the weights of the child nodes, if there is more then one group we found the disbalanced group
       val weights = p.supports.map { lookUp[it] }.groupBy { it!!.weight }
       if (weights.size > 1) {
         val correctWeight = weights.filterValues { it.size > 1 }.keys.toList()[0]

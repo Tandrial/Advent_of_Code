@@ -4,15 +4,15 @@ import getWords
 import java.io.File
 
 object Day12 {
-  fun partOne(input: Map<String, List<String>>, start: String): Set<String> {
-    var vis = setOf(start)
+  fun partOne(graph: Map<String, List<String>>, start: String): Set<String> {
+    var reachable = setOf(start)
     while (true) {
-      val next = vis.toMutableSet()
-      vis.forEach { next.addAll(input[it]!!) }
-      if (next == vis) break
-      vis = next
+      val next = reachable.toMutableSet()
+      reachable.forEach { next.addAll(graph[it]!!) }
+      if (next == reachable) break
+      reachable = next
     }
-    return vis
+    return reachable
   }
 
   fun partTwo(input: Map<String, List<String>>): Int = input.keys.map { partOne(input, it) }.toSet().size
