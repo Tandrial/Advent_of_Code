@@ -2,10 +2,8 @@ package aoc2017.kot
 
 import getWords
 import java.io.File
-import kotlin.coroutines.experimental.buildSequence
 
 object Day15 {
-
   fun partOne(seedA: Long, seedB: Long): Int {
     val genA = gen(seedA, 16807)
     val genB = gen(seedB, 48271)
@@ -18,14 +16,12 @@ object Day15 {
     return getCount(genA, genB, 5_000_000)
   }
 
-  private fun gen(seed: Long, mult: Int, filter: Long = 1): Sequence<Long> = buildSequence {
-    var state = seed
-    while (true) {
-      do {
-        state = (state * mult) % Int.MAX_VALUE
-      } while (state and (filter - 1) != 0L)
-      yield(state)
-    }
+  private fun gen(seed: Long, mult: Int, filter: Long = 1): Sequence<Long> = generateSequence(seed) {
+    var next = it
+    do {
+      next = (next * mult) % Int.MAX_VALUE
+    } while (next and (filter - 1) != 0L)
+    next
   }
 
   private fun getCount(seqA: Sequence<Long>, seqB: Sequence<Long>, length: Int): Int {
