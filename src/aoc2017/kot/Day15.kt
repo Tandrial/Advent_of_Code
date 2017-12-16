@@ -19,7 +19,14 @@ object Day15 {
   private fun gen(seed: Long, mult: Int, filter: Long = 1): Sequence<Long> = generateSequence(seed) {
     var next = it
     do {
-      next = (next * mult) % Int.MAX_VALUE
+      // next = (next * mult) % Int.MAX_VALUE
+      // Int.MAX_VALUE is a Mersenne prime 2^s - 1, so we can calculate the mod with:
+      //https://ariya.io/2007/02/modulus-with-mersenne-prime
+      //  int i = (k & p) + (k >> s);
+      //  return (i >= p) ? i - p : i;
+      next *= mult
+      next = (next and 0x7fffffff) + (next shr 31)
+      next = if (next shr 31 != 0L) next - 0x7fffffff else next
     } while (next and (filter - 1) != 0L)
     next
   }
