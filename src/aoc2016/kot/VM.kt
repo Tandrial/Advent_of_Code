@@ -1,7 +1,7 @@
 package aoc2016.kot
 
 class VM(val input: List<String>, regA: Long = 0, regB: Long = 0, regC: Long = 0, regD: Long = 0) {
-  private val ram = input.map { (it + " .").split(" ").toTypedArray() }.toMutableList()
+  private val ram = input.map { (it + " .").split(" ").toMutableList() }.toMutableList()
   private val regs = longArrayOf(regA, regB, regC, regD)
   private var pc = 0
 
