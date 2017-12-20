@@ -35,6 +35,13 @@ fun String.toIntList(delim: Pattern = "\\s+".toPattern()): List<Int> = this.spli
 fun String.getWords(): List<String> = Regex("\\w+").findAll(this).toList().map { it.value }
 
 /**
+ * Splits the [String] into a [List] or numbers, where a word is matched bs -?\d+
+ *
+ * @return [List] of matched numbers
+ */
+fun String.getNumbers(): List<String> = Regex("-?\\d+").findAll(this).toList().map { it.value }
+
+/**
  * Converts the [Int]s in the [Iterable] into their hex-Representation and joints them together
  *
  * @return a [String] of hexValuess
