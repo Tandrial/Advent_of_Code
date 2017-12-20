@@ -4,7 +4,6 @@ import getNumbers
 import java.io.File
 
 object Day20 {
-
   data class Vec3d(var x: Long, var y: Long, var z: Long) {
     operator fun plus(other: Vec3d) = Vec3d(this.x + other.x, this.y + other.y, this.z + other.z)
   }
@@ -23,27 +22,26 @@ object Day20 {
   }
 
   fun partOne(input: List<String>): Int {
-    var particles = input.mapIndexed { index, s -> Particle(index, s) }
+    val particles = input.mapIndexed { index, s -> Particle(index, s) }
     repeat(1000) {
       particles.forEach {
         it.vel += it.acc
         it.pos += it.vel
       }
     }
-    particles = particles.sortedBy { Math.abs(it.pos.x) + Math.abs(it.pos.y) + Math.abs(it.pos.z) }
-    return particles.first().id
+    return particles.sortedBy { Math.abs(it.pos.x) + Math.abs(it.pos.y) + Math.abs(it.pos.z) }.first().id
   }
 
   fun partTwo(input: List<String>): Int {
-    var particles = input.mapIndexed { index, s -> Particle(index, s) }
-
-    repeat(125) {
+    val particles = input.mapIndexed { index, s -> Particle(index, s) }.toMutableList()
+    repeat(1000) {
       particles.forEach {
         it.vel += it.acc
         it.pos += it.vel
       }
-      val collisions = particles.groupBy { it.pos }
-      particles = particles.filter { elem -> !collisions.values.filter { it.size > 1 }.flatMap { it }.contains(elem) }
+      // We're grouping by position, and remove everything in groups with size > 1
+      val collisions = particles.groupBy { it.pos }.values.filter { it.size > 1 }.flatten()
+      particles.removeAll(collisions)
     }
     return particles.size
   }
