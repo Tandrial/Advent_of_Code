@@ -9,16 +9,10 @@ object Day20 {
   }
 
   class Particle(val id: Int, s: String) {
-    var pos: Vec3d
-    var vel: Vec3d
-    var acc: Vec3d
-
-    init {
-      val values = s.getNumbers()
-      pos = Vec3d(values[0].toLong(), values[1].toLong(), values[2].toLong())
-      vel = Vec3d(values[3].toLong(), values[4].toLong(), values[5].toLong())
-      acc = Vec3d(values[6].toLong(), values[7].toLong(), values[8].toLong())
-    }
+    val values = s.getNumbers().map { it.toLong() }
+    var pos = Vec3d(values[0], values[1], values[2])
+    var vel = Vec3d(values[3], values[4], values[5])
+    val acc = Vec3d(values[6], values[7], values[8])
   }
 
   fun partOne(input: List<String>): Int {
@@ -40,8 +34,7 @@ object Day20 {
         it.pos += it.vel
       }
       // We're grouping by position, and remove everything in groups with size > 1
-      val collisions = particles.groupBy { it.pos }.values.filter { it.size > 1 }.flatten()
-      particles.removeAll(collisions)
+      particles.groupBy { it.pos }.values.filter { it.size > 1 }.forEach { particles.removeAll(it) }
     }
     return particles.size
   }

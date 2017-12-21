@@ -26,7 +26,6 @@ fun File.to2DIntArr(delim: Pattern = "\\s+".toPattern()): List<List<Int>> {
  */
 fun String.toIntList(delim: Pattern = "\\s+".toPattern()): List<Int> = this.split(delim).map { it.toInt() }
 
-
 /**
  * Splits the [String] into a [List] or words, where a word is matched bs \w+
  *
