@@ -33,7 +33,6 @@ object Day21 {
     if (blocks.size == 1) return blocks[0]
     val size = Math.sqrt((blocks.size * blocks[0].size * blocks[0].size).toDouble()).toInt()
     val result = Array(size) { CharArray(size) { '.' } }
-
     for (y in 0 until result.size) {
       for (x in 0 until result.size) {
         val bOff = x / blocks[0].size + (y / blocks[0].size) * Math.sqrt(blocks.size.toDouble()).toInt()

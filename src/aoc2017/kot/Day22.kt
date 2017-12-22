@@ -47,9 +47,10 @@ object Day22 {
 
   private fun genGrid(input: List<String>): Array<CharArray> {
     val grid = Array(1000) { CharArray(1000) { '.' } }
+    val offSet = grid.size / 2 - input.size / 2
     for (xG in 0 until input.size) {
       for (yG in 0 until input.size) {
-        grid[grid.size / 2 - input.size / 2 + xG][grid[0].size / 2 - input.size / 2 + yG] = input[xG][yG]
+        grid[offSet + xG][offSet + yG] = input[xG][yG]
       }
     }
     return grid
