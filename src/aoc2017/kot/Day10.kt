@@ -12,9 +12,12 @@ object Day10 {
     var skipS = 0
     repeat(rep) {
       for (len in input) {
+        // reverse subList of mem pos..(pos+len)
         if (pos + len < mem.size) {
+          // do wrapping
           mem = mem.subList(0, pos).plus(mem.subList(pos, pos + len).reversed()).plus(mem.subList(pos + len, mem.size))
         } else {
+          // wrapping - move subList pos..(mem.size) to the front, reverse 0..len and move back
           mem = mem.subList(pos, mem.size).plus(mem.subList(0, pos))
           mem = mem.subList(0, len).reversed().plus(mem.subList(len, mem.size))
           mem = mem.subList(mem.size - pos, mem.size).plus(mem.subList(0, mem.size - pos))

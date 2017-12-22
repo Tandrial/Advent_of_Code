@@ -6,23 +6,24 @@ object Day09 {
   private enum class State { DEFAULT, GARBAGE, IGNORE }
 
   fun solve(input: String): Pair<Int, Int> {
-    var s = State.DEFAULT
+    var state = State.DEFAULT
     var sum = 0
     var groupCount = 0
     var garbageCount = 0
     input.forEach {
-      when (s) {
+      // Ignore can only be in Garbage
+      when (state) {
         State.DEFAULT -> when (it) {
-          '<' -> s = State.GARBAGE
+          '<' -> state = State.GARBAGE
           '{' -> groupCount++
           '}' -> sum += groupCount--
         }
         State.GARBAGE -> when (it) {
-          '!' -> s = State.IGNORE
-          '>' -> s = State.DEFAULT
+          '!' -> state = State.IGNORE
+          '>' -> state = State.DEFAULT
           else -> garbageCount++
         }
-        State.IGNORE -> s = State.GARBAGE
+        State.IGNORE -> state = State.GARBAGE
       }
     }
     return Pair(sum, garbageCount)

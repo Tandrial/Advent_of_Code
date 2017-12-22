@@ -30,7 +30,7 @@ object Day08 {
         }
 
         if (cmp(memory.getOrPut(checkReg, { 0 }), value)) memory[reg] = memory.getOrPut(reg, { 0 }) + mod
-        maxCurr = Math.max(memory.getOrPut(reg, { 0 }), maxCurr)
+        maxCurr = maxOf(memory.getOrPut(reg, { 0 }), maxCurr)
       }
     }
     return Pair(memory.values.max()!!, maxCurr)
