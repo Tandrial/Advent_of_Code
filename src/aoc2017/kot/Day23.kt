@@ -7,16 +7,17 @@ object Day23 {
 
   class VM(val input: List<String>, regA: Long = 0, val partOne: Boolean = false) {
     private val ram = input.map { ("$it .").split(" ") }
-    internal val regs = longArrayOf(regA, 0, 0, 0, 0, 0, 0, 0)
+    private val regs = longArrayOf(regA, 0, 0, 0, 0, 0, 0, 0)
     private var pc = 0
-
-    var count = 0L
-    private fun isReg(s: String): Boolean = s[0] in 'a'..'z'
+    private var count = 0L
+    private fun isReg(s: String): Boolean = s[0] in 'a'..'h'
 
     private fun getValue(s: String): Long = when (isReg(s)) {
       true -> regs[s[0] - 'a']
       false -> s.toLong()
     }
+
+    fun getRegH(): Long = regs['h' - 'a']
 
     fun run(): Long {
       while (pc < ram.size) {
@@ -43,11 +44,11 @@ object Day23 {
 
   fun partTwo(input: List<String>): Long {
     val patch = listOf("set g b", "mod g d", "jnz g 2", "set f 0", "jnz f 2",
-        "jnz 1 9", "sub d -1", "set g d", "set g d", "sub g b", "jnz g -10", "set a a", "set a a", "set a a")
+        "jnz 1 9", "sub d -1", "set g d", "sub g b", "jnz g -9", "jnz 1 4", "set a a", "set a a", "set a a")
     val program = input.subList(0, 10) + patch + input.subList(24, input.size)
     val vm = VM(program, regA = 1)
     vm.run()
-    return vm.regs['h' - 'a']
+    return vm.getRegH()
   }
 }
 
@@ -55,4 +56,7 @@ fun main(args: Array<String>) {
   val input = File("./input/2017/Day23_input.txt").readLines()
   println("Part One = ${Day23.partOne(input)}")
   println("Part Two = ${Day23.partTwo(input)}")
+
 }
+
+
