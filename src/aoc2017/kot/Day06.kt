@@ -45,7 +45,7 @@ object Day06 {
 
 fun main(args: Array<String>) {
   val input = File("./input/2017/Day06_input.txt").readText().toIntList()
-  val result = Day06.solve(input)
-  println("Part One = ${result.first + result.second}")
-  println("Part Two = ${result.second}")
+  val (mu, lambda) = Day06.solve(input)
+  println("Part One = ${mu + lambda}")
+  println("Part Two = $lambda")
 }

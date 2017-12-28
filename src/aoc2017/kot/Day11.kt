@@ -3,7 +3,7 @@ package aoc2017.kot
 import java.io.File
 
 object Day11 {
-  fun partOne(input: List<String>): Pair<Int, Int> {
+  fun solve(input: List<String>): Pair<Int, Int> {
     // http://3dmdesign.com/development/hexmap-coordinates-the-easy-way
     var x = 0
     var y = 0
@@ -28,7 +28,7 @@ object Day11 {
 
 fun main(args: Array<String>) {
   val input = File("./input/2017/Day11_input.txt").readText().split(",")
-  val result = Day11.partOne(input)
-  println("Part One = ${result.first}")
-  println("Part Two = ${result.second}")
+  val (partOne, partTwo) = Day11.solve(input)
+  println("Part One = $partOne")
+  println("Part Two = $partTwo")
 }

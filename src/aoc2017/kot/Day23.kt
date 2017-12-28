@@ -56,7 +56,6 @@ fun main(args: Array<String>) {
   val input = File("./input/2017/Day23_input.txt").readLines()
   println("Part One = ${Day23.partOne(input)}")
   println("Part Two = ${Day23.partTwo(input)}")
-
 }
 
 

@@ -16,8 +16,7 @@ object Day25 {
         val words = line.dropLast(1).split(" ")
         val state = words.last()
         for (value in 0..1) {
-          val values = generateSequence(idx + 2 + value * 4) { it + 1 }.take(3)
-              .map { rulesText[it].dropLast(1).split(" ").last() }.toList()
+          val values = generateSequence(idx + 2 + value * 4) { it + 1 }.take(3).map { rulesText[it].dropLast(1).split(" ").last() }.toList()
           val write = values[0].toInt()
           val move = if (values[1] == "right") 1 else -1
           val nextState = values[2]

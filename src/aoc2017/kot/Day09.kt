@@ -32,7 +32,7 @@ object Day09 {
 
 fun main(args: Array<String>) {
   val input = File("./input/2017/Day09_input.txt").readText()
-  val result = Day09.solve(input)
-  println("Part One = ${result.first}")
-  println("Part Two = ${result.second}")
+  val (partOne, partTwo) = Day09.solve(input)
+  println("Part One = $partOne")
+  println("Part Two = $partTwo")
 }
