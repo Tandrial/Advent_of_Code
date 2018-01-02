@@ -24,22 +24,22 @@ object Day06 {
       hare = f(f(hare))
     }
 
-    var μ = 0
+    var mu = 0
     tortoise = x0
     while (tortoise != hare) {
       tortoise = f(tortoise)
       hare = f(hare)
-      μ += 1
+      mu += 1
     }
 
-    var λ = 1
+    var lambda = 1
     hare = f(tortoise)
     while (tortoise != hare) {
       hare = f(hare)
-      λ += 1
+      lambda += 1
     }
 
-    return Pair(μ, λ)
+    return Pair(mu, lambda)
   }
 }
 

@@ -1,11 +1,13 @@
 import java.io.File
 import kotlin.system.measureTimeMillis
 
-fun measureTime(name: String, part1: () -> Unit, part2: () -> Unit, maxTime: Long) {
+
+fun measureTime(name: String, part1: () -> Unit, part2: () -> Unit, maxTime: Long): Long {
   val timeP1 = measureTimeMillis(part1)
   val timeP2 = measureTimeMillis(part2)
   val fail = if (timeP1 > maxTime || timeP2 > maxTime) "<<<" else ""
   println("$name \t${"%4d".format(timeP1)} \t${"%4d".format(timeP2)} $fail")
+  return timeP1 + timeP2
 }
 
 data class Solution(val name: String, val part1: () -> Unit, val part2: () -> Unit)
@@ -76,7 +78,8 @@ fun testAoC2017() {
     val input = File("./input/2017/Day10_input.txt").readText().toIntList(",".toPattern())
     aoc2017.kot.Day10.hashRound(input)
   }, {
-    val input2 = File("./input/2017/Day10_input.txt").readText().toCharArray().map { it.toInt() } + listOf(17, 31, 73, 47, 23)
+    val input2 =
+            File("./input/2017/Day10_input.txt").readText().toCharArray().map { it.toInt() } + listOf(17, 31, 73, 47, 23)
     aoc2017.kot.Day10.partTwo(input2, 64)
   }))
 
@@ -179,8 +182,7 @@ fun testAoC2017() {
     val input = File("./input/2017/Day23_input.txt").readLines()
     aoc2017.kot.Day23.partOne(input)
   }, {
-    val input = File("./input/2017/Day23_input.txt").readLines()
-    aoc2017.kot.Day23.partTwo(input)
+    aoc2017.kot.Day23.partTwoFast()
   }))
 
   days.add(Solution("Day_24", {
@@ -194,7 +196,7 @@ fun testAoC2017() {
   }, { }))
 
   println("Day\t\tPart 1\tPart 2")
-  days.forEach { measureTime(it.name, it.part1, it.part2, 500) }
+  println("Total time: ${days.map { measureTime(it.name, it.part1, it.part2, 500) }.sum()/1000.0} s")
 }
 
 

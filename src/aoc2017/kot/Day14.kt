@@ -7,7 +7,7 @@ object Day14 {
   fun partOne(input: String): Int = genHashList(input).sumBy { it.count { it == '1' } }
 
   fun partTwo(input: String): Int {
-    val hashArray = genHashList(input).map { it.map { (it - '0') }.toTypedArray() }.toTypedArray()
+    val hashArray = genHashList(input).map { it.map { (it - '0') }.toIntArray() }.toTypedArray()
     var currGroup = 2
     // Loop over each Cell skipping assigned cells and assign groups with BFS starting from the current cell
     for ((idRow, row) in hashArray.withIndex()) {
