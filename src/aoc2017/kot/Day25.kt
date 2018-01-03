@@ -25,7 +25,7 @@ object Day25 {
       }
     }
 
-    val checkAfter = input[1].getNumbers().first().toInt()
+    val checkAfter = input[1].getNumbers().first()
     var currState = input[0].getWords().last()
 
     val tape = mutableListOf(0)

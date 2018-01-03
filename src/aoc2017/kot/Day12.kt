@@ -1,26 +1,40 @@
 package aoc2017.kot
 
-import getWords
+import getNumbers
 import java.io.File
 
 object Day12 {
-  fun partOne(graph: Map<String, List<String>>, start: String): Set<String> {
-    var reachable = setOf(start)
-    while (true) {
-      val next = reachable.toMutableSet()
-      reachable.forEach { next.addAll(graph[it]!!) }
-      if (next == reachable) break
-      reachable = next
+  fun solve(input: List<String>): Pair<Int, Int> {
+    val ids = IntArray(input.size) { it }
+    val sizes = IntArray(input.size) { 1 }
+    var groupCount = ids.size
+    input.forEach {
+      val all = it.getNumbers()
+      all.drop(1).forEach { groupCount = join(all[0], it, ids, sizes, groupCount) }
     }
-    return reachable
+    return Pair(sizes[find(0, ids)], groupCount)
   }
 
-  fun partTwo(input: Map<String, List<String>>): Int = input.keys.map { partOne(input, it) }.toSet().size
+  private fun find(x: Int, id: IntArray): Int {
+    if (id[x] == x) return x
+    id[x] = find(id[x], id)
+    return id[x]
+  }
+
+  private fun join(x: Int, y: Int, ids: IntArray, sizes: IntArray, groupCount: Int): Int {
+    val xID = find(x, ids)
+    val yID = find(y, ids)
+    if (xID == yID) return groupCount
+    ids[xID] = yID
+    sizes[yID] += sizes[xID]
+    return groupCount - 1
+  }
+
 }
 
 fun main(args: Array<String>) {
   val input = File("./input/2017/Day12_input.txt").readLines()
-  val connections = input.map { val all = it.getWords(); all[0] to all.drop(1) }.toMap()
-  println("Part One = ${Day12.partOne(connections, "0").size}")
-  println("Part Two = ${Day12.partTwo(connections)}")
+  val (partOne, partTwo) = Day12.solve(input)
+  println("Part One = $partOne")
+  println("Part Two = $partTwo")
 }

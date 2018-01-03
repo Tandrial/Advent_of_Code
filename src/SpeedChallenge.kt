@@ -90,13 +90,8 @@ fun testAoC2017() {
 
   days.add(Solution("Day_12", {
     val input = File("./input/2017/Day12_input.txt").readLines()
-    val connections = input.map { val all = it.getWords(); all[0] to all.drop(1) }.toMap()
-    aoc2017.kot.Day12.partOne(connections, "0")
-  }, {
-    val input = File("./input/2017/Day12_input.txt").readLines()
-    val connections = input.map { val all = it.getWords(); all[0] to all.drop(1) }.toMap()
-    aoc2017.kot.Day12.partTwo(connections)
-  }))
+    aoc2017.kot.Day12.solve(input)
+  }, { }))
 
   days.add(Solution("Day_13", {
     val input = File("./input/2017/Day13_input.txt").readLines()
@@ -196,7 +191,7 @@ fun testAoC2017() {
   }, { }))
 
   println("Day\t\tPart 1\tPart 2")
-  println("Total time: ${days.map { measureTime(it.name, it.part1, it.part2, 500) }.sum()/1000.0} s")
+  println("Total time: ${days.map { measureTime(it.name, it.part1, it.part2, 500) }.sum() / 1000.0} s")
 }
 
 

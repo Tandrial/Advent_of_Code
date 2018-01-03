@@ -38,7 +38,7 @@ fun String.getWords(): List<String> = Regex("\\w+").findAll(this).toList().map {
  *
  * @return [List] of matched numbers
  */
-fun String.getNumbers(): List<String> = Regex("-?\\d+").findAll(this).toList().map { it.value }
+fun String.getNumbers(): List<Int> = Regex("-?\\d+").findAll(this).toList().map { it.value.toInt() }
 
 /**
  * Converts the [Int]s in the [Iterable] into their hex-Representation and joints them together

@@ -4,12 +4,12 @@ import getNumbers
 import java.io.File
 
 object Day20 {
-  data class Vec3d(var x: Long, var y: Long, var z: Long) {
+  data class Vec3d(var x: Int, var y: Int, var z: Int) {
     operator fun plus(other: Vec3d) = Vec3d(this.x + other.x, this.y + other.y, this.z + other.z)
   }
 
   class Particle(val id: Int, s: String) {
-    val values = s.getNumbers().map { it.toLong() }
+    val values = s.getNumbers()
     var pos = Vec3d(values[0], values[1], values[2])
     var vel = Vec3d(values[3], values[4], values[5])
     val acc = Vec3d(values[6], values[7], values[8])
