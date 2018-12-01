@@ -1,10 +1,10 @@
 package aoc2016.jav;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
-import java.nio.file.*;
-import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 class Day20 {
@@ -19,7 +19,7 @@ class Day20 {
     }
 
     @Override
-    public int compareTo(@NotNull Range other) {
+    public int compareTo(Range other) {
       return start.compareTo(other.start);
     }
   }

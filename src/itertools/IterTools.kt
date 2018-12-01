@@ -265,9 +265,9 @@ fun count(start: Double = 0.0, step: Double = 1.0): Sequence<Double> = generateS
  * When the iterable is exhausted, return elements from the saved copy. Repeats indefinitely.
  *
  */
-fun <T : Any> Iterable<T>.cycle(): Sequence<T> = buildSequence {
-  val saved = mutableListOf<T>()
-  for (elem in this@cycle) {
+fun <T : Any, V : Any> Iterable<T>.cycle(mapping: (T) -> V): Sequence<V> = buildSequence {
+  val saved = mutableListOf<V>()
+  for (elem in (this@cycle).map(mapping)) {
     saved.add(elem)
     yield(elem)
   }
@@ -413,7 +413,7 @@ fun main(args: Array<String>) {
   println()
 
   print("(1..3).cycle().take(6): ")
-  for (i in (1..3).cycle().take(6)) print("$i ")
+  for (i in (1..3).cycle { it }.take(6)) print("$i ")
   println()
 
   print("\"abcd\".permutations(): ")
