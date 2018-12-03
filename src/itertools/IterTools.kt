@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Michael Krane
+ * Copyright (c) 2018 Michael Krane
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -36,10 +36,26 @@ fun <T : Any> Iterable<T>.chunksOfSize(size: Int): Sequence<List<T>> = buildSequ
   val iterator = iterator()
   while (iterator.hasNext()) {
     val window = mutableListOf<T>()
-    (1..size).forEach { if (iterator.hasNext()) window += (iterator.next()) }
+    repeat(size) { if (iterator.hasNext()) window += (iterator.next()) }
     yield(window)
   }
 }
+
+/**
+ * Splits the [Iterable] into chunks of [size]. The last element might be shorter if the string can't evenly divided
+ *
+ * @param size The size of the chunks
+ * @return [Sequence] of [size] big chunks
+ */
+fun String.chunksOfSize(size: Int): Sequence<String> = buildSequence {
+  val iterator = iterator()
+  while (iterator.hasNext()) {
+    val window = StringBuilder()
+    repeat(size) { if (iterator.hasNext()) window.append(iterator.next()) }
+    yield(window.toString())
+  }
+}
+
 
 /**
  * Creates a string from a [Char] by repeating it n times
@@ -49,7 +65,7 @@ fun <T : Any> Iterable<T>.chunksOfSize(size: Int): Sequence<List<T>> = buildSequ
  */
 operator fun Char.times(n: Int): String {
   val sb = StringBuilder()
-  (1..n).forEach { sb.append(this) }
+  repeat(n) { sb.append(this) }
   return sb.toString()
 }
 
@@ -62,7 +78,7 @@ operator fun Char.times(n: Int): String {
 fun String.sliding(size: Int): Sequence<String> = buildSequence {
   val iterator = iterator()
   val window = StringBuilder()
-  (1..size).forEach { if (iterator.hasNext()) window.append(iterator.next()) }
+  repeat(size) { if (iterator.hasNext()) window.append(iterator.next()) }
   yield(window.toString())
   while (iterator.hasNext()) {
     window.deleteCharAt(0).append(iterator.next())
@@ -366,9 +382,9 @@ fun <T : Any> MutableList<T>.reverseRightOf(start: Int) {
 
 fun main(args: Array<String>) {
   val s = "ABCDEFGHIJKLMN"
-//  print("\"$s\".chunksOfSize(3): ")
-//  for (chunk in s.chunksOfSize(3)) print("$chunk ")
-//  println()
+  print("\"$s\".chunksOfSize(3): ")
+  for (chunk in s.chunksOfSize(3)) print("$chunk ")
+  println()
 
   println("'c' * 3 = ${'c' * 3}")
 
