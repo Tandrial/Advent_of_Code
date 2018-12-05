@@ -1,6 +1,7 @@
 package aoc2018.kot
 
 import getNumbers
+import itertools.times
 import java.io.File
 
 object Day03 {
@@ -15,11 +16,7 @@ object Day03 {
     val grid = putClaims(claims)
 
     return claims.first { claim ->
-      var check = true
-      for (x in (claim.x until claim.x + claim.xsize))
-        for (y in (claim.y until claim.y + claim.ysize))
-          if (grid[x][y] != 1) check = false
-      check
+      (claim.x until claim.x + claim.xsize).times((claim.y until claim.y + claim.ysize)).all { (x, y) -> grid[x][y] == 1 }
     }.id
   }
 
