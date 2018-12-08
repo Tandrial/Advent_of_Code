@@ -46,3 +46,16 @@ fun String.getNumbers(): List<Int> = Regex("-?\\d+").findAll(this).toList().map 
  * @return a [String] of hexValuess
  */
 fun Iterable<Int>.toHexString(): String = joinToString(separator = "") { it.toString(16).padStart(2, '0') }
+
+/**
+ * Combination of [take] and [remove]
+ *
+ * @param take How many elements to remove from the [MutableList]
+ *
+ * @return a [List] of the taken elements
+ */
+fun <T : Any> MutableList<T>.removeTake(take: Int): List<T> {
+  val removed = this.take(take)
+  repeat(take) { this.removeAt(0) }
+  return removed
+}
