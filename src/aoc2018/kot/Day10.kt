@@ -14,36 +14,24 @@ object Day10 {
 
   fun partOne(input: List<String>): Int {
     val current = parse(input)
-    val lastTick = mutableListOf<Particle>()
     var s = 0
     while (true) {
-      val minX = current.minBy { it.x }!!.x
-      val minY = current.minBy { it.y }!!.y
-      val maxX = current.maxBy { it.x }!!.x
-      val maxY = current.maxBy { it.y }!!.y
-      if (lastTick.isNotEmpty()) {
-        val lminX = lastTick.minBy { it.x }!!.x
-        val lminY = lastTick.minBy { it.y }!!.y
-        val lmaxX = lastTick.maxBy { it.x }!!.x
-        val lmaxY = lastTick.maxBy { it.y }!!.y
-        if (lmaxY - lminY < maxY - minY && lmaxX - lminX < maxX - minX) {
-          println("Part One = ")
-          (lminY..lmaxY).forEach { y ->
-            val sb = StringBuilder()
-            val row = lastTick.filter { it.y == y }.map { it.x }
-            (lminX..lmaxX).forEach { if (it in row) sb.append('#') else sb.append('.') }
-            println(sb.toString())
-          }
-          return s - 1
-        }
-        lastTick.clear()
-      }
-      current.forEach {
-        lastTick.add(it.copy())
-        it.tick()
-      }
+      val (lminX, lminY) = Pair(current.minBy { it.x }!!.x, current.minBy { it.y }!!.y)
+      val (lmaxX, lmaxY) = Pair(current.maxBy { it.x }!!.x, current.maxBy { it.y }!!.y)
+      current.forEach(Particle::tick)
+      val (minX, minY) = Pair(current.minBy { it.x }!!.x, current.minBy { it.y }!!.y)
+      val (maxX, maxY) = Pair(current.maxBy { it.x }!!.x, current.maxBy { it.y }!!.y)
       s++
-      if (s > 11000) return -1
+      if (lmaxY - lminY < maxY - minY && lmaxX - lminX < maxX - minX) {
+        println("Part One = ")
+        (lminY..lmaxY).forEach { y ->
+          val sb = StringBuilder()
+          val row = current.filter { it.y - it.ySpeed == y }.map { it.x - it.xSpeed }
+          (lminX..lmaxX).forEach { if (it in row) sb.append('#') else sb.append(' ') }
+          println(sb.toString())
+        }
+        return s - 1
+      }
     }
   }
 
