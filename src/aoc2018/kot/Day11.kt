@@ -1,28 +1,15 @@
 package aoc2018.kot
 
 object Day11 {
-  fun partOne(gId: Int) = solve(3, calcSumGrid(gId, 300)).first.toString()
+  data class Result(val x: Int = 0, val y: Int = 0, val power: Int = Int.MIN_VALUE, val size: Int = 0) {
+    override fun toString() = "$x,$y,$size"
+  }
+
+  fun partOne(gId: Int) = solve(3, calcSumGrid(gId, 300)).toString().dropLast(2)
 
   fun partTwo(gId: Int): String {
     val grid = calcSumGrid(gId, 300)
-
-    return (1..300).map {
-      val (loc, power) = solve(it, grid)
-      Pair(listOf(loc.first, loc.second, it), power)
-    }.maxBy { it.second }!!.first.toString()
-  }
-
-  private fun solve(size: Int, grid: Array<IntArray>): Pair<Pair<Int, Int>, Int> {
-    var maxPower = Pair(Pair(1, 1), Int.MIN_VALUE)
-    for (x in (1..300 - size)) {
-      for (y in (1..300 - size)) {
-        val power = grid[x][y] + grid[x + size][y + size] - grid[x + size][y] - grid[x][y + size]
-        if (power > maxPower.second) {
-          maxPower = Pair(Pair(x + 1, y + 1), power)
-        }
-      }
-    }
-    return maxPower
+    return (1..300).map { solve(it, grid) }.maxBy { it.power }!!.toString()
   }
 
   private fun calcSumGrid(gId: Int, maxSize: Int): Array<IntArray> {
@@ -36,6 +23,19 @@ object Day11 {
   }
 
   private fun getPower(x: Int, y: Int, gId: Int) = (((((x + 10) * y) + gId) * (x + 10)) / 100) % 10 - 5
+
+  private fun solve(size: Int, grid: Array<IntArray>): Result {
+    var max = Result()
+    for (x in (1..300 - size)) {
+      for (y in (1..300 - size)) {
+        val power = grid[x][y] + grid[x + size][y + size] - grid[x + size][y] - grid[x][y + size]
+        if (power > max.power) {
+          max = Result(x + 1, y + 1, power, size)
+        }
+      }
+    }
+    return max
+  }
 }
 
 fun main(args: Array<String>) {
