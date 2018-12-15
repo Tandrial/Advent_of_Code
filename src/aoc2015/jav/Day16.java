@@ -1,8 +1,11 @@
 package aoc2015.jav;
 
 import java.io.IOException;
-import java.nio.file.*;
-import java.util.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 class Day16 {
@@ -39,7 +42,7 @@ class Day16 {
   public static void main(String[] args) throws IOException {
     List<String> s = Files.readAllLines(Paths.get("./input/2015/Day16_input.txt"));
     Map<String, Integer> properties = new HashMap<>();
-    properties.put("children:", 3);
+    properties.put("after:", 3);
     properties.put("cats:", 7);
     properties.put("samoyeds:", 2);
     properties.put("pomeranians:", 3);

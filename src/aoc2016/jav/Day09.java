@@ -1,7 +1,8 @@
 package aoc2016.jav;
 
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 class Day09 {
@@ -15,8 +16,9 @@ class Day09 {
     for (int i = 0; i < s_arr.length; i++) {
       if (s_arr[i] == '(') {
         int end = s.indexOf(')', i);
-        int howMuch = Integer.valueOf(s.substring(i + 1, end).split("x")[0]);
-        int times = Integer.valueOf(s.substring(i + 1, end).split("x")[1]);
+        String[] xes = s.substring(i + 1, end).split("x");
+        int howMuch = Integer.valueOf(xes[0]);
+        int times = Integer.valueOf(xes[1]);
         String repeat = s.substring(end + 1, end + 1 + howMuch);
         cnt += times * ((partTwo) ? solve(repeat, true) : repeat.length());
         i = end + howMuch;

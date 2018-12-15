@@ -5,8 +5,15 @@ import kotlin.system.measureTimeMillis
 fun measureTime(name: String, part1: () -> Unit, part2: () -> Unit, maxTime: Long): Long {
   val timeP1 = measureTimeMillis(part1)
   val timeP2 = measureTimeMillis(part2)
-  val fail = if (timeP1 > maxTime || timeP2 > maxTime) "<<<" else ""
-  println("$name \t${"%4d".format(timeP1)} \t${"%4d".format(timeP2)} $fail")
+  print("$name \t")
+  print("${"%4d".format(timeP1)} \t")
+  if (timeP2 > 0L)
+    print("${"%4d".format(timeP2)} ")
+  else
+    print("     ")
+  if (timeP1 > maxTime || timeP2 > maxTime)
+    print("<<<")
+  println()
   return timeP1 + timeP2
 }
 
@@ -103,11 +110,8 @@ fun testAoC2017() {
 
   days.add(Solution("Day_14", {
     val input = "vbqugkhl"
-    aoc2017.kot.Day14.partOne(input)
-  }, {
-    val input = "vbqugkhl"
-    aoc2017.kot.Day14.partTwo(input)
-  }))
+    aoc2017.kot.Day14.solve(input)
+  }, { }))
 
   days.add(Solution("Day_15", {
     val input = File("./input/2017/Day15_input.txt").readLines()
@@ -194,7 +198,62 @@ fun testAoC2017() {
   println("Total time: ${days.map { measureTime(it.name, it.part1, it.part2, 500) }.sum() / 1000.0} s")
 }
 
+fun testAoC2018() {
+  val days = mutableListOf<Solution>()
+  days.add(Solution("Day_01", {
+    val input = File("./input/2018/Day01_input.txt").readLines()
+    aoc2018.kot.Day01.partOne(input)
+  }, {
+    val input = File("./input/2018/Day01_input.txt").readLines()
+    aoc2018.kot.Day01.partTwo(input)
+  }))
+  days.add(Solution("Day_02", {
+    val input = File("./input/2018/Day02_input.txt").readLines()
+    aoc2018.kot.Day02.partOne(input)
+  }, {
+    val input = File("./input/2018/Day02_input.txt").readLines()
+    aoc2018.kot.Day02.partTwo(input)
+  }))
+  days.add(Solution("Day_03", {
+    val input = File("./input/2018/Day03_input.txt").readLines()
+    aoc2018.kot.Day03.partOne(input)
+  }, {
+    val input = File("./input/2018/Day03_input.txt").readLines()
+    aoc2018.kot.Day03.partTwo(input)
+  }))
+  days.add(Solution("Day_04", {
+    val input = File("./input/2018/Day04_input.txt").readLines()
+    aoc2018.kot.Day04.partOne(input)
+  }, {
+    val input = File("./input/2018/Day04_input.txt").readLines()
+    aoc2018.kot.Day04.partTwo(input)
+  }))
+  days.add(Solution("Day_05", {
+    val input = File("./input/2018/Day05_input.txt").readText()
+    val resultOne = aoc2018.kot.Day05.partOne(input)
+    aoc2018.kot.Day05.partTwo(resultOne.joinToString(separator = ""))
+  }, { }))
+//  days.add(Solution("Day_06", {
+//    val input = File("./input/2018/Day06_input.txt").readLines()
+//    aoc2018.kot.Day06.partOne(input)
+//  }, {
+//    val input = File("./input/2018/Day06_input.txt").readLines()
+//    aoc2018.kot.Day06.partTwo(input)
+//  }))
+  days.add(Solution("Day_07", {
+    val input = File("./input/2018/Day07_input.txt").readLines()
+    aoc2018.kot.Day07.partOne(input)
+  }, {
+    val input = File("./input/2018/Day07_input.txt").readLines()
+    aoc2018.kot.Day07.partTwo(input)
+  }))
+
+  println("Day\t\tPart 1\tPart 2")
+  println("Total time: ${days.map { measureTime(it.name, it.part1, it.part2, 500) }.sum() / 1000.0} s")
+}
+
 
 fun main(args: Array<String>) {
-  testAoC2017()
+  //testAoC2017()
+  repeat(40) { testAoC2018() }
 }

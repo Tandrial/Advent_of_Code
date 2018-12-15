@@ -1,42 +1,31 @@
 package aoc2018.kot
 
+import kotlin.coroutines.experimental.buildSequence
 import kotlin.system.measureTimeMillis
 
 object Day14 {
-  fun partOne(input: String): Long {
-    val recepies = mutableListOf(3, 7)
-    var pos1 = 0
-    var pos2 = 1
-    repeat(input.toInt() + 10) {
-      val score1 = recepies[pos1]
-      val score2 = recepies[pos2]
-      (score1 + score2).toString().forEach { recepies.add(it - '0') }
-      pos1 = (pos1 + 1 + score1) % recepies.size
-      pos2 = (pos2 + 1 + score2) % recepies.size
-    }
-    return recepies.drop(input.toInt()).take(10).fold(0L) { acc, e -> acc * 10 + e }
-  }
 
-  fun partTwo(input: String): Int {
-    val recepies = mutableListOf(3, 7)
-    var pos1 = 0
-    var pos2 = 1
+  fun partOne(input: String) = genRecepies.drop(input.toInt()).take(10).fold(0L) { acc, e -> acc * 10 + e }
+
+  fun partTwo(input: String) = genRecepies.windowed(input.length).indexOf(input.map { it - '0' })
+
+  private val genRecepies: Sequence<Int> = buildSequence {
+    var i = 0
+    var j = 1
+    val scores = mutableListOf(3, 7)
+    yieldAll(scores)
     while (true) {
-      val score1 = recepies[pos1]
-      val score2 = recepies[pos2]
-      val next = (score1 + score2).toString()
-      next.forEach { recepies.add(it - '0') }
-      if (next.any { it == input.last() }) {
-        val loc = recepies.takeLast(input.length + 1).joinToString(separator = "").indexOf(input)
-        if (loc != -1) {
-          return if (next.length > 1)
-            recepies.size - input.length + loc - 1
-          else
-            recepies.size - input.length
-        }
+      val s1 = scores[i]
+      val s2 = scores[j]
+      val s = s1 + s2
+      if (s >= 10) {
+        scores.add(s / 10)
+        yield(scores.last())
       }
-      pos1 = (pos1 + 1 + score1) % recepies.size
-      pos2 = (pos2 + 1 + score2) % recepies.size
+      scores.add(s % 10)
+      yield(scores.last())
+      i = (i + s1 + 1) % scores.size
+      j = (j + s2 + 1) % scores.size
     }
   }
 }

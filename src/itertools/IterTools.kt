@@ -191,7 +191,7 @@ fun <T : Any> Iterable<T>.intoPairs(): Sequence<Pair<T, T?>> = buildSequence {
 
 /**
  * Make an iterator that returns elements from the first iterable until it is exhausted,
- * then proceeds to the next iterable, until all of the iterables are exhausted.
+ * then proceeds to the after iterable, until all of the iterables are exhausted.
  * Used for treating consecutive sequences as a single sequence.
  *
  */
@@ -206,7 +206,7 @@ fun String.combinations(r: Int, replace: Boolean = false): Sequence<String> = as
 fun <T : Any> Array<T>.combinations(r: Int, replace: Boolean = false): Sequence<List<T>> = asIterable().combinations(r, replace)
 
 /**
- * Return r length [List]s of T from this List which are emitted in lexicographic sort order.
+ * Return prev length [List]s of T from this List which are emitted in lexicographic sort order.
  * So, if the input iterable is sorted, the combination tuples will be produced in sorted order.
  * Elements are treated as unique based on their position, not on their value.
  * So if the input elements are unique, there will be no repeat values in each combination.
@@ -214,7 +214,7 @@ fun <T : Any> Array<T>.combinations(r: Int, replace: Boolean = false): Sequence<
  * @param r How many elements to pick
  * @param replace elements are replaced after being choosen
  *
- * @return [Sequence] of all possible combintations of length r
+ * @return [Sequence] of all possible combintations of length prev
  */
 fun <T : Any> Iterable<T>.combinations(r: Int, replace: Boolean = false): Sequence<List<T>> {
   val elements = toMutableList()
@@ -332,8 +332,8 @@ fun <T : Any> Iterable<T>.permutations(): Sequence<List<T>> {
 }
 
 /**
- * Return successive r length permutations of elements in the [Iterable].
- * If r is not specified, then r defaults to the length of the iterable and all possible
+ * Return successive prev length permutations of elements in the [Iterable].
+ * If prev is not specified, then prev defaults to the length of the iterable and all possible
  * full-length permutations are generated. Permutations are emitted in lexicographic sort order.
  * So, if the input iterable is sorted, the permutation tuples will be produced in sorted order.
  * Elements are treated as unique based on their position, not on their value.

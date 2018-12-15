@@ -6,10 +6,10 @@ class VM(val input: List<String>, regs: List<Pair<String, Long>> = listOf()) {
   val inputQueue = mutableListOf<Long>()
   val outQueue = mutableListOf<Long>()
 
-  fun isReg(s: String): Boolean = regs.containsKey(s) or (s[0] in 'a'..'z')
+  private fun isReg(s: String): Boolean = regs.containsKey(s) or (s[0] in 'a'..'z')
 
   fun getValue(s: String): Long = when (s.toLongOrNull()) {
-    null -> regs.getOrPut(s, { 0L })
+    null -> regs.getOrPut(s) { 0L }
     else -> s.toLong()
   }
 

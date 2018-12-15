@@ -4,12 +4,12 @@ import java.io.File
 
 object Day05 {
 
-  fun partOne(input: List<Int>): Int = solve(input) { _ -> 1 }
+  fun partOne(input: List<Int>): Int = solve(input) { 1 }
 
   fun partTwo(input: List<Int>): Int = solve(input) { it -> if (it >= 3) -1 else 1 }
 
   fun solve(input: List<Int>, change: (Int) -> Int): Int {
-    val mem = input.toMutableList()
+    val mem = input.toIntArray()
     var pos = 0
     var count = 0
     while (pos < mem.size) {

@@ -43,11 +43,7 @@ object Day13 {
       carts.forEach { c ->
         if (c.alive) {
           c.tick(input)
-          val col = carts.find { it.alive && c != it && c.x == it.x && c.y == it.y }
-          if (col != null) {
-            c.alive = false
-            col.alive = false
-          }
+          carts.filter { it.alive && c != it && c.x == it.x && c.y == it.y }.forEach { it.alive = false; c.alive = false }
         }
       }
       carts.sort()

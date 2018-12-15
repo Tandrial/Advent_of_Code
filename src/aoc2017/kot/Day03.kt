@@ -36,7 +36,7 @@ object Day03 {
 
   fun partTwo(input: Int): Int {
     val size = Math.ceil(Math.sqrt(input.toDouble())).toInt()
-    val grid = Array(size, { IntArray(size) })
+    val grid = Array(size) { IntArray(size) }
     var x = size / 2
     var y = size / 2
     var len = 1

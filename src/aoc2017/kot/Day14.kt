@@ -4,10 +4,12 @@ import toHexString
 import java.math.BigInteger
 
 object Day14 {
-  fun partOne(input: String): Int = genHashList(input).sumBy { it.count { it == '1' } }
 
-  fun partTwo(input: String): Int {
-    val hashArray = genHashList(input).map { it.map { (it - '0') }.toIntArray() }.toTypedArray()
+  fun solve(input: String): Pair<Int, Int> {
+    val hashList = genHashList(input)
+    val partOne = hashList.sumBy { it.count { it == '1' } }
+
+    val hashArray = hashList.map { it.map { (it - '0') }.toIntArray() }.toTypedArray()
     var currGroup = 2
     // Loop over each Cell skipping assigned cells and assign groups with BFS starting from the current cell
     for ((idRow, row) in hashArray.withIndex()) {
@@ -19,12 +21,9 @@ object Day14 {
           while (queue.isNotEmpty()) {
             val (baseX, baseY, group) = queue.removeAt(0)
             listOf(Pair(0, -1), Pair(0, 1), Pair(-1, 0), Pair(1, 0)).map { (x, y) -> Pair(baseX + x, baseY + y) }.forEach { (x, y) ->
-              try {
-                if (hashArray[x][y] == 1) {
-                  hashArray[x][y] = group
-                  queue.add(listOf(x, y, group))
-                }
-              } catch (_: Exception) {
+              if (x in (0 until hashArray.size) && y in (0 until hashArray[0].size) && hashArray[x][y] == 1) {
+                hashArray[x][y] = group
+                queue.add(listOf(x, y, group))
               }
             }
           }
@@ -32,7 +31,8 @@ object Day14 {
         }
       }
     }
-    return currGroup - 2
+
+    return Pair(partOne, currGroup - 2)
   }
 
   private fun genHashList(seed: String): List<String> = (0..127).map {
@@ -44,6 +44,7 @@ object Day14 {
 
 fun main(args: Array<String>) {
   val input = "vbqugkhl"
-  println("Part One = ${Day14.partOne(input)}")
-  println("Part Two = ${Day14.partTwo(input)}")
+  val (partOne, partTwo) = Day14.solve(input)
+  println("Part One = $partOne")
+  println("Part Two = $partTwo")
 }
