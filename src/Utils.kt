@@ -1,5 +1,6 @@
 import java.io.File
 import java.util.regex.Pattern
+import kotlin.system.measureTimeMillis
 
 /**
  * Returns the alphabetically sorted String
@@ -58,4 +59,8 @@ fun <T : Any> MutableList<T>.removeTake(take: Int): List<T> {
   val removed = this.take(take)
   repeat(take) { this.removeAt(0) }
   return removed
+}
+
+fun timeIt(block: () -> Unit) {
+  println("${measureTimeMillis(block)}ms")
 }
