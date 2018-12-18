@@ -38,7 +38,6 @@ object Day13 {
 
   fun partTwo(input: List<String>): String {
     val carts = getCarts(input).sorted().toMutableList()
-    var tick = 0
     while (carts.count { it.alive } > 1) {
       carts.forEach { c ->
         if (c.alive) {
@@ -47,7 +46,6 @@ object Day13 {
         }
       }
       carts.sort()
-      tick++
     }
     val cart = carts.first { it.alive }
     return "${cart.x},${cart.y}"
