@@ -66,3 +66,44 @@ class VM(val input: List<String>, regs: List<Pair<String, Long>> = listOf()) {
     return 0
   }
 }
+
+class VM18(val input: List<String>, regs: List<Pair<String, Long>> = listOf(), private val ip: String) {
+  private val ram = input.map { ("$it .").split(" ").toMutableList() }
+  private val regs = regs.associate { it.first to it.second }.toMutableMap()
+
+  private var pc = 0L
+  fun run(day19: Boolean = false, day21: Boolean = false): Long {
+    while (pc < ram.size) {
+      val (inst, in1, in2, out1) = ram[pc.toInt()]
+      if (day19 && pc == 2L) return regs["5"]!!
+      if (day21 && pc == 28L) return regs["4"]!!
+      regs[ip] = pc
+      when (inst) {
+        "addr" -> regs[out1] = regs[in1]!! + regs[in2]!!
+        "addi" -> regs[out1] = regs[in1]!! + in2.toInt()
+
+        "mulr" -> regs[out1] = regs[in1]!! * regs[in2]!!
+        "muli" -> regs[out1] = regs[in1]!! * in2.toInt()
+
+        "banr" -> regs[out1] = regs[in1]!! and regs[in2]!!
+        "bani" -> regs[out1] = regs[in1]!! and in2.toLong()
+
+        "borr" -> regs[out1] = regs[in1]!! or regs[in2]!!
+        "bori" -> regs[out1] = regs[in1]!! or in2.toLong()
+
+        "setr" -> regs[out1] = regs[in1]!!
+        "seti" -> regs[out1] = in1.toLong()
+
+        "gtir" -> regs[out1] = if (in1.toLong() > regs[in2]!!) 1L else 0
+        "gtri" -> regs[out1] = if (regs[in1]!! > in2.toLong()) 1L else 0
+        "gtrr" -> regs[out1] = if (regs[in1]!! > regs[in2]!!) 1L else 0
+
+        "eqir" -> regs[out1] = if (in1.toLong() == regs[in2]!!) 1L else 0
+        "eqri" -> regs[out1] = if (regs[in1]!! == in2.toLong()) 1L else 0
+        "eqrr" -> regs[out1] = if (regs[in1]!! == regs[in2]!!) 1L else 0
+      }
+      pc = regs[ip]!! + 1
+    }
+    return 0
+  }
+}
