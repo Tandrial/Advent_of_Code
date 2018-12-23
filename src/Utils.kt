@@ -1,6 +1,6 @@
 import java.io.File
 import java.util.regex.Pattern
-import kotlin.system.measureTimeMillis
+import kotlin.math.abs
 
 /**
  * Returns the alphabetically sorted String
@@ -61,6 +61,14 @@ fun <T : Any> MutableList<T>.removeTake(take: Int): List<T> {
   return removed
 }
 
-fun timeIt(block: () -> Unit) {
-  println("${measureTimeMillis(block)}ms")
+/**
+ * Calculates the difference between the [max] and [min] Value of the elemnts of the List, transfomred by [block]
+ *
+ * @param block What to do calculate the difference of
+ *
+ * @return difference
+ */
+fun <T : Any> List<T>.diffBy(block: (T) -> Long): Long {
+  val values = map(block)
+  return abs((values.max() ?: 0L) - (values.min() ?: 0L))
 }
